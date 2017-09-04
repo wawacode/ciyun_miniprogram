@@ -7,17 +7,43 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd"
 	default-lazy-init="false">
-	<!-- 应用名称信息 -->
-	<dubbo:application name="${spring.dubbo.application.name}" />
-	<dubbo:registry address="${spring.dubbo.registry.address}" check="false" />
-
-	<!-- 服务接口 -->
-	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamRptService" id="iMedExamRptService"  timeout="20000">
+	<dubbo:application name="ciyun_rpt_miniprogram" /> 
+	<dubbo:protocol name="dubbo" port="20882"/>
+	<dubbo:annotation package="com.centrin.ciyun" />
+	
+	
+	<!-- 体检报告dubbo服务  -->
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedLabService" id="iMedLabService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamRptService" id="iMedExamRptService"  timeout="600000">
 		<dubbo:method name="saveJsonImporter" timeout="600000"></dubbo:method>
 	</dubbo:reference>
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamItemService" id="iMedExamItemService"  timeout="10000"></dubbo:reference>
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamAdviceService" id="iMedExamAdviceService"  timeout="100000"></dubbo:reference>
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamExtrasService" id="iMedExamExtrasService"></dubbo:reference>
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamSummaryService" id="iMedExamSummaryService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamOrganService" id="iMedExamOrganService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedImportLogService" id="iMedImportLogService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedStdDepartmentService" id="iMedStdDepartmentService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedStdItemClassService" id="iMedStdItemClassService"  timeout="100000"></dubbo:reference>	
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedStdItemService" id="iMedStdItemService"  timeout="100000"></dubbo:reference>	
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedStdItemUnitService" id="iMedStdItemUnitService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedStdCaCheService"  id = "iMedStdCaCheService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedOrganItemService" id="iMedOrganItemService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedOrganTempleteService" id="iMedOrganTempleteService"  timeout="100000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedMapDepartmentService" id="iMedMapDepartmentService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedMapItemClassService" id="iMedMapItemClassService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedMapItemService" id="iMedMapItemService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedMapUnitService" id="iMedMapUnitService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedNoMapNameService" id="iMedNoMapNameService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedReportQueryService" id="iMedReportQueryService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IHangtianRptLabService" id="iHangtianRptLabService"  timeout="20000">
+		<dubbo:method name="parsePeisTimes" timeout="300000"></dubbo:method>
+		<dubbo:method name="parseSpecimen" timeout="300000"></dubbo:method>
+		<dubbo:method name="parseReport" timeout="300000"></dubbo:method>
+	</dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedUploadRptRecordTaskService" id="iMedUploadRptRecordTaskService"  timeout="200000"></dubbo:reference>
+	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IZhonggcRptService" id="iZhonggcRptService"  timeout="20000"></dubbo:reference>
 	
+	<!-- 体检报告dubbo服务  -->
+	<import resource="classpath*:config/dubbo_service_reference_list.xml" />	
 </beans>

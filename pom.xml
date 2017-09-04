@@ -1,13 +1,10 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<groupId>ciyun</groupId>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.centrin.ciyun.cloud</groupId>
 	<artifactId>ciyun_rpt_miniprogram</artifactId>
-	<version>1.0</version>
 	<packaging>jar</packaging>
-	
+	<name>ciyun_rpt_miniprogram</name>
+	<version>1.0.0</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
@@ -237,5 +234,4 @@
             </plugin>
 		</plugins>
 	</build>
-	<name>11</name>
 </project>
