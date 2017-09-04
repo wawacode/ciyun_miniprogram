@@ -1,0 +1,114 @@
+<!--pages/import/import.wxml-->
+<view class="app-form-title"><view class=''>请填写查询条件</view></view>
+
+<!-- 证件  -->
+<view class="app-form">
+  <view class="app-form-item clearfix">
+    <view class="lab-item">证件类型：</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="idCardType">
+        <view id="idCardType" name="idCardType" class="app-select-rul">
+          <picker bindchange="bindCardTypeChange" value="{{cardTypeIndex}}" range="{{array}}">
+            <view class="picker app-select-rul">{{array[cardTypeIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="item-arr-right item-arr"></view>
+    </view>
+  </view>
+  <view class="app-form-item clearfix">
+    <view class="lab-item">证件号码：</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="idCardType">
+        <view id="idCardType" name="idCardType" class="app-select-rul">
+          <view class="section">
+            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="身份证输入键盘" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 性别  -->
+  <view class="app-form-item clearfix">
+    <view class="lab-item">性别</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="sex">
+        <view id="sex" name="sex" class="app-select-rul">
+          <picker bindchange="bindSexChange" value="{{sexIndex}}" range="{{sex}}">
+            <view class="picker app-select-rul">{{sex[sexIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="item-arr-right item-arr"></view>
+    </view>
+  </view>
+
+  <!-- 报告关联手机号  -->
+  <view class="app-form-item clearfix">
+    <view class="lab-item disabled-color">关联手机号：</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="idCardType">
+        <view id="idCardType" name="idCardType" class="app-select-rul">
+          <view class="section">
+            <input placeholder-class="phcolor" class="app-select-rul" type="text" disabled placeholder="{{phone}}" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 体检日期  -->
+  <view class="app-form-item clearfix">
+    <view class="lab-item">体检日期</view>
+    <view class="lab-item-val">
+      <view class="section">
+        <picker mode="date" value="{{date}}"  bindchange="bindDateChange">
+          <view class="picker app-select-rul">
+            {{date}}
+          </view>
+        </picker>
+      </view>
+      <view class="item-arr-right item-arr"></view>
+    </view>
+  </view>
+
+  <!-- 档案ID  -->
+  <view class="app-form-item clearfix">
+    <view class="lab-item">档案ID:</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="idCardType">
+        <view id="idCardType" name="idCardType" class="app-select-rul">
+          <view class="section">
+            <input placeholder-class="phcolor" class="app-select-rul" type="idcard" placeholder="请输入" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 体检人姓名  -->
+  <!-- 档案ID  -->
+  <view class="app-form-item clearfix">
+    <view class="lab-item">体检人姓名:</view>
+    <view class="lab-item-val">
+      <view style="display: block;" for="idCardType">
+        <view id="idCardType" name="idCardType" class="app-select-rul">
+          <view class="section">
+            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="请输入" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <!-- aboat  -->
+  <view class="app-form app-about">
+    您可以下载慈云健康APP，在【个人中心】和【亲情关爱】模块 中分别对本人和亲友的个人信息进行修改。
+  </view>
+
+  <!--  查询报告按钮  -->
+  <view class="app-form-item-btn">
+    <view type="button" name="search-import-btn" id="search-import-btn" class="app-btn-lg app-btn-save" bindtap="queryimport">查询并导入</view>
+  </view>
+</view>

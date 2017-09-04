@@ -1,0 +1,101 @@
+/* pages/import/import.wxss */
+page{
+      background: #f3f5f6;
+    height: 100%;
+}
+.app-form-title {
+    padding:32rpx 0 10rpx 30rpx;
+    border-bottom: 1rpx solid #e0e0e0;
+    color: #666666;
+    position: relative;
+}
+.app-form-title view{
+  padding-left: 10rpx;
+  font-size: 24rpx;
+  border-left: 4rpx solid #6fba2c;
+}
+.app-form-item {
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+    padding: 0px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+}
+.app-form-item .lab-item {
+    float: left;
+    width: 35%;
+    position: relative;
+    line-height: 100rpx;
+    font-size: 15px;
+    color: #000;
+    white-space: nowrap;
+}
+.lab-item.disabled-color{
+  color: #b8b8b8
+}
+.app-form-item .lab-item-val {
+    float: left;
+    text-align: left;
+    width: 65%;
+}
+.app-select-rul {
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    border: 0;
+    border-radius: 2px;
+    background-color: transparent;
+    outline: none;
+    -webkit-appearance: none;
+    padding-right: 10px;
+    direction: rtl;
+}
+.app-form {
+    background: #ffffff;
+}
+.item-arr-right {
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-right-style: solid;
+    border-top-style: solid;
+    border-right-color: #A5A5A5;
+    border-top-color: #A5A5A5;
+    height: 12px;
+    width: 12px;
+    display: inline-block;
+    -webkit-transform: rotate(45deg);
+    -webkit-background-clip: content;
+}
+.item-arr {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -5px;
+}
+.app-about {
+    padding: 10px 15px;
+    color: #545454;
+    background: #f3f5f6;
+    font-size: 24rpx;
+}
+.app-btn-lg {
+    height: 44px;
+    line-height: 44px;
+    font-size: 18px;
+    width: 100%;
+    padding: 0 11px;
+    background-color: #5FAC38;
+    border: 1px solid #5FAC38;
+    border-radius: 3px;
+    color: #fff;
+    text-align: center;
+    
+}
+.app-form-item-btn {
+    padding: 10px;
+    background: #f3f5f6;
+}
+.phcolor{
+  color: #b8b8b8; 
+}

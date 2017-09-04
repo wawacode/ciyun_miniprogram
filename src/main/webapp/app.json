@@ -1,0 +1,18 @@
+{
+  "pages": [
+        "pages/detail/detail",
+        "pages/import/import",
+        "pages/index/index",
+
+
+
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "选择服务机构",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#000"
+  }
+}

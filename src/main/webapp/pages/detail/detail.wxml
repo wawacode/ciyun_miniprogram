@@ -1,0 +1,561 @@
+<!--pages/detail/detail.wxml-->
+<!--导航条-->
+<view class="navbar">
+    <view class="item" wx:for="{{navbar}}" data-idx="{{index}}" class="item {{navbarIndex==index ? 'active' : ''}}" bindtap="navbarTap">
+        <text>
+    {{item}}
+    </text>
+    </view>
+</view>
+<!-- 基本信息 -->
+<view class="report-content" hidden="{{0!==navbarIndex}}">
+    <view class="form form-view">
+        <view class="form-group">
+            <text class="form-label">体检日期</text>
+            <view class="form-val">
+                <view>2017-03-29</view>
+            </view>
+        </view>
+        <view class="form-group">
+            <text class="form-label">体检机构</text>
+            <view class="form-val">
+                <view>
+                    慈云测试专用机构
+                </view>
+            </view>
+        </view>
+        <view class="form-group">
+            <view class="form-label">体检人姓名</view>
+            <view class="form-val">
+                <view>yanxf</view>
+            </view>
+        </view>
+        <view class="form-group">
+            <view class="form-label">体检名称</view>
+            <view class="form-val">
+                <view>体检报告</view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 汇总分析  -->
+<view class="report-content" hidden="{{1!==navbarIndex}}">
+    <view class="new-report-app">
+        <view class="new-report-app-hd">
+            <view class="title">汇总分析</view>
+        </view>
+        <view class="new-report-app-bd">
+            <view id="" class="">
+                <view class="table">
+                    <view>
+                        <view>
+                            <view>
+                                <view class="new-report-total">
+                                    (1)、
+                                    <text style="font-weight:bold;"> 骨骼及关节片提示：</text>
+                                    <view>双膝关节退变。多见于中老年人，与年龄、外伤、内分泌失调等因素有关，好发于髋、膝等大关节，症状随年龄增加而逐渐加重。应注意自我保健与调理，或在骨外科医生指导下康复治疗。</view>
+                                    (2)、
+                                    <text style="font-weight:bold;"> 尿素呼气试验提示：</text>
+                                    <view>碳十四呼气试验阳性：cpm=200参考范围:0-50。提示有幽门螺旋杆菌感染，此感染为慢性胃炎和溃疡病的重要病因，建议消化内科治疗，如有上腹部不适，做电子胃镜检查。</view>
+                                    (3)、
+                                    <text style="font-weight:bold;"> 生化提示：</text>
+                                    <view>1．总胆固醇偏高5.63mmol/L参考范围:＜5.2、低密度脂蛋白胆固醇高4.01mmol/L参考范围:＜3.37。低密度脂蛋白增高是心脑血管疾病的直接危险因素。长期的高血脂可导致动脉硬化，建议控制膳食总热量,减少饱和脂肪酸和胆固醇的摄入、提高纤维素膳食比例，坚持有规律的体力活动，必要时请在内科医生指导下服用降脂药物；关注动脉硬化的防治。2．尿酸低181umol/L参考范围:210―430。严重的肝细胞损伤使嘌呤合成减少、某些肾脏疾病以肾小管受损为主、先天性肾小管缺陷、过度服用降尿酸药物等可引起，建议内分泌科治疗原发病。</view>
+                                    (4)、
+                                    <text style="font-weight:bold;"> 血常规提示：</text>
+                                    <view>血小板低122.0×10^9/L参考范围:125―350。血小板数可受季节、运动等生理因素影响，在一天之中有生理性波动，相差可达10%，血小板在80×10^9/L以上时，一般不引起出血。建议定期复查，动态观察，必要时血液科诊治。</view>
+                                    (5)、
+                                    <text style="font-weight:bold;">温馨提示</text>
+                                    <view>【血脂异常的防治】非药物治疗：包括膳食、运动、减肥和心理、行为矫正等生活方式的调节，这是高脂血症的治疗基础，其中膳食因素很重要：影响血清胆固醇增高的主要因素是肥胖和过多的摄入饱和脂肪酸及膳食胆固醇。人体所需饱和脂肪酸主要来源于家畜肉类尤其是肥肉、动物油脂、奶油糕点、棕榈油等。胆固醇主要来源有蛋黄、蛋类制品、动物内脏、鱼子、蛇鱼类，应少吃或避免。总脂肪主要来源有肉类尤其是肥肉、动物油脂、植物油。加强运动也是改善血脂异常的重要手段，没有任何一种药物或保健品能够取代运动的持久作用。</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view>
+                        <view>
+                            <view>
+                                <view class="new-report-other"><text>主检日期：</text>2017-03-30</view>
+                            </view>
+                        </view>
+                    </view>
+
+                </view>
+            </view>
+
+        </view>
+        <view class="new-report-app-hd">
+            <view class="title">
+                检查所见
+            </view>
+        </view>
+        <view class="new-report-app-hd">
+            <view class="new-report-app-tbody table">
+                <!-- 科室 -->
+                <view class="flex">
+                    <view class="report-name">分院采血室</view>
+                    <view class="report-value">
+                        <view>
+                            <!-- 项目组 -->
+                            <!-- 项目组小结 -->
+                            <view>
+                                <view class="p">血小板低122.0×10^9/L(参考范围:125―350)</view>
+
+                                <view class="new-report-other p"><text>检查医师：</text>李秀芬</view>
+                                <view class="new-report-other p"><text>审核医师：</text>杨志刚</view>
+                            </view>
+                            <!-- itemClass.showSummary == 1 -->
+                            <!-- itemClass.showSummary == 1 -->
+                            <!-- 科室 -->
+                            <view>
+                                <!-- 项目组 -->
+                                <!-- 项目组小结 -->
+                                <view>
+                                    <view class="p">总胆固醇偏高5.63mmol/L(参考范围:＜5.2)低密度脂蛋白胆固醇高4.01mmol/L(参考范围:＜3.37)</view>
+
+                                    <view class="new-report-other p"><text>检查医师：</text>崔明星</view>
+                                    <view class="new-report-other p"><text>审核医师：</text>杨德洁</view>
+                                </view>
+                                <!-- itemClass.showSummary == 1 -->
+                                <!-- 科室 -->
+                                <view>
+                                    <!-- 项目组 -->
+                                    <!-- 项目组小结 -->
+                                    <view>
+                                        <view class="p">尿酸低181umol/L(参考范围:210―430)</view>
+
+                                        <view class="new-report-other p"><text>检查医师：</text>崔明星</view>
+                                        <view class="new-report-other p"><text>审核医师：</text>杨德洁</view>
+                                    </view>
+                                    <!-- itemClass.showSummary == 1 -->
+                                    <!-- itemClass.showSummary == 1 -->
+                                    <!-- itemClass.showSummary == 1 -->
+                                    <!-- organId -->
+                                    <!--dO.itemClassviewst?size gt 0> -->
+
+                                    <!--dO.showSummary == 1  -->
+                                    <!-- 是否输出过 科室名称 -->
+                                    <!-- 科室 -->
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <view class="report-name">分院放射科</view>
+                    <view class="report-value">
+                        <view>
+                            <!-- 项目组 -->
+                            <!-- 项目组小结 -->
+                            <view>
+                                <view class="p">双膝关节退变</view>
+
+                                <view class="new-report-other p"><text>检查医师：</text>文才</view>
+                            </view>
+                            <!-- itemClass.showSummary == 1 -->
+                            <!-- organId -->
+                            <!--dO.itemClassList?size gt 0> -->
+
+                            <!--dO.showSummary == 1  -->
+                            <!-- 是否输出过 科室名称 -->
+                            <!-- itemClass.showSummary == 1 -->
+                            <!-- organId -->
+                            <!--dO.itemClassList?size gt 0> -->
+
+                            <!--dO.showSummary == 1  -->
+                            <!-- 是否输出过 科室名称 -->
+                            <!-- 科室 -->
+                        </view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <view class="report-name">分院碳十三</view>
+                    <view class="report-value">
+
+                        <!-- 项目组 -->
+                        <!-- 项目组小结 -->
+                        <view class="p">碳十四呼气试验阳性：cpm=200(参考范围:0-50)</view>
+
+                        <view class="new-report-other p"><text>检查医师：</text>孙亚莉</view>
+                        <!-- itemClass.showSummary == 1 -->
+                        <!-- organId -->
+                        <!--dO.itemClassList?size gt 0> -->
+
+                        <!--dO.showSummary == 1  -->
+                        <!-- organOrDeptId -->
+
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 既往史 航空机构专有  -->
+        <view class="new-report-app-hd">
+            <view class='title'>既往史</view>
+        </view>
+        <view class="new-report-app-hd">
+            <view class='new-report-app-tbody table'>
+                <view class='flex-tr'>
+                    <view class='report-name'>既往疾病</view>
+                    <view class='report-value'>
+                        <view class='app-check-group  clearfix'>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class='flex-tr'>
+                    <view class='report-name'>家族史</view>
+                    <view class='report-value'>
+                        <view class='app-check-group  clearfix'>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" />
+                                    </view>
+                                    <view class="app-check-item">高血压</view>
+
+
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class='flex-tr'>
+                    <view class='report-name'>过敏史</view>
+                    <view class='report-value'>
+                        <view class='app-check-group  clearfix'>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">有</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+                                    <view class="app-check">
+                                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
+                                    </view>
+                                    <view class="app-check-item">无</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+
+                                    <view class="app-check-item">过敏物质/药物</view>
+
+
+                                </view>
+                            </view>
+                            <view class='app-check-list'>
+                                <view class="app-check-box">
+
+                                    <view class="app-check-item">不详</view>
+
+
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class='flex-tr'>
+                    <view class='report-name'>目前药物</view>
+                </view>
+            </view>
+        </view>
+        <view class="new-report-app-hd">
+            <view class='title'>健康危险因素提示</view>
+        </view>
+        <view class="new-report-app-hd">
+            <view class='new-report-app-tbody table'>
+            <view class='flex-tr new-report-total'>
+              1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
+            </view>
+            <view class='flex-tr new-report-total'>
+              1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
+            </view>
+            <view class='flex-tr new-report-total'>
+              1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
+            </view>
+            <view class='flex-tr new-report-total'>
+              1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
+            </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 超标项  -->
+<view class="report-content" hidden="{{2!==navbarIndex}}">
+
+    <view class="report-table">
+        <view class="report-table-tr fixed">
+            <view class="th">项目名</view>
+            <view class="th">结果</view>
+            <view class="th">单位</view>
+            <view class="th">下限/上限</view>
+        </view>
+        <view class="tbody">
+            <view class="report-table-tr">
+                <view class="report-table-td">血小板</view>
+                <view class="report-table-td"><text class="down">122.0↓</text></view>
+                <view class="report-table-td"><text class="r-unit">10^9/L</text></view>
+                <view class="report-table-td"><text class="r-reference">125-350</text></view>
+            </view>
+            <view class="report-table-tr">
+                <view class="report-table-td">总胆固醇</view>
+                <view class="report-table-td"><text class="up">5.63↑</text></view>
+                <view class="report-table-td"><text class="r-unit">10^9/L</text></view>
+                <view class="report-table-td"><text class="r-reference">125-350</text></view>
+            </view>
+            <view class="report-table-tr">
+                <view class="report-table-td">低密度脂蛋白胆固醇</view>
+                <view class="report-table-td"><text class="up">5.63↑</text></view>
+                <view class="report-table-td"><text class="r-unit">10^9/L</text></view>
+                <view class="report-table-td"><text class="r-reference">125-350</text></view>
+            </view>
+            <view class="report-table-tr">
+                <view class="report-table-td">尿酸</view>
+                <view class="report-table-td"><text class="down">122.0↓</text></view>
+                <view class="report-table-td"><text class="r-unit">10^9/L</text></view>
+                <view class="report-table-td"><text class="r-reference">125-350</text></view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 报告详情  -->
+<view class="report-content" hidden="{{3!==navbarIndex}}">
+    <view class="report-table">
+        <view class="report-table-tr fixed">
+            <view class="th">项目名</view>
+            <view class="th">结果</view>
+            <view class="th">单位</view>
+            <view class="th">下限/上限</view>
+        </view>
+    </view>
+    <!-- 分表 -->
+    <view class="detail-table first">
+        <view class="detail-title">
+            <view class="cap-lev1">肛肠科<text  bindtap="previewImage" data-url="http://devweixinpn.love-health.com.cn/style/user/images/icon-phone.png" class="readPicBtn" title="图片预览"></text></view>
+            <view class="cap-lev2">一般检查</view>
+        </view>
+        <view class="detail-body">
+            <view class="report-table-tr">
+                <view class="td r-item">身高</view>
+                <view class="td">169</view>
+                <view class="td r-unit">cm</view>
+                <view class="td r-reference">下限/上限</view>
+            </view>
+            <!-- 项目组级小结开始 -->
+            <view class="report-table-tr">
+                <view class="td w100">
+                    <view class="lv-2-tit"><em>小结：</em></view>
+                    <view class="lv-2-main">
+                        <view>双膝关节退变</view>
+                        <view class="lv-2-doctor"><text>检查医师：文才</text></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="detail-table ">
+        <view class="detail-title">
+            <view class="cap-lev1">尿常规</view>
+            <view class="cap-lev2">一般检查</view>
+        </view>
+        <view class="detail-body">
+            <view class="report-table-tr">
+                <view class="td">项目名</view>
+                <view class="td">结果</view>
+                <view class="td">单位</view>
+                <view class="td">下限/上限</view>
+            </view>
+                        <!-- 项目组级小结开始 -->
+            <view class="report-table-tr">
+                <view class="td w100 lv-1">
+                    <view class="lv-1-tit"><em>小结：</em></view>
+                    <view class="lv-1-main">
+                        <view>双膝关节退变</view>
+                        <view class="lv-1-doctor"><text>检查医师：文才</text></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- searchIcon  -->
+    <view id="report-tab-search" class="report-tab-search" bindtap="openSearchList"></view>
+</view>
+
+
+
+<!--  分類列表 -->
+<view id="report-tab-search-list" class="report-tab-search-list" hidden="{{!searchSwich}}">
+    <view class="report-item-list-cover"></view>
+    <view class="report-item-list">
+        <view class="close-content">
+            <view class="floatL">选择科室项目</view>
+            <view class="report-item-close" bindtap="openSearchList">关闭</view>
+        </view>
+        <view id="report-list" class="report-list" style="height: 478px;">
+            <view class="item">全部项目</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item" data-name="className_1696718">肛诊</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">尿常规</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">眼底(体检)</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">血压</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">耳鼻喉常规检查</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">身高体重</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">内科常规检查</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">骨密度</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">外科常规检查</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">肝功能</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">动脉硬化</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">大便潜血</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">13C-尿素呼气试验</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">肾功能</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">血脂四项</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">空腹血糖</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">糖化血红蛋白</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">癌胚抗原</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">甲胎蛋白</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">全血粘度</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">血常规</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">C反应蛋白（超敏）</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">同型半胱氨酸</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">CA-199</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">CA-724</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">纤维蛋白原</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">生化组合19</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">普通彩超检查（多系统）</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">甲状腺彩超</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">胸部平扫CT(不出片)</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">脉</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">乳腺</view>
+            <!--dO.rptMode不为1  -->
+            <view class="item">心电图</view>
+
+        </view>
+    </view>
+</view>

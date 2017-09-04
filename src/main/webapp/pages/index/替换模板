@@ -1,0 +1,88 @@
+<view class="new-report-app-tbody">
+								<!-- 科室 -->
+									<view>
+										<view class="report-name">分院采血室</view>
+										<view class="report-value">
+											<view>
+												<!-- 项目组 -->
+														<!-- 项目组小结 -->
+																<view>	
+																	<p>血小板低122.0×10^9/L(参考范围:125―350)</p>
+																	
+																		<p class="new-report-other"><span>检查医师：</span>李秀芬</view>
+																			<view class="new-report-other"><span>审核医师：</span>杨志刚</view>
+																</view>
+							<!-- itemClass.showSummary == 1 -->
+						<!-- itemClass.showSummary == 1 -->
+														<!-- 科室 -->
+											<view>
+												<!-- 项目组 -->
+														<!-- 项目组小结 -->
+																<view>	
+																	<view>总胆固醇偏高5.63mmol/L(参考范围:＜5.2)<br>低密度脂蛋白胆固醇高4.01mmol/L(参考范围:＜3.37)</view>
+																	
+																		<view class="new-report-other"><span>检查医师：</span>崔明星</view>
+																			<view class="new-report-other"><span>审核医师：</span>杨德洁</view>
+																</view>
+							<!-- itemClass.showSummary == 1 -->
+														<!-- 科室 -->
+											<view>
+												<!-- 项目组 -->
+														<!-- 项目组小结 -->
+																<view>	
+																	<view>尿酸低181umol/L(参考范围:210―430)</view>
+																	
+																		<view class="new-report-other"><span>检查医师：</span>崔明星</view>
+																			<view class="new-report-other"><span>审核医师：</span>杨德洁</view>
+																</view>
+							<!-- itemClass.showSummary == 1 -->
+						<!-- itemClass.showSummary == 1 -->
+						<!-- itemClass.showSummary == 1 -->
+						<!-- organId -->
+					<!--dO.itemClassviewst?size gt 0> -->
+					
+<!--dO.showSummary == 1  -->
+								 <!-- 是否输出过 科室名称 -->
+								<!-- 科室 -->
+									</view></view></view></view></view><view>
+										<view class="report-name">分院放射科</view>
+										<view class="report-value">
+											<view>
+												<!-- 项目组 -->
+														<!-- 项目组小结 -->
+																<view>	
+																	<view>双膝关节退变</view>
+																	
+																		<view class="new-report-other"><span>检查医师：</span>文才</view>
+																</view>
+							<!-- itemClass.showSummary == 1 -->
+						<!-- organId -->
+					<!--dO.itemClassList?size gt 0> -->
+					
+<!--dO.showSummary == 1  -->
+								 <!-- 是否输出过 科室名称 -->
+<!-- itemClass.showSummary == 1 -->
+						<!-- organId -->
+					<!--dO.itemClassList?size gt 0> -->
+					
+<!--dO.showSummary == 1  -->
+								 <!-- 是否输出过 科室名称 -->
+								<!-- 科室 -->
+									</view></view></view><view>
+										<view class="report-name">分院碳十三</view>
+										<view class="report-value">
+											<view>
+												<!-- 项目组 -->
+														<!-- 项目组小结 -->
+																<view>	
+																	<view>碳十四呼气试验阳性：cpm=200(参考范围:0-50)</view>
+																	
+																		<view class="new-report-other"><span>检查医师：</span>孙亚莉</view>
+																</view>
+							<!-- itemClass.showSummary == 1 -->
+						<!-- organId -->
+					<!--dO.itemClassList?size gt 0> -->
+					
+<!--dO.showSummary == 1  -->
+				 <!-- organOrDeptId -->
+			</view></view></view></view>
