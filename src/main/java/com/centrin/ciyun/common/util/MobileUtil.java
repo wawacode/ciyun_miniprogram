@@ -1,4 +1,4 @@
-package com.centrin.ciyun.medrpt.util;
+package com.centrin.ciyun.common.util;
 
 /**
  * 手机号码处理类
