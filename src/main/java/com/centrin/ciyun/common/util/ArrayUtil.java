@@ -1,4 +1,4 @@
-package com.centrin.ciyun.medrpt.util;
+package com.centrin.ciyun.common.util;
 
 /**
  * Created by jacky on 2017/3/7.

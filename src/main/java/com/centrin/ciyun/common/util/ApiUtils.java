@@ -1,4 +1,4 @@
-package com.centrin.ciyun.medrpt.util;
+package com.centrin.ciyun.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
