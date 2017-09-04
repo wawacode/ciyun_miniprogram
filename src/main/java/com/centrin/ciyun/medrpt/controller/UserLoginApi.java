@@ -1,7 +1,5 @@
 package com.centrin.ciyun.medrpt.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +22,11 @@ public class UserLoginApi {
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
 	 * @param param 请求参数封装对象
-	 * @param request 请求对象
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/getThirdSession")
-	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpServletRequest request){
+	public HttpResponse getThidSession(@RequestBody CommonParam param){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getCode())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -37,19 +34,18 @@ public class UserLoginApi {
 			return res;
 		}
 		
-		res = userLoginService.getThidSessionByCode(param.getCode(), request);
+		res = userLoginService.getThidSessionByCode(param.getCode(), param.getRequest());
 		return res;
 	}
 	
 	/**
 	 * 数据签名校验
 	 * @param param 请求参数封装对象
-	 * @param request 请求对象
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/getThirdSession")
-	public HttpResponse valSignature(@RequestBody CommonParam param, HttpServletRequest request){
+	public HttpResponse valSignature(@RequestBody CommonParam param){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getRawData()) || 
 				StringUtils.isEmpty(param.getSignature()) || StringUtils.isEmpty(param.getThirdSession())){
@@ -58,16 +54,27 @@ public class UserLoginApi {
 			return res;
 		}
 		
-		Object sessionValue = request.getSession().getAttribute(param.getThirdSession());
-		if(sessionValue == null || StringUtils.isEmpty(sessionValue.toString())){
-			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
-			res.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key);
-			return res;
-		}
-		
-		res = userLoginService.valSignature(param, sessionValue.toString());
+		res = userLoginService.valSignature(param);
 		return res;
 		
+	}
+	
+	/**
+	 * 发送短信验证码
+	 * @param param 请求参数封装对象
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/validatenote")
+	public HttpResponse validateNote(@RequestBody CommonParam param){
+		HttpResponse res = new HttpResponse();
+		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
+			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			return res;
+		}
+		res = userLoginService.validateNote(param);
+		return res;
 	}
 
 }
