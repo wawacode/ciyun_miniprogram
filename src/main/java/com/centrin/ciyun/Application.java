@@ -1,4 +1,4 @@
-package com.centrin.ciyun.cloud;
+package com.centrin.ciyun;
 
 import java.util.concurrent.CountDownLatch;
 

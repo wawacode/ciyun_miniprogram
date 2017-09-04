@@ -1,4 +1,4 @@
-package com.centrin.ciyun.cloud.insp.util;
+package com.centrin.ciyun.medrpt.util;
 
 import java.text.SimpleDateFormat;
 

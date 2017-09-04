@@ -1,4 +1,4 @@
-package com.centrin.ciyun.cloud.insp.util;
+package com.centrin.ciyun.medrpt.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;

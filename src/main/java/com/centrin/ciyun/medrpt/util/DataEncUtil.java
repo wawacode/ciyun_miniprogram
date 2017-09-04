@@ -5,7 +5,7 @@
  * @author     
  * @date Jan 27, 2012 4:23:29 PM 
  */
-package com.centrin.ciyun.cloud.insp.util;
+package com.centrin.ciyun.medrpt.util;
 
 /**
  * @author

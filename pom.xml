@@ -20,6 +20,8 @@
 		<pagehelper.version>4.2.1</pagehelper.version>
 		<ojdbc14.version>10.2.0.3.0</ojdbc14.version>
 		<mybatis-spring-boot-starter.version>1.1.1</mybatis-spring-boot-starter.version>
+		<zookeeper.version>3.4.6</zookeeper.version>
+		<ciyun.medrpt>1.1.1</ciyun.medrpt>
 
 		<rocketmq-client.version>3.5.9</rocketmq-client.version>
 	</properties>
@@ -141,6 +143,41 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+  			<groupId>ciyun</groupId>
+  			<artifactId>ciyun_rpt_dubbo_interface</artifactId>
+  			<version>${ciyun.medrpt}</version>
+  			<exclusions>
+  				<exclusion>
+  					<artifactId>ciyun_rpt_base</artifactId>
+  					<groupId>ciyun</groupId>
+  				</exclusion>
+  			</exclusions>
+  		</dependency>
+  		
+  		<dependency>
+  			<groupId>ciyun</groupId>
+  			<artifactId>ciyun_rpt_constants</artifactId>
+  			<version>${ciyun.medrpt}</version>
+  		</dependency>
+  			
 	</dependencies>
 
 

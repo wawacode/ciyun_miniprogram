@@ -1,4 +1,4 @@
-package com.centrin.ciyun.cloud.insp.util;
+package com.centrin.ciyun.medrpt.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
