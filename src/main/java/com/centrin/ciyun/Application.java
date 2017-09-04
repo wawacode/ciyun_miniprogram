@@ -4,7 +4,9 @@ import java.util.concurrent.CountDownLatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  */
 @SpringBootApplication
-//@EnableEurekaClient // 服务启动时,自动注册到eureka服务中
+@EnableAutoConfiguration(exclude= {DataSourceAutoConfiguration.class})
 public class Application {
 
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);

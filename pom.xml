@@ -9,7 +9,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<commons-lang3.version>3.5</commons-lang3.version>
-
+		<dubbo.version>2.5.3</dubbo.version>
 		<com.alibaba.druid.version>1.0.26</com.alibaba.druid.version>
 		<mybatis.version>3.4.0</mybatis.version>
 		<mybatis.spring.version>1.3.0</mybatis.spring.version>
@@ -156,17 +156,16 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
 		<dependency>
   			<groupId>ciyun</groupId>
   			<artifactId>ciyun_rpt_dubbo_interface</artifactId>
   			<version>${ciyun.medrpt}</version>
-  			<exclusions>
+			<exclusions>
   				<exclusion>
   					<artifactId>ciyun_rpt_base</artifactId>
   					<groupId>ciyun</groupId>
   				</exclusion>
-  			</exclusions>
+  			</exclusions>  			
   		</dependency>
   		
   		<dependency>
@@ -174,7 +173,21 @@
   			<artifactId>ciyun_rpt_constants</artifactId>
   			<version>${ciyun.medrpt}</version>
   		</dependency>
-  			
+ 		<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+            <exclusions>
+            	<exclusion>    
+		            <groupId>org.springframework</groupId>    
+		            <artifactId>spring</artifactId>    
+		        </exclusion>
+		        <exclusion>    
+		             <groupId>org.jboss.netty</groupId>
+					 <artifactId>netty</artifactId>
+		        </exclusion>
+            </exclusions>
+        </dependency> 			
 	</dependencies>
 
 
