@@ -35,7 +35,7 @@ public class SequenceUtils {
         }
         nanoTimeStr = preFix+nanoTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS"); //24小时制
-        String timeMillisSequence=sdf.format(System.currentTimeMillis())+"-"+nanoTimeStr; 
+        String timeMillisSequence=sdf.format(System.currentTimeMillis())+nanoTimeStr; 
          
         return timeMillisSequence;      
     }
