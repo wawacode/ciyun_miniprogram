@@ -18,7 +18,6 @@ public class UserLoginApi {
 	 */
 	@RequestMapping("/getThirdSession")
 	public HttpResponse getThidSession(@RequestBody CommonParam param){
-		System.out.println(param.getCode());
 		return null;
 	}
 
