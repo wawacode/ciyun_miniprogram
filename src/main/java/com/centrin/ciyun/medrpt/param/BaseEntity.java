@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonBaseInfo {
-	private String nickname;//
-	private int sex;//
-	private int age;//
-	private int hight;//
-	private String thirdSession;//
+public class BaseEntity implements java.io.Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private String thirdSession;//第三方服务器会话key
 }
