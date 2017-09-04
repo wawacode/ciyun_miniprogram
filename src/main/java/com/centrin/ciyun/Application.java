@@ -30,8 +30,8 @@ public class Application {
 		ApplicationContext ctx = new SpringApplicationBuilder().sources(Application.class).web(true).run(args);
 		CountDownLatch closeLatch = ctx.getBean(CountDownLatch.class);
 
-		System.err.println("ciyun_inspection_reservation Server Startup success");
-		logger.info("=======================ciyun_inspection_datatransfer Server Startup success!=========================");
+		logger.info("ciyun_rpt_miniprogram Server Startup success");
+		logger.info("=======================ciyun_rpt_miniprogram Server Startup success!=========================");
 
 		closeLatch.await();
 
