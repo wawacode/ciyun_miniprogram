@@ -1,0 +1,88 @@
+/* pages/register/register.wxss */
+.container{
+  padding:20rpx;
+}
+.box_title{
+  width:94%;
+  height:auto;
+  background:#fff;
+  padding-left:3%;
+  padding-right:3%;
+  margin-top:69rpx;
+}
+.box_title image{
+  display:block;
+  width:115rpx;
+  height:125rpx;
+  margin:0 auto
+}
+.box_title text{
+  display:block;
+  width:100%;
+  text-align: center;
+  font-size:34rpx;
+  font-weight: 700;
+  color:#6fba2c;
+  line-height: 83rpx;
+}
+.title{
+  width: 100%;
+  height:100rpx;
+  line-height: 150rpx;
+  color:#fff;
+}
+.notes{
+  width:100%;
+  height:100rpx;
+  line-height:50rpx;
+  color:#fff;
+}
+.tel{
+  display: block;
+  width:100%;
+  height:90rpx;
+  /* border:1rpx solid #E9E9E9; */
+  padding-left:15rpx;
+  border-bottom:1px solid #dfdfdf;
+  font-size: 26rpx;
+  color:#222222;
+}
+.code{
+  display:block;
+  width:60%;
+  height:90rpx;
+  /* border:1rpx solid #E9E9E9; */
+  float: left;
+  padding-left: 15rpx;
+  margin-left:0;
+  padding-right:40%;
+  margin-top:20rpx;
+  border-bottom:1px solid #dfdfdf;
+  font-size: 26rpx;
+  color:#222222;
+}
+.btn{
+  position: absolute;
+  width:38%;
+  top:440rpx;
+  right:11rpx;
+  /* background:#76B400; */
+  color:#6fba2c;
+  height:26rpx;
+  line-height: 26rpx;
+  background:#fff;
+  border-left:1rpx solid #dfdfdf;
+  font-size: 26rpx;
+  padding-left:2%
+}
+.login{
+  width:100%;
+  background:#6fba2c;
+  color:#fff;
+  margin-top:105rpx;
+}
+.radio-group{
+  width:100%;
+  margin-top:20rpx;
+  font-size: 23rpx
+}

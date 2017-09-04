@@ -1,0 +1,38 @@
+<!--  pages/register/register.wxml -->
+  <view class="box_title">
+    <image src="{{avatarUrl}}"></image>
+  </view>
+<view class="container">
+  <view class="container_list">
+    <view class="container_left"> 昵称</view>
+    <view class="container_right">
+      <input type="text" value="{{username}}" bindblur="name"></input>
+    </view>
+  </view>
+  <view class="container_list">
+    <view class="container_left">性别</view>
+    <view class="container_right">
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio">
+          <radio value="1" checked="{{male}}"/>男
+          <radio value="2" checked="{{girl}}"/>女
+      </label>
+    </radio-group>
+    </view>
+  </view>
+
+  <view class="container_list">
+    <view class="container_left"> 年龄</view>
+    <view class="container_right">
+      <input type="number" value="" bindblur="Age"></input>
+    </view>
+  </view>
+
+  <view class="container_list">
+    <view class="container_left"> 身高</view>
+    <view class="container_right">
+      <input type="number" value="" bindblur="height"></input>
+    </view>
+  </view>
+  <button class="login" bindtap="register">确定</button>
+</view>

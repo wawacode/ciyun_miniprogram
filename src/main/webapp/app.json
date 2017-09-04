@@ -1,18 +1,20 @@
 {
-  "pages": [
-        "pages/detail/detail",
-        "pages/import/import",
-        "pages/index/index",
-
-
-
-    "pages/logs/logs"
+  "pages":[
+    
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/login/login",
+    "pages/list/list",
+    "pages/register/register",
+    "pages/mechanism/mechanism",
+    "pages/report/report",
+    "pages/lower/lower",
+    "pages/detail/detail"
   ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "选择服务机构",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#000"
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
   }
 }

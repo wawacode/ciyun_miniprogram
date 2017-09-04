@@ -1,0 +1,44 @@
+/**index.wxss**/
+.container{
+  height: 100%;
+  overflow: hidden;
+}
+.province-content{
+  height: 100rpx;
+  line-height: 100rpx;
+  padding-left: 30rpx;
+  font-size: 30rpx
+}
+.province-content.active{
+  border-left: 4rpx solid #6fba2c;
+  background: #fff;
+}
+.left-scroll-content{
+  float: left;
+  width: 27%;
+  background: #eee;
+    overflow: hidden;
+}
+.right-scroll-content{
+  float: left;
+  width: 73%;
+}
+#green{
+  background: green;
+  height: 100%;
+}
+.right-scroll-content{
+  
+}
+.mechanism-content{
+  padding: 0 0 0 40rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.mechanism-item{
+  border-bottom: 1rpx solid #cbcbcb;
+  font-size: 30rpx;
+}
+.mechanism-text{
+
+}
