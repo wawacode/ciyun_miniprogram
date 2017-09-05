@@ -1,17 +1,24 @@
 /**index.wxss**/
+
+.bg{
+  width:750rpx;
+  height:1040rpx;
+  position: fixed;
+}
+.container{
+  position: fixed;
+}
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .userinfo-avatar {
   width: 245rpx;
   height: 300rpx;
   margin: 20rpx;
   /* border-radius: 50%; */
 }
-
 .userinfo-nickname {
   color: #aaa;
   font-weight:700 
@@ -25,9 +32,11 @@
   display: block;
   float: left;
   border:1rpx solid #95E300;
-  width:100%;
+  width:94%;
   height:100rpx;
-  background: #76B400;
+  background: #6fba2c;
   color: #fff;
-  /* margin-left: 10rpx */
+  position: fixed;
+  bottom:20rpx;
+  left:3%
 }

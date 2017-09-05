@@ -76,6 +76,34 @@ Page({
           { name: '奥术大师大所大所' }
         ]
       }
+    ],
+    data: [
+      {
+        "city": "北京市",
+        "hidMedCorpList": [
+          {
+            "corpName": "中国人民解放军第三〇六医院",
+            "medCorpId": "1383"
+          },
+          {
+            "corpName": "航天中心医院",
+            "medCorpId": "721"
+          }
+        ]
+      },
+      {
+        "city": "上海市",
+        "hidMedCorpList": [
+          {
+            "corpName": "上海市第一人民医院",
+            "medCorpId": "13843"
+          },
+          {
+            "corpName": "上海市第六人民医院",
+            "medCorpId": "722"
+          }
+        ]
+      }
     ]
   },
   //事件处理函数
@@ -138,6 +166,9 @@ Page({
         console.log(res);
       }
     });
+    console.log(app);
+    //页面请求接口；
+    //app.postCallBack('medrpt/detail');
   },
   navbarTap: function (e) {
 
@@ -147,9 +178,11 @@ Page({
     })
   },
   //全部订单
-  importPage: function () {
+  importPage: function (e) {
+    var medcorpid = e.currentTarget.dataset.medcorpid;
+    console.log(medcorpid);
     wx.navigateTo({
-      url: '../import/import'
+      url: '../report/report' + "?medcorpid=" + medcorpid
     })
   }
 })

@@ -1,14 +1,13 @@
 /**app.wxss**/
 .container {
   height: 100%;
-}
+} 
+
 view,scroll-view,text,textarea{
   box-sizing: border-box;
-  font-size: 28rpx;
+  font-size: 15px;
   color: #3d4145;
-  font-family:"Helvetica Neue", Helvetica, STHeiTi,"Microsoft YaHei",微软雅黑,"Apple LiGothic Medium",\5b8b\4f53,SimSun,STSong,tahoma,arial,simsun,sans-serif;
-  padding: 0;
-  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, STHeiTi,"Microsoft YaHei",微软雅黑,"Apple LiGothic Medium",\5b8b\4f53,SimSun,STSong,tahoma,arial,simsun,sans-serif;
 }
 input,::after,::before{
   box-sizing: border-box;

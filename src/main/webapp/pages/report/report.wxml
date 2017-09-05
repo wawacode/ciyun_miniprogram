@@ -8,8 +8,8 @@
     <view class="lab-item-val">
       <view style="display: block;" for="idCardType">
         <view id="idCardType" name="idCardType" class="app-select-rul">
-          <picker bindchange="bindCardTypeChange" value="{{cardTypeIndex}}" range="{{array}}">
-            <view class="picker app-select-rul">{{array[cardTypeIndex]}}</view>
+          <picker bindchange="bindCardTypeChange" value="{{cardTypeIndex}}" range="{{ruleCardType}}">
+            <view class="picker app-select-rul">{{ruleCardType[cardTypeIndex]}}</view>
           </picker>
         </view>
       </view>
@@ -22,7 +22,7 @@
       <view style="display: block;" for="idCardType">
         <view id="idCardType" name="idCardType" class="app-select-rul">
           <view class="section">
-            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="身份证输入键盘" />
+            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="请输入证件号" />
           </view>
         </view>
       </view>
@@ -50,7 +50,7 @@
       <view style="display: block;" for="idCardType">
         <view id="idCardType" name="idCardType" class="app-select-rul">
           <view class="section">
-            <input placeholder-class="phcolor" class="app-select-rul" type="text" disabled placeholder="{{phone}}" />
+            <input placeholder-class="phcolor" class="app-select-rul" type="text" disabled placeholder="{{datas.telephone}}" />
           </view>
         </view>
       </view>
@@ -94,7 +94,7 @@
       <view style="display: block;" for="idCardType">
         <view id="idCardType" name="idCardType" class="app-select-rul">
           <view class="section">
-            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="请输入" />
+            <input placeholder-class="phcolor" class="app-select-rul" value='{{datas.username}}' type="text" placeholder="请输入" />
           </view>
         </view>
       </view>
@@ -108,7 +108,11 @@
   </view>
 
   <!--  查询报告按钮  -->
-  <view class="app-form-item-btn">
+  <!-- <view class="app-form-item-btn">
     <view type="button" name="search-import-btn" id="search-import-btn" class="app-btn-lg app-btn-save" bindtap="queryimport">查询并导入</view>
-  </view>
+  </view> -->
+  <view class="app-form-item-btn">
+  <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
+        disabled="{{disabled}}" bindtap="queryimport"> 查询并导入 </button>
+        </view>
 </view>

@@ -1,0 +1,32 @@
+{
+  "result": 0,
+  "message": "ok",
+  "datas": [
+    {
+      "city": "北京市",
+      "hidMedCorpList": [
+        {
+          "corpName": "中国人民解放军第三〇六医院",
+          "medCorpId": "1383"
+        },
+        {
+          "corpName": "航天中心医院",
+          "medCorpId": "721"
+        }
+      ]
+    },
+    {
+      "city": "上海市",
+      "hidMedCorpList": [
+        {
+          "corpName": "上海市第一人民医院",
+          "medCorpId": "13843"
+        },
+        {
+          "corpName": "上海市第六人民医院",
+          "medCorpId": "722"
+        }
+      ]
+    }
+  ]
+}

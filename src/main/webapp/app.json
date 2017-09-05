@@ -1,13 +1,16 @@
 {
   "pages":[
-    
-    "pages/index/index",
+        "pages/index/index",
+      "pages/mechanism/mechanism",
+    "pages/report/report",
+ 
+
     "pages/logs/logs",
     "pages/login/login",
     "pages/list/list",
     "pages/register/register",
-    "pages/mechanism/mechanism",
-    "pages/report/report",
+
+
     "pages/lower/lower",
     "pages/detail/detail"
   ],

@@ -7,14 +7,47 @@ Page({
   data: {
     avatarUrl:"",
     username:"",
-    male:'true',
-    girl:"",
+    sex: [
+      { bindtap: 'sex1', txt: '男' },
+      { bindtap: 'sex2', txt: '女' }
+    ],
+    sexHidden: true,
     gender:"",
     Age:"",
-    height:""
-    
+    height:"",
+    array:[10,20,30,40,50,60],
+    array2: [160, 161, 165,170, 175, 180],
+    index:"",
   },
-
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  bindPickerChange2: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index2: e.detail.value
+    })
+  },
+  sex: function () {
+    this.setData({
+      sexHidden: !this.data.sexHidden
+    })
+  },
+  bindsex1: function () {
+    this.setData({
+      gender: this.data.sex[0].txt,
+      sexHidden: !this.data.sexHidden
+    })
+  },
+  bindsex2: function () {
+    this.setData({
+      gender: this.data.sex[1].txt,
+      sexHidden: !this.data.sexHidden
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -27,14 +60,10 @@ Page({
     })
     if (getApp().gender == 1) {
       this.setData({
-        male:'true',
-        girl:'false',
         gender:'男'
       })
     } else if (getApp().gender == 2){
       this.setData({
-        male: 'false',
-        girl: 'true',
         gender:'女'
       })
     }
@@ -124,7 +153,13 @@ Page({
     wx.reLaunch({
       url: '../list/list'
     })
-  }
+  },
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
+  },
 
 })
 

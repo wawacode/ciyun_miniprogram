@@ -1,23 +1,83 @@
 // pages/import/import.js
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    array: ['美国', '中国', '巴西', '日本'],
+    //
+    defaultSize: 'default',
+    primarySize: 'default',
+    warnSize: 'default',
+    disabled: false,
+    plain: false,
+    loading: false,
     cardTypeIndex: 0,
-    sex: ['男', '女'],
+    sex: ['男','女','未知'],
     sexIndex: 0,
     date: "请选择体检日期",
     importCode: [-1, 0, 1, 2],
-    phone:13832322217
+    phone: 13832322217,
+    datas: {
+      "username": "张三",
+      "sex": 1,
+      "telephone": 13412312311,
+      "medCorpId": "1383",
+      "ruleState": 1,
+      "ruleIds": "idCard|sex|mobile|medDate|medPersonNo|userName",
+      "ruleCardType": "1|2|3|4|5|6|23|26"
+    }
+  },
+  /**
+   * 证件类型过滤器
+   */
+  ruleCardTypeFilter: function (str, type) {
+    if (type == 'post') {
+
+    } else {
+      var ruleCardTypeArr = str.split("|").map(function (index) {
+        switch (index) {
+          case '1':
+            return '身份证';
+          case '2':
+            return '回乡证';
+          case '3':
+            return '护照';
+          case '4':
+            return '军官证';
+          case '5':
+            return '医保卡号';
+          case '6':
+            return '警察证';
+          case '23':
+            return '员工号';
+          case '26':
+            return '唯一号';
+
+        }
+      });
+      this.setData({
+        "ruleCardType": ruleCardTypeArr
+      })
+      console.log(ruleCardTypeArr);
+    }
+  },
+  callBack: function (res) {
+   this.ruleCardTypeFilter(this.data.datas.ruleCardType);
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.medcorpid);
+    var that = this;
+    var data = {
+      thirdSession: options.thirdSession,
+      medCorpId: options.medcorpid
+    };
+    app.postCallBack('medrpt/queryRptRules', data, that.callBack);
 
   },
 
@@ -62,7 +122,14 @@ Page({
   onReachBottom: function () {
 
   },
-
+  /**
+   * button控制
+   */
+  setPlain: function (e) {
+    this.setData({
+      plain: !this.data.plain
+    })
+  },
   /**
    * 用户点击右上角分享
    */
@@ -79,7 +146,7 @@ Page({
       icon: 'error',
       duration: 1000
     });
-    
+
     setTimeout(function () {
       wx.navigateTo({
         url: '../detail/detail'

@@ -7,11 +7,11 @@
   height: 100rpx;
   line-height: 100rpx;
   padding-left: 30rpx;
-  font-size: 30rpx
 }
 .province-content.active{
   border-left: 4rpx solid #6fba2c;
   background: #fff;
+  color: #6fba2c;
 }
 .left-scroll-content{
   float: left;

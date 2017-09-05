@@ -1,17 +1,11 @@
 <!--index.wxml-->
+ <image src="images/bg.png" class="bg"></image>
 <view class="container" style="padding-top:20rpx">
   <view class="userinfo">
-    <!-- bindtap="bindViewTap"  -->
-    <!-- <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>  -->
-    <image class="userinfo-avatar" src="{{item}}" background-size="cover"></image> 
-    <!-- <text class="userinfo-nickname">{{userInfo.nickName}}</text> -->
-     <!-- <text class="userinfo-nickname">{{name}}</text>  -->
-     <text style="font-size:32rpx;width:70%;margin-top:20rpx">体检报告轻松查
-            中金慈云已与全国逾百家医疗与体检机构建立深度合作，为用户提供便捷的体检报告查看体验
-    </text>
+     <text style="font-size:30rpx;width:70%;margin-top:247rpx">中金慈云已与全国逾百家医疗与体检机构建立深度合作，为用户提供便捷的体检报告查看体验</text>
   </view>
   <view class="usermotto">
     <!-- <text class="user-motto">{{motto}}</text> -->
     <button class="login" bindtap="register">点这里立即查报告</button>
   </view>
-</view>
+</view> 

@@ -7,7 +7,8 @@ Page({
     userInfo: {
     },
     item:"images/logo.png",
-    name:"中金慈云"
+    name: "中金慈云", 
+    btn:"login"
   },
   //事件处理函数
   bindViewTap: function() {
@@ -45,6 +46,26 @@ Page({
         app.province = province
         app.country = country
         app.loginStatus=true
+        /*wx.request({
+          url: '/user/authorize/valSignature',//请求地址
+          data: {//发送给后台的数据
+            rawData:watermark,
+            // signature:,
+            // thirdSession:,
+          },
+          header: {//请求头
+            "Content-Type": "applciation/json"
+          },
+          method: "POST",//get为默认方法/POST
+          success: function (res) {//成功
+            console.log(res.data);
+  　　　　　　that.setData({
+    　　　　　　logs: res.data.result
+  　　　　　　})
+          },
+          fail: function (err) { },//请求失败
+          complete: function () { }//请求完成后执行的函数
+        })*/
       }
     })
   },

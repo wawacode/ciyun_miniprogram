@@ -2,15 +2,15 @@
   <view class="box_title">
     <!-- <view class="title">尊敬的用户</view>
     <view class="notes">请验证您的手机号码，完成微信绑定</view> -->
-    <image src="images/logo.png"></image>
-    <text>登录慈云·连接人与健康</text>
+    <image src="images/logo.png" class="logo"></image>
+    <image src="images/font.png" class="font"></image>
+    <!-- <text>中金慈云·连接人与健康</text> -->
   </view>
-<view class="container">
-  <input value="" type="text" placeholder="请输入手机号" class="tel" bindinput ="userNameInput"/>
-  <input value="" type="text" placeholder="请输入验证码" class="code" bindinput="Verification"/>
-
-  <!-- <button ></button> -->
-  <view class="btn" bindtap="code">{{verifyInfo}}</view>
-  <button class="login" bindtap="login">登录</button>
-  <button class="login" bindtap="nexts">下一步</button>
-</view>
+  <view class="container">
+    <input value="" type="text" placeholder="请输入手机号" class="tel" bindinput ="userNameInput"/>
+    <input value="" type="text" placeholder="请输入验证码" class="code" bindinput="Verification"/>
+    <view class="btn" bindtap="code">{{verifyInfo}}</view>
+    <button class="login" bindtap="nexts">{{state}}</button>
+    <!-- 如果手机号不存在则走这一步 -->
+    <!-- <button class="login" bindtap="nexts">下一步</button> -->
+  </view>

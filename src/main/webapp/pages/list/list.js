@@ -4,20 +4,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    array:[
-      {
-        mechanism: "航天中心医院",
-        time: "2017-08-28",
-        name: "张三"
-      }, {
-        mechanism: "航天中心医院",
-        time: "2017-08-28",
-        name: "张三"
-      }, {
-        mechanism: "航天中心医院",
-        time: "2017-08-28",
-        name: "张三"
-      }
+    // array:[
+    //   {
+    //     mechanism: "航天中心医院",
+    //     time: "2017-08-28",
+    //     name: "张三"
+    //   }, {
+    //     mechanism: "航天中心医院",
+    //     time: "2017-08-28",
+    //     name: "张三"
+    //   }, {
+    //     mechanism: "航天中心医院",
+    //     time: "2017-08-28",
+    //     name: "张三"
+    //   }
+    // ],
+    // currentTab:1
+    "result": 0,
+    "datas": [
+      { "id":"10001","medCorpName": "航天健康管理中心", "medDate": "2017-08-20", "name": "张三",},
+      { "id":10002,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
+      { "id":10003,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
+      { "id":10004,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "李四"}
     ]
   },
 
@@ -25,6 +33,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //载入时请求数据更新array和currentTab
+    // currentTab = 1表示没有体检报告，currentTab=0表示有体检报告
   },
 
   /**
@@ -81,9 +91,12 @@ Page({
       url: '../mechanism/mechanism',
     })
   },
-  details: function () {
+  details: function (e) {
+    var id = e.target.dataset.id
+    //将id值传给后台
+    console.log(id)
     wx.navigateTo({
-      url: "../detail/detail"
+      url: "../details/details"
     })
   }
 })

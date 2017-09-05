@@ -9,30 +9,43 @@
       <input type="text" value="{{username}}" bindblur="name"></input>
     </view>
   </view>
-  <view class="container_list">
+  <view class="container_list" bindtap="sex">
     <view class="container_left">性别</view>
-    <view class="container_right">
-    <radio-group class="radio-group" bindchange="radioChange">
+    <view class="container_right">{{gender}}
+    <!-- <radio-group class="radio-group" bindchange="radioChange">
       <label class="radio">
           <radio value="1" checked="{{male}}"/>男
           <radio value="2" checked="{{girl}}"/>女
       </label>
-    </radio-group>
+    </radio-group> -->
     </view>
   </view>
 
   <view class="container_list">
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
     <view class="container_left"> 年龄</view>
     <view class="container_right">
-      <input type="number" value="" bindblur="Age"></input>
+        <view class="picker">
+           {{array[index]}}<image src="images/next.png"></image>
+        </view>
     </view>
+   </picker>
   </view>
-
   <view class="container_list">
-    <view class="container_left"> 身高</view>
-    <view class="container_right">
-      <input type="number" value="" bindblur="height"></input>
-    </view>
+    <picker bindchange="bindPickerChange2" value="{{index2}}" range="{{array2}}">
+      <view class="container_left"> 身高(cm)</view>
+      <view class="container_right">
+        <!-- <input type="number" value="" bindblur="height"></input> -->
+         {{array2[index2]}}<image src="images/next.png"></image>
+      </view>
+      
+    </picker>
   </view>
-  <button class="login" bindtap="register">确定</button>
 </view>
+<button class="login" bindtap="register">确定</button>
+<action-sheet hidden="{{sexHidden}}" bindchange="sex">
+      <block wx:for-items="{{sex}}">
+          <action-sheet-item bindtap="bind{{item.bindtap}}">{{item.txt}}</action-sheet-item>
+      </block>
+      <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
+  </action-sheet>
