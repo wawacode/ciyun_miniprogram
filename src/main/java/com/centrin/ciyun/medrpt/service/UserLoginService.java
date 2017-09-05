@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.centrin.ciyun.common.constant.Constant;
@@ -17,12 +18,14 @@ import com.centrin.ciyun.common.util.SHA1;
 import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.common.util.SysParamUtil;
 import com.centrin.ciyun.common.util.VerifyCodeUtil;
+import com.centrin.ciyun.common.util.enums.LoginStatus;
 import com.centrin.ciyun.common.util.http.HttpUtils;
 import com.centrin.ciyun.entity.person.PerPersonMp;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.param.CommonParam;
 import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
+import com.centrin.ciyun.service.interfaces.person.DubboPerPersonService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
 
 @Service
@@ -35,6 +38,8 @@ public class UserLoginService {
 	private CiyunUrlUtil ciyunUrlUtil;
 	@Autowired
 	private PersonQueryService personQueryService;
+	@Autowired
+	private DubboPerPersonService dubboPerPersonService;
 	
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
@@ -90,7 +95,7 @@ public class UserLoginService {
 			personVo.setMpNum(sysParamUtil.getMpNum());
 			personVo.setSessionKey(sessionKey);
 			personVo.setPersonId(perPersonMp.getPersonId());
-			//step5: 将用户信息保存在session中
+			//step5: 用户绑定小程序的信息保存在session中
 			request.getSession().setAttribute(Constant.USER_SESSION, personVo);
 		}
 		
@@ -188,6 +193,7 @@ public class UserLoginService {
 	 * @param param 请求参数对象
 	 * @return
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public HttpResponse login(CommonParam param){
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
@@ -198,26 +204,104 @@ public class UserLoginService {
 			return res;
 		}
 		
-		//step2：从session查询用户是否存在
+		//step2：用户绑定小程序的信息存在于session中
 		PerPersonVo personVo = (PerPersonVo)param.getRequest().getSession().getAttribute(Constant.USER_SESSION);
-		if(personVo == null){
+		if(personVo != null){
 			//step2.1：存在，直接返回信息
-			//step2.2：不存在，调用添加用户的接口
-			//step3：
-			String openId = keyAndOpendId.split("#")[1];
+			res.setResult(ReturnCode.EReturnCode.OK.key);
+			res.setMessage(ReturnCode.EReturnCode.OK.value);
+			JSONObject datas = new JSONObject();
+			datas.put("isRegisterAndLogin", LoginStatus.ELoginStatus.LOGIN_ALREADY.key);
+			res.setDatas(datas);
+			return res;
 		}
 		
+		//step3: 校验短信验证码
+		validateSmsCode(param.getRequest().getSession(), res, param.getSmscode());
+		if(res.getResult() != ReturnCode.EReturnCode.OK.key){
+			return res;
+		}
+		
+		//step4：用户绑定小程序的信息不存在于session中
+		//调用添加用户的接口
+		//dubboPerPersonService
+		String personId = "";
+		String sessionKey = keyAndOpendId.split("#")[0];
+		String openId = keyAndOpendId.split("#")[1];
+		
+		//step5: 将绑定小程序的用户信息存储在session
+		addPersonVoToSession(param.getRequest().getSession(), openId, sessionKey, personId);
+		
+		if(1 == LoginStatus.ELoginStatus.REGISTER_NO.key){
+			res.setResult(ReturnCode.EReturnCode.OK.key);
+			res.setMessage(ReturnCode.EReturnCode.OK.value);
+			JSONObject datas = new JSONObject();
+			datas.put("isRegisterAndLogin", LoginStatus.ELoginStatus.REGISTER_NO.key);
+			res.setDatas(datas);
+		}else if(2 == LoginStatus.ELoginStatus.REGISTER_YES.key){
+			res.setResult(ReturnCode.EReturnCode.OK.key);
+			res.setMessage(ReturnCode.EReturnCode.OK.value);
+			JSONObject datas = new JSONObject();
+			datas.put("isRegisterAndLogin", LoginStatus.ELoginStatus.REGISTER_YES.key);
+			res.setDatas(datas);
+		}
 		
 		return res;
 	}
 	
+	/**
+	 * 校验短信验证码
+	 * @param session 会话对象
+	 * @param res 返回的封装对象
+	 * @param smsCode 短信验证码
+	 */
+	public void validateSmsCode(HttpSession session, HttpResponse res, String smsCode){
+		Object smsCodeSession = session.getAttribute(Constant.SMSCODE_SESSION);
+		if(smsCode == null || StringUtils.isEmpty(smsCodeSession.toString())){
+			res.setResult(ReturnCode.EReturnCode.DATA_NOT_EXISTS.key);
+			res.setMessage(ReturnCode.EReturnCode.DATA_NOT_EXISTS.value);
+			return;
+		}
+		
+		//校验短信验证码是否过期
+		if(System.currentTimeMillis()- Long.parseLong(smsCodeSession.toString().split("#")[1]) >= Constant.EFFECTIVE_TIME){
+			res.setResult(ReturnCode.EReturnCode.NOTE_IS_INVALID.key);
+			res.setMessage(ReturnCode.EReturnCode.NOTE_IS_INVALID.value);
+			return;
+		}
+		
+		if(!smsCodeSession.toString().equals(smsCode)){
+			res.setResult(ReturnCode.EReturnCode.NOTE_IS_WRONG.key);
+			res.setMessage(ReturnCode.EReturnCode.NOTE_IS_WRONG.value);
+			return;
+		}
+		
+	}
+	
+	/**
+	 * 将绑定小程序的用户信息存储在session
+	 * @param session 当前会话对象
+	 * @param openId 用户openId
+	 * @param sessionKey 小程序session_key
+	 * @param personId 用户ID
+	 */
+	public void addPersonVoToSession(HttpSession session, String openId, String sessionKey, String personId){
+		PerPersonVo personVo = new PerPersonVo();
+		personVo.setOpenId(openId);
+		personVo.setMpNum(sysParamUtil.getMpNum());
+		personVo.setSessionKey(sessionKey);
+		personVo.setPersonId(personId);
+		//用户绑定小程序的信息保存在session中
+		session.setAttribute(Constant.USER_SESSION, personVo);
+	}
 	
 	/**
 	 * 保存用户基本信息
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	public HttpResponse saveUserinfo(PersonBaseInfoParam param){
+	@Transactional(rollbackFor = Exception.class)
+	public HttpResponse saveUserinfo(PersonBaseInfoParam param) throws Exception{
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
 		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
@@ -227,8 +311,14 @@ public class UserLoginService {
 			return res;
 		}
 		String openId = keyAndOpendId.split("#")[1];
+		
+		//x
+		param.getNickname();
+		param.getAge();
+		param.getSex();
+		param.getHight();
 
-	
 		return res;
 	}
+
 }

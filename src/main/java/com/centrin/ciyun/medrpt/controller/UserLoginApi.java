@@ -111,7 +111,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		res = userLoginService.saveUserinfo(param);
+		try {
+			res = userLoginService.saveUserinfo(param);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key);
+		}
 		return res;
 	}
 
