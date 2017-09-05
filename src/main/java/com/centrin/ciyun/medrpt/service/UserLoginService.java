@@ -21,10 +21,10 @@ import com.centrin.ciyun.common.util.VerifyCodeUtil;
 import com.centrin.ciyun.common.util.enums.LoginStatus;
 import com.centrin.ciyun.common.util.http.HttpUtils;
 import com.centrin.ciyun.entity.person.PerPersonMp;
+import com.centrin.ciyun.medrpt.domain.req.CommonParam;
+import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
-import com.centrin.ciyun.medrpt.param.CommonParam;
-import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
 import com.centrin.ciyun.service.interfaces.person.DubboPerPersonService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
 
