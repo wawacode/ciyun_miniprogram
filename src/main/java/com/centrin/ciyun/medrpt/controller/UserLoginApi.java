@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centrin.ciyun.common.constant.ReturnCode;
+import com.centrin.ciyun.medrpt.domain.req.CommonParam;
+import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
-import com.centrin.ciyun.medrpt.param.CommonParam;
-import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
