@@ -1,6 +1,7 @@
 package com.centrin.ciyun.medrpt.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,16 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.common.util.CiyunUrlUtil;
 import com.centrin.ciyun.common.util.SHA1;
 import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.common.util.SysParamUtil;
 import com.centrin.ciyun.common.util.VerifyCodeUtil;
-import com.centrin.ciyun.common.util.http.HttpResponse;
 import com.centrin.ciyun.common.util.http.HttpUtils;
+import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.param.CommonParam;
+import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
 
 @Service
 public class UserLoginService {
@@ -83,15 +84,15 @@ public class UserLoginService {
 	}
 	
 	/**
-	 * 
-	 * @param param
+	 * 数据签名校验
+	 * @param param 请求参数对象
 	 * @param keyAndOpendId  保存在session中的sessionKey和用户的openid
 	 * @return
 	 */
 	public HttpResponse valSignature(CommonParam param){
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(param);
+		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
 			res.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key);
 			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
@@ -124,8 +125,8 @@ public class UserLoginService {
 	 * @param String sessionKey和openId的字符串
 	 * @return
 	 */
-	public String getKeyAndOpenIdStr(CommonParam param){
-		Object sessionValue = param.getRequest().getSession().getAttribute(param.getThirdSession());
+	public String getKeyAndOpenIdStr(HttpSession session, String thirdSession){
+		Object sessionValue = session.getAttribute(thirdSession);
 		if(sessionValue == null || StringUtils.isEmpty(sessionValue.toString())){
 			return "";
 		}
@@ -133,14 +134,14 @@ public class UserLoginService {
 	}
 	
 	/**
-	 * 
-	 * @param param
+	 * 发送短信验证码
+	 * @param param 请求参数对象
 	 * @return
 	 */
 	public HttpResponse validateNote(CommonParam param){
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(param);
+		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
 			res.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key);
 			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
@@ -149,15 +150,68 @@ public class UserLoginService {
 		
 		//step2: 发送短信验证码
 		String sendSmsUrl = ciyunUrlUtil.getSendSmsUrl();
-		String note = VerifyCodeUtil.getSmsCode();
-		logger.info("注册手机验证码：" + note);
+		String smscode = VerifyCodeUtil.getSmsCode();
+		logger.info("注册手机验证码：" + smscode);
 		JSONObject jsonParam = new JSONObject();
 		jsonParam.put("mobile", param.getTelephone());
-		jsonParam.put("message", "【慈云健康】" + note + "，您此次操作的验证码，2分钟内有效");
+		jsonParam.put("message", "【慈云健康】" + smscode + "，您此次操作的验证码，2分钟内有效");
+		param.getRequest().getSession().setAttribute("sessionTarget", smscode + "#" + System.currentTimeMillis());
+		res = HttpUtils.httpObject(HttpResponse.class, sendSmsUrl, jsonParam, "");
+		if(res.getResult() != ReturnCode.EReturnCode.OK.key){
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key);
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+		}
+		return res;
+	}
+	
+	/**
+	 * 用户注册/登录
+	 * @param param 请求参数对象
+	 * @return
+	 */
+	public HttpResponse login(CommonParam param){
+		HttpResponse res = new HttpResponse();
+		//step1: 获取session的sessionKey和openId的字符串
+		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
+		if(StringUtils.isEmpty(keyAndOpendId)){
+			res.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key);
+			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
+			return res;
+		}
 		
-		//HttpUtils.httpObject(resultClass, sendSmsUrl, jsonParam, "");
-		res.setResult(ReturnCode.EReturnCode.OK.key);
-		res.setMessage(ReturnCode.EReturnCode.OK.value);
+		//step2：调用查询用户是否存在？
+		//step2.1：存在，直接返回信息
+		//step2.2：不存在，调用添加用户的接口
+		//step3：
+		String openId = keyAndOpendId.split("#")[1];
+		
+		return res;
+	}
+	
+	
+	/**
+	 * 保存用户基本信息
+	 * @param param 请求参数对象
+	 * @return
+	 */
+	public HttpResponse saveUserinfo(PersonBaseInfoParam param){
+		HttpResponse res = new HttpResponse();
+		//step1: 获取session的sessionKey和openId的字符串
+		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
+		if(StringUtils.isEmpty(keyAndOpendId)){
+			res.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key);
+			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
+			return res;
+		}
+		
+		//step2：调用查询用户是否存在？
+		//step2.1：存在，直接返回信息
+		//step2.2：不存在，调用添加用户的接口
+		//step3：
+		String openId = keyAndOpendId.split("#")[1];
+		
+		
+	
 		return res;
 	}
 }

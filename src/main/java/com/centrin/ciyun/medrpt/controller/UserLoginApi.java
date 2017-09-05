@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centrin.ciyun.common.constant.ReturnCode;
-import com.centrin.ciyun.common.util.http.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.param.CommonParam;
+import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
@@ -74,6 +75,43 @@ public class UserLoginApi {
 			return res;
 		}
 		res = userLoginService.validateNote(param);
+		return res;
+	}
+	
+	/**
+	 * 用户注册/登录
+	 * @param param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/login")
+	public HttpResponse login(@RequestBody CommonParam param){
+		HttpResponse res = new HttpResponse();
+		if(param == null || StringUtils.isEmpty(param.getTelephone()) 
+				|| StringUtils.isEmpty(param.getThirdSession()) || StringUtils.isEmpty(param.getSmscode())){
+			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			return res;
+		}
+		res = userLoginService.login(param);
+		return res;
+	}
+	
+	/**
+	 * 保存用户基本信息
+	 * @param param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveUserinfo")
+	public HttpResponse saveUserinfo(@RequestBody PersonBaseInfoParam param){
+		HttpResponse res = new HttpResponse();
+		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
+			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			return res;
+		}
+		res = userLoginService.saveUserinfo(param);
 		return res;
 	}
 
