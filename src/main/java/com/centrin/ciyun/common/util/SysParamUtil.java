@@ -11,9 +11,18 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(ignoreUnknownFields = false, prefix = "miniprogram")
 public class SysParamUtil {
+	private String mpNum;//小程序原始ID
 	private String appId;//小程序的APPID
 	private String appSecret;//小程序的APPSECRET
 	private String sessionKeyUrl;//根据code获取session_key的请求地址
+	
+	/**
+	 * 小程序原始ID
+	 * @return
+	 */
+	public String getMpNum(){
+		return mpNum;
+	}
 	
 	/**
 	 * 小程序的APPID

@@ -66,15 +66,15 @@ public class UserLoginApi {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/validatenote")
-	public HttpResponse validateNote(@RequestBody CommonParam param){
+	@RequestMapping("/validsmscode")
+	public HttpResponse validateSmscode(@RequestBody CommonParam param){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		res = userLoginService.validateNote(param);
+		res = userLoginService.validateSmscode(param);
 		return res;
 	}
 	

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.common.util.CiyunUrlUtil;
 import com.centrin.ciyun.common.util.SHA1;
@@ -17,9 +18,12 @@ import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.common.util.SysParamUtil;
 import com.centrin.ciyun.common.util.VerifyCodeUtil;
 import com.centrin.ciyun.common.util.http.HttpUtils;
+import com.centrin.ciyun.entity.person.PerPersonMp;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.param.CommonParam;
 import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
+import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
 
 @Service
 public class UserLoginService {
@@ -29,6 +33,8 @@ public class UserLoginService {
 	private SysParamUtil sysParamUtil;
 	@Autowired
 	private CiyunUrlUtil ciyunUrlUtil;
+	@Autowired
+	private PersonQueryService personQueryService;
 	
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
@@ -69,11 +75,24 @@ public class UserLoginService {
 		String openId = json.getString("openid");
 		String sessionKey= json.getString("session_key");
 		
-		//step2: 生成会话key
+		//step2：生成会话key
 		String key = SequenceUtils.getTimeMillisSequence();
 		
-		//step3: 将sessionkey和openId存储在session中
+		//step3：将sessionkey和openId存储在session中
 		request.getSession().setAttribute(key, sessionKey + "#" +openId);
+		
+		//step4：根据openId和mpNum查询用户是否绑定了小程序
+		PersonQueryService personQueryService = null;
+		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
+		if(perPersonMp != null){
+			PerPersonVo personVo = new PerPersonVo();
+			personVo.setOpenId(openId);
+			personVo.setMpNum(sysParamUtil.getMpNum());
+			personVo.setSessionKey(sessionKey);
+			personVo.setPersonId(perPersonMp.getPersonId());
+			//step5: 将用户信息保存在session中
+			request.getSession().setAttribute(Constant.USER_SESSION, personVo);
+		}
 		
 		res.setResult(ReturnCode.EReturnCode.OK.key);
 		res.setMessage(ReturnCode.EReturnCode.OK.value);
@@ -138,7 +157,7 @@ public class UserLoginService {
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	public HttpResponse validateNote(CommonParam param){
+	public HttpResponse validateSmscode(CommonParam param){
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
 		String keyAndOpendId = getKeyAndOpenIdStr(param.getRequest().getSession(), param.getThirdSession());
@@ -155,7 +174,7 @@ public class UserLoginService {
 		JSONObject jsonParam = new JSONObject();
 		jsonParam.put("mobile", param.getTelephone());
 		jsonParam.put("message", "【慈云健康】" + smscode + "，您此次操作的验证码，2分钟内有效");
-		param.getRequest().getSession().setAttribute("sessionTarget", smscode + "#" + System.currentTimeMillis());
+		param.getRequest().getSession().setAttribute(Constant.SMSCODE_SESSION, smscode + "#" + System.currentTimeMillis());
 		res = HttpUtils.httpObject(HttpResponse.class, sendSmsUrl, jsonParam, "");
 		if(res.getResult() != ReturnCode.EReturnCode.OK.key){
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key);
@@ -179,11 +198,15 @@ public class UserLoginService {
 			return res;
 		}
 		
-		//step2：调用查询用户是否存在？
-		//step2.1：存在，直接返回信息
-		//step2.2：不存在，调用添加用户的接口
-		//step3：
-		String openId = keyAndOpendId.split("#")[1];
+		//step2：从session查询用户是否存在
+		PerPersonVo personVo = (PerPersonVo)param.getRequest().getSession().getAttribute(Constant.USER_SESSION);
+		if(personVo == null){
+			//step2.1：存在，直接返回信息
+			//step2.2：不存在，调用添加用户的接口
+			//step3：
+			String openId = keyAndOpendId.split("#")[1];
+		}
+		
 		
 		return res;
 	}
@@ -203,14 +226,8 @@ public class UserLoginService {
 			res.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
 		}
-		
-		//step2：调用查询用户是否存在？
-		//step2.1：存在，直接返回信息
-		//step2.2：不存在，调用添加用户的接口
-		//step3：
 		String openId = keyAndOpendId.split("#")[1];
-		
-		
+
 	
 		return res;
 	}
