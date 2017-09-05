@@ -1,6 +1,7 @@
 package com.centrin.ciyun.service.interfaces.hid;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centrin.ciyun.entity.hid.HidMedCorp;
 
@@ -65,4 +66,30 @@ public interface IDubboHidMedCorpService {
 	 *
 	 */
 	public List<HidMedCorp> getHidMedCorpList(int state, String hmoId);
+	
+	/**
+	 * 
+	 * <p>
+	 *  <li>按省份展示信息,此方法不区分机构，主要用于app和慈云微信找回报告功能</li>
+	 * </p>
+	 * @author yanxf
+	 * @since 1.0
+	 * @return
+	 *
+	 */
+	public Map<String, List<HidMedCorp>> queryHidMedCorpGroupAreaMap();
+	
+	/**
+	 * 
+	 * <p>
+	 *  <li>简述：根据体检中心ID和中心状态查询查询中心规则</li>
+	 * </p>
+	 * @author yanxf
+	 * @since 1.0
+	 * @param id 
+	 * @param state
+	 * @return
+	 *
+	 */
+	public HidMedCorp queryhidMedRules(String id, int state);
 }
