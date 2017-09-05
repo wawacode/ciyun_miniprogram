@@ -1,4 +1,4 @@
-package com.centrin.ciyun.common.util.http;
+package com.centrin.ciyun.medrpt.domain.resp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
