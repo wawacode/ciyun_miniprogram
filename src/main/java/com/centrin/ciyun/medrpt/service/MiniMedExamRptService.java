@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSON;
@@ -168,12 +169,13 @@ public class MiniMedExamRptService {
 	 * @return
 	 *
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public HttpResponse<HidMedCorpInfoVo>  queryhidMedRules(MedCorpRuleParam corpRuleParam) {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("MiniMedExamRptService#queryhidMedRules 参数信息为：" + (null == corpRuleParam ? "空" : corpRuleParam.toString()));
 		}
 		HttpResponse<HidMedCorpInfoVo> hidRuleResp = new HttpResponse<HidMedCorpInfoVo>();
-		if (StringUtils.isEmpty(corpRuleParam.getMedCorpId())) {
+		if (null == corpRuleParam || StringUtils.isEmpty(corpRuleParam.getMedCorpId())) {
 			LOGGER.error("参数medCorpId为空");
 			hidRuleResp.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			hidRuleResp.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -249,7 +251,7 @@ public class MiniMedExamRptService {
 		}
 		JSONObject jsonResp = new JSONObject();
 		jsonResp.put("result", ReturnCode.EReturnCode.OK.key.intValue());
-		if (StringUtils.isEmpty(medFindRptParam.getMedCorpId())) {
+		if (null == medFindRptParam || StringUtils.isEmpty(medFindRptParam.getMedCorpId())) {
 			LOGGER.error("参数medCorpId为空");
 			jsonResp.put("result", ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			jsonResp.put("message", ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -305,7 +307,7 @@ public class MiniMedExamRptService {
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
 			if (null == sr || sr.getResult() != 0) {
 				jsonResp.put("result", -1);
-				jsonResp.put("message", sr.getMsg());
+				jsonResp.put("message", null == sr ? ReturnCode.EReturnCode.SYSTEM_BUSY.value : sr.getMsg());
 				return jsonResp;
 			}
 			List<MedExamRpt> listMedExamRpt = (List<MedExamRpt>)sr.getParams();

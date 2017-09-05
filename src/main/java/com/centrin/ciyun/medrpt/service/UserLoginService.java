@@ -51,9 +51,9 @@ public class UserLoginService {
 		HttpResponse res = new HttpResponse();
 		//step1:给获取session_key地址的参数赋值
 		String sessionKeyUrl = sysParamUtil.getSessionKeyUrl();
-		sessionKeyUrl.replace("%APPID%", sysParamUtil.getAppId());
-		sessionKeyUrl.replace("%SECRET%", sysParamUtil.getAppSecret());
-		sessionKeyUrl.replace("%JSCODE%", code);
+		sessionKeyUrl = sessionKeyUrl.replace("%APPID%", sysParamUtil.getAppId());
+		sessionKeyUrl = sessionKeyUrl.replace("%SECRET%", sysParamUtil.getAppSecret());
+		sessionKeyUrl = sessionKeyUrl.replace("%JSCODE%", code);
 		String result = HttpUtils.sendHttpsUrl(sessionKeyUrl, "get");
 		if(StringUtils.isEmpty(result)){
 			logger.error("UserLoginService >> getThidSessionByCode >> result为空！");
