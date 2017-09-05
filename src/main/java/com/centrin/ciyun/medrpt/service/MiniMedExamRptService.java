@@ -62,6 +62,7 @@ import com.ciyun.rptgw.encrypt.Encryption;
  * @see 
  */
 @Service
+@SuppressWarnings("unchecked")
 public class MiniMedExamRptService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MiniMedExamRptService.class);
@@ -152,7 +153,7 @@ public class MiniMedExamRptService {
 	 */
 	public HttpResponse<Map<String, List<HidMedCorp>>>  listMedCorp() {
 		if (LOGGER.isInfoEnabled()) {
-			LOGGER.info("MiniMedExamRptService#viewRptDetail");
+			LOGGER.info("MiniMedExamRptService#listMedCorp");
 		}
 		HttpResponse<Map<String, List<HidMedCorp>>> medCorpDictResp = new HttpResponse<Map<String, List<HidMedCorp>>>();
 		medCorpDictResp.setDatas(iDubboHidMedCorpService.queryHidMedCorpGroupAreaMap());
