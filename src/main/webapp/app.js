@@ -5,8 +5,11 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
-
+    wx.login({
+      success: function (res) {
+        console.log(res.code)
+      }
+    });
   },
   getUserInfo: function (cb) {
     var that = this
@@ -18,11 +21,12 @@ App({
         withCredentials: false,
         success: function (res) {
           that.globalData.userInfo = res.userInfo
-          typeof cb == "function" && cb(that.globalData.userInfo)
+          // typeof cb == "function" && cb(that.globalData.userInfo)
         }
       })
     }
   },
+  
 
   globalData: {
     userInfo: null,
@@ -81,6 +85,7 @@ App({
 
     })
   },
+  
   test: function (str) {
     console.log(str);
   }

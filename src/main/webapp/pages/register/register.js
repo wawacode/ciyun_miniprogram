@@ -9,7 +9,10 @@ Page({
     Verification: "",
     verifyInfo: "获取验证码",
     isdisable: false,
+    color:'#bbbbbb',
+    background:"#d3d3d3",
     state:"下一步",
+    disabled: true,
     "result": 0,
     "message": "ok",
     "datas": {
@@ -80,7 +83,7 @@ Page({
   },
   //获取验证码
   code: function () {
-    console.log(this.data.userName)
+    console.log(11111)
     var that = this
     var count = 60;
     var re = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
@@ -92,41 +95,6 @@ Page({
       return false;
     } else {
       if (that.data.isdisable == false) {
-        // that.sendcode()
-       /* wx.request({
-          url: '/user/authorize/validsmscode',//请求地址
-          data: {//发送给后台的数据
-            telephone: that.data.userName
-            // thirdSession:,
-          },
-          header: {//请求头
-            "Content-Type": "applciation/json"
-          },
-          method: "POST",//get为默认方法/POST
-          success: function (res) {//成功
-            console.log(res.data);
-            wx.showModal({
-              title: "发送成功"
-            });
-            var timer = setInterval(function () {
-              count--;
-              if (count >= 1) {
-                that.setData({
-                  verifyInfo: count + 's'
-                })
-              } else {
-                that.setData({
-                  verifyInfo: '获取验证码'
-                })
-                clearInterval(timer);
-                that.data.isdisable = false;
-              }
-            }, 1000);
-            that.data.isdisable = true;
-          },
-          fail: function (err) { },//请求失败
-          complete: function () { }//请求完成后执行的函数
-        })*/
         wx.showModal({
           title: "发送成功"
         });
@@ -134,11 +102,14 @@ Page({
           count--;
           if (count >= 1) {
             that.setData({
-              verifyInfo: count + 's'
+              verifyInfo: count + 's',
+              color:'#6fba2c'
             })
           } else {
             that.setData({
-              verifyInfo: '获取验证码'
+              verifyInfo: '获取验证码',
+              color: '#bbbbbb',
+              background: "#6fba2c"
             })
             clearInterval(timer);
             that.data.isdisable = false;
@@ -150,9 +121,21 @@ Page({
   },
   //验证码
   Verification: function (e) {
-    this.setData({
-      Verification: e.detail.value
-    })
+    if (e.detail.value.length == 4) {
+      this.setData({
+        background: "#6fba2c",
+        disabled: false
+      })
+      this.setData({
+        Verification: e.detail.value
+      })
+    } else {
+      this.setData({
+        background: "#d3d3d3",
+        disabled: true
+      })
+    }
+    
   },
   //登录
   nexts: function () {

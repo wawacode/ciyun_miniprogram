@@ -7,10 +7,14 @@
     <!-- <text>中金慈云·连接人与健康</text> -->
   </view>
   <view class="container">
-    <input value="" type="text" placeholder="请输入手机号" class="tel" bindinput ="userNameInput"/>
-    <input value="" type="text" placeholder="请输入验证码" class="code" bindinput="Verification"/>
-    <view class="btn" bindtap="code">{{verifyInfo}}</view>
-    <button class="login" bindtap="nexts">{{state}}</button>
+    <view class="box">
+      <input value="" type="text" placeholder="请输入手机号" placeholder-style="color:#bbbbbb" class="tel" bindinput ="userNameInput"/>
+    </view>
+    <view class="box">
+      <input value="" type="text" placeholder="请输入验证码" placeholder-style="color:#bbbbbb" class="code" bindinput="Verification" bindblur="background"/> 
+    <view class="btn" style="color:{{color}};" bindtap="code">{{verifyInfo}}</view>
+    </view>
+    <button class="login" disabled="{{disabled}}" bindtap="nexts" style="background:{{background}}">{{state}}</button>
     <!-- 如果手机号不存在则走这一步 -->
     <!-- <button class="login" bindtap="nexts">下一步</button> -->
   </view>

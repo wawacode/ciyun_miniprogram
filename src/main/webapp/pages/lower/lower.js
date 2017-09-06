@@ -156,7 +156,6 @@ Page({
       index: this.data.array[e.detail.value]
     })
   },
-
 })
 
 
