@@ -14,9 +14,9 @@ public class UserLoginStatus {
 
 	public enum ELoginStatus {
 
-		REGISTER_NO(1, "未注册"), 
-		REGISTER_YES(2, "已注册"), 
-		LOGIN_ALREADY(3, "已登录");
+		REGISTER_NO(0, "未注册"), 
+		REGISTER_YES(1, "已注册"), 
+		LOGIN_ALREADY(2, "已登录");
 		
 		public String value;
 		public int key;

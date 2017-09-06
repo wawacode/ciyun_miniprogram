@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.centrin.ciyun.common.constant.Constant;
+import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.common.constant.ReturnCode.EReturnCode;
 import com.centrin.ciyun.common.util.CiyunUrlUtil;
 import com.centrin.ciyun.common.util.SHA1;
 import com.centrin.ciyun.common.util.SequenceUtils;
+import com.centrin.ciyun.common.util.SessionValidateUtil;
 import com.centrin.ciyun.common.util.SysParamUtil;
 import com.centrin.ciyun.common.util.VerifyCodeUtil;
 import com.centrin.ciyun.common.util.http.HttpUtils;
@@ -83,27 +85,32 @@ public class UserLoginService {
 		String sessionKey= json.getString("session_key");
 		
 		//step2：生成会话key
-		String key = SequenceUtils.getTimeMillisSequence();
+		String thirdSession = SequenceUtils.getTimeMillisSequence();
 		
-		//step3：将sessionkey和openId存储在session中
-		session.setAttribute(key, sessionKey + "#" +openId);
+		PerPersonVo personVo = new PerPersonVo();
+		personVo.setOpenId(openId);
+		personVo.setMpNum(sysParamUtil.getMpNum());
+		personVo.setSessionKey(sessionKey);
+		personVo.setThirdSession(thirdSession);
 		
 		//step4：根据openId和mpNum查询用户是否绑定了小程序
 		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
 		if(perPersonMp != null){
-			PerPersonVo personVo = new PerPersonVo();
-			personVo.setOpenId(openId);
-			personVo.setMpNum(sysParamUtil.getMpNum());
-			personVo.setSessionKey(sessionKey);
+			PerPerson person = personQueryService.getPersonByPersonId(perPersonMp.getPersonId());
 			personVo.setPersonId(perPersonMp.getPersonId());
-			//step5: 用户绑定小程序的信息保存在session中
-			session.setAttribute(Constant.USER_SESSION, personVo);
+			if(person != null){
+				personVo.setSex(person.getGender());
+				personVo.setTelephone(person.getMobile());
+				personVo.setUserName(person.getUserName());
+			}
 		}
+		//step5: 用户绑定小程序的信息保存在session中
+		session.setAttribute(Constant.USER_SESSION, personVo);
 		
 		res.setResult(EReturnCode.OK.key.intValue());
 		res.setMessage(EReturnCode.OK.value);
 		JSONObject datas = new JSONObject();
-		datas.put("thirdSession", key);
+		datas.put("thirdSession", thirdSession);
 		res.setDatas(datas);
 		return res;
 	}
@@ -116,9 +123,9 @@ public class UserLoginService {
 	 */
 	public HttpResponse valSignature(CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
-		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
-		if(StringUtils.isEmpty(keyAndOpendId)){
+		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
+		PerPersonVo personVo = SessionValidateUtil.getKeyAndOpenIdStr(session, param.getThirdSession());
+		if(null == personVo){
 			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
@@ -126,10 +133,10 @@ public class UserLoginService {
 		}
 		
 		//step2: 对用户数据加密
-		String signature2 = SHA1.getSHA1(param.getRawData() + keyAndOpendId.split("#")[0]);
+		String signature2 = SHA1.getSHA1(param.getRawData() + personVo.getSessionKey());
 		if(LOGGER.isInfoEnabled()){
 			LOGGER.info("UserLoginService >> valSignature >> 传输的签名参数为：" + param.getSignature());
-			LOGGER.info("UserLoginService >> valSignature >> 存储在会话的值为：" + keyAndOpendId);
+			LOGGER.info("UserLoginService >> valSignature >> sessionKey的值为：" + personVo.getSessionKey());
 			LOGGER.info("UserLoginService >> valSignature >> 加密后的签名为：" + signature2);
 		}
 		
@@ -166,9 +173,9 @@ public class UserLoginService {
 	 */
 	public HttpResponse validateSmscode(CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
-		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
-		if(StringUtils.isEmpty(keyAndOpendId)){
+		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
+		PerPersonVo personVo = SessionValidateUtil.getKeyAndOpenIdStr(session, param.getThirdSession());
+		if(null == personVo){
 			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
@@ -185,8 +192,7 @@ public class UserLoginService {
 		session.setAttribute(Constant.SMSCODE_SESSION, smscode + "#" + System.currentTimeMillis());
 		res = HttpUtils.httpObject(HttpResponse.class, sendSmsUrl, jsonParam, "");
 		if(res.getResult() != EReturnCode.OK.key.intValue()){
-			res.setResult(EReturnCode.SYSTEM_BUSY.key.intValue());
-			res.setMessage(EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(EReturnCode.NOTE_SEND_FAIL.key.intValue());
 		}
 		return res;
 	}
@@ -196,27 +202,33 @@ public class UserLoginService {
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	@Transactional(rollbackFor = Exception.class)
+	//@Transactional(rollbackFor=Exception.class)
 	public HttpResponse login(CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
-		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(request.getSession(), param.getThirdSession());
-		if(StringUtils.isEmpty(keyAndOpendId)){
+		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
+		PerPersonVo personVo = SessionValidateUtil.getKeyAndOpenIdStr(request.getSession(), param.getThirdSession());
+		if(null == personVo){
 			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
 		}
 		
-		//step2：用户绑定小程序的信息存在于session中
-		PerPersonVo personVo = (PerPersonVo)request.getSession().getAttribute(Constant.USER_SESSION);
-		if(personVo != null){
+		//step2：判断用户的personId是否有值，说明用户已经登录过
+		if(StringUtils.isNotEmpty(personVo.getPersonId())){
 			//step2.1：存在，直接返回信息
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
 			datas.put("isRegisterAndLogin", ELoginStatus.LOGIN_ALREADY.key);
 			res.setDatas(datas);
+			return res;
+		}
+		
+		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getSmscode())){
+			LOGGER.error("UserLoginApi >> login >> 请求手机号码或短信验证码为空");
+			res.setMessage("请求手机号码或短信验证码为空");
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		
@@ -228,9 +240,7 @@ public class UserLoginService {
 		
 		//step4：用户绑定小程序的信息不存在于session中
 		//调用添加用户的接口
-		String sessionKey = keyAndOpendId.split("#")[0];
-		String openId = keyAndOpendId.split("#")[1];
-		ServiceResult sr = dubboPerPersonService.weixinMinaBind(sysParamUtil.getMpNum(), openId, param.getTelephone(), request.getRemoteAddr());
+		ServiceResult sr = dubboPerPersonService.weixinMinaBind(sysParamUtil.getMpNum(), personVo.getOpenId(), param.getTelephone(), request.getRemoteAddr());
 			
 		if(sr.getResult() == EReturnCode.OK.key.intValue() || sr.getResult() == 1){ //未注册
 			res.setResult(EReturnCode.OK.key.intValue());
@@ -255,7 +265,7 @@ public class UserLoginService {
 		}
 		
 		//step5: 将绑定小程序的用户信息存储在session
-		addPersonVoToSession(request.getSession(), openId, sessionKey, person);
+		addPersonVoToSession(request.getSession(), personVo.getOpenId(), personVo.getSessionKey(), person);
 		
 		return res;
 	}
@@ -268,10 +278,10 @@ public class UserLoginService {
 	 */
 	public void validateSmsCode(HttpSession session, HttpResponse res, String smsCode){
 		Object smsCodeSession = session.getAttribute(Constant.SMSCODE_SESSION);
-		if(smsCode == null || StringUtils.isEmpty(smsCodeSession.toString())){
+		if(smsCodeSession == null || StringUtils.isEmpty(smsCodeSession.toString())){
 			LOGGER.error("慈云平台生成的sessionkey已失效");
-			res.setResult(EReturnCode.DATA_NOT_EXISTS.key);
-			res.setMessage(EReturnCode.DATA_NOT_EXISTS.value);
+			res.setResult(EReturnCode.NOTE_IS_INVALID.key);
+			res.setMessage(EReturnCode.NOTE_IS_INVALID.value);
 			return;
 		}
 		
@@ -283,7 +293,7 @@ public class UserLoginService {
 			return;
 		}
 		
-		if(!smsCodeSession.toString().equals(smsCode)){
+		if(!smsCodeSession.toString().split("#")[0].equals(smsCode)){
 			LOGGER.error(EReturnCode.NOTE_IS_WRONG.value);
 			res.setResult(EReturnCode.NOTE_IS_WRONG.key.intValue());
 			res.setMessage(EReturnCode.NOTE_IS_WRONG.value);
@@ -313,31 +323,24 @@ public class UserLoginService {
 	}
 	
 	/**
-	 * 保存用户基本信息
+	 * 修改用户基本信息
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	@Transactional(rollbackFor = Exception.class)
-	public HttpResponse saveUserinfo(PersonBaseInfoParam param, HttpSession session){
+	//@Transactional(rollbackFor=Exception.class)
+	public HttpResponse updateUserinfo(PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
-		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
-		if(StringUtils.isEmpty(keyAndOpendId)){
+		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
+		PerPersonVo personVo = SessionValidateUtil.getKeyAndOpenIdStr(session, param.getThirdSession());
+		if(null == personVo){
 			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
 		}
-		PerPersonVo personVo = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
-		if(personVo == null){
-			LOGGER.error("UserLoginService >> saveUserinfo >> personVo is null");
-			res.setResult(EReturnCode.SESSION_INFO_NOT_EXISTS.key.intValue());
-			res.setMessage(EReturnCode.SESSION_INFO_NOT_EXISTS.value);
-			return res;
-		}
 		
-		//修改用户信息
-		ServiceResult sr = dubboPerPersonService.updateBasicInfo(personVo.getPersonId(), param.getNickname(), null, null, null, 0, null, param.getSex() == null ? 3 : param.getSex().intValue(), param.getHight() == null? 0 :param.getHight().intValue(), 0, "", param.getNickname());
+		//step2：修改用户信息
+		ServiceResult sr = dubboPerPersonService.updateBasicInfo(personVo.getPersonId(), param.getNickName(), null, null, null, 0, null, param.getGender() == null ? 3 : param.getGender().intValue(), param.getHeight() == null? 0 :param.getHeight().intValue(), 0, "", param.getNickName());
 		if(sr.getResult() != EReturnCode.OK.key.intValue()){
 			res.setResult(EReturnCode.SYSTEM_BUSY.key.intValue());
 			res.setMessage(sr.getMsg());

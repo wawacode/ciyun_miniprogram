@@ -13,6 +13,7 @@ public final class ReturnCode {
         NOTE_UPPER_LIMIT(20003,"获取短信验证码超过上限"),
         PARAM_IS_NULL(20004,"请求参数为空"),
         NOTE_IS_INVALID(20005, "短信验证码过期"),
+        NOTE_SEND_FAIL(20005, "短信验证码发送失败"),
         
         THIRD_SESSION_KEY(30001,"第三方服务器会话key失效或不对 "),
         DATA_VALIDATE_FAIL(30002,"数据校验失败"),

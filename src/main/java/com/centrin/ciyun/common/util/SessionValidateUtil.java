@@ -24,16 +24,23 @@ public class SessionValidateUtil {
 	 */
 	public static PerPersonVo getKeyAndOpenIdStr(HttpSession session, String thirdSession){
 		PerPersonVo personVo = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
+		int count = 0;
 		if (null == personVo) {
 			if (LOGGER.isInfoEnabled()) {
 				LOGGER.info("当前会话已过期,请重新登录");
 			}
+			count++;
 		} else if (StringUtils.isEmpty(thirdSession) || StringUtils.isEmpty(personVo.getThirdSession())) {
 			LOGGER.error("会话中的thirdSession为空或从参数中获取的thirdSession为空");
+			count++;
 		} else if(!personVo.getThirdSession().equals(thirdSession)){
 			LOGGER.error("当前请求中传递的参数thirdSession与会话中的thirdSession不匹配，请确认当前操作是否合法");
+			count++;
 		}
-		session.invalidate();
+		if(count > 0){
+			session.invalidate();
+			return null;
+		}
 		return personVo;
 	}
 }
