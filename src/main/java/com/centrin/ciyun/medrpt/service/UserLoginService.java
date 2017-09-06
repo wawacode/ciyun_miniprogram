@@ -97,8 +97,8 @@ public class UserLoginService {
 		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
 		if(perPersonMp != null){
 			PerPerson person = personQueryService.getPersonByPersonId(perPersonMp.getPersonId());
-			personVo.setPersonId(perPersonMp.getPersonId());
 			if(person != null){
+				personVo.setPersonId(person.getPersonId());
 				personVo.setSex(person.getGender());
 				personVo.setTelephone(person.getMobile());
 				personVo.setUserName(person.getUserName());
@@ -265,7 +265,7 @@ public class UserLoginService {
 		}
 		
 		//step5: 将绑定小程序的用户信息存储在session
-		addPersonVoToSession(request.getSession(), personVo.getOpenId(), personVo.getSessionKey(), person);
+		addPersonToSession(request.getSession(), personVo, person);
 		
 		return res;
 	}
@@ -305,15 +305,10 @@ public class UserLoginService {
 	/**
 	 * 将绑定小程序的用户信息存储在session
 	 * @param session 当前会话对象
-	 * @param openId 用户openId
-	 * @param sessionKey 小程序session_key
-	 * @param personId 用户ID
+	 * @param personVo 用户输出对象
+	 * @param person 用户对象
 	 */
-	public void addPersonVoToSession(HttpSession session, String openId, String sessionKey, PerPerson person){
-		PerPersonVo personVo = new PerPersonVo();
-		personVo.setOpenId(openId);
-		personVo.setMpNum(sysParamUtil.getMpNum());
-		personVo.setSessionKey(sessionKey);
+	public void addPersonToSession(HttpSession session, PerPersonVo personVo, PerPerson person){
 		personVo.setPersonId(person.getPersonId());
 		personVo.setSex(person.getGender());
 		personVo.setTelephone(person.getMobile());
