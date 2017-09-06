@@ -53,7 +53,7 @@ public class UserLoginApi {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getThirdSession")
+	@RequestMapping("/valSignature")
 	public HttpResponse valSignature(@RequestBody CommonParam param){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getRawData()) || 
