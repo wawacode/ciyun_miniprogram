@@ -11,7 +11,7 @@ public final class ReturnCode {
         PHONE_IS_WRONG(20001, "手机号不对"),
         NOTE_IS_WRONG(20002, "短信验证码不对"),
         NOTE_UPPER_LIMIT(20003,"获取短信验证码超过上限"),
-        PARAM_IS_NULL(20004,"输入参数为空"),
+        PARAM_IS_NULL(20004,"请求参数为空"),
         NOTE_IS_INVALID(20005, "短信验证码过期"),
         
         THIRD_SESSION_KEY(30001,"第三方服务器会话key失效或不对 "),

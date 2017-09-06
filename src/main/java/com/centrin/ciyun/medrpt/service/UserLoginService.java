@@ -1,5 +1,6 @@
 package com.centrin.ciyun.medrpt.service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,7 @@ import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.common.util.SysParamUtil;
 import com.centrin.ciyun.common.util.VerifyCodeUtil;
 import com.centrin.ciyun.common.util.http.HttpUtils;
+import com.centrin.ciyun.entity.person.PerPerson;
 import com.centrin.ciyun.entity.person.PerPersonMp;
 import com.centrin.ciyun.enumdef.UserLoginStatus.ELoginStatus;
 import com.centrin.ciyun.medrpt.domain.req.CommonParam;
@@ -87,7 +89,6 @@ public class UserLoginService {
 		session.setAttribute(key, sessionKey + "#" +openId);
 		
 		//step4：根据openId和mpNum查询用户是否绑定了小程序
-		PersonQueryService personQueryService = null;
 		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
 		if(perPersonMp != null){
 			PerPersonVo personVo = new PerPersonVo();
@@ -118,6 +119,7 @@ public class UserLoginService {
 		//step1: 获取session的sessionKey和openId的字符串
 		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
+			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
@@ -167,6 +169,7 @@ public class UserLoginService {
 		//step1: 获取session的sessionKey和openId的字符串
 		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
+			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
@@ -194,18 +197,19 @@ public class UserLoginService {
 	 * @return
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public HttpResponse login(CommonParam param, HttpSession session){
+	public HttpResponse login(CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
 		//step1: 获取session的sessionKey和openId的字符串
-		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
+		String keyAndOpendId = getKeyAndOpenIdStr(request.getSession(), param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
+			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
 		}
 		
 		//step2：用户绑定小程序的信息存在于session中
-		PerPersonVo personVo = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
+		PerPersonVo personVo = (PerPersonVo)request.getSession().getAttribute(Constant.USER_SESSION);
 		if(personVo != null){
 			//step2.1：存在，直接返回信息
 			res.setResult(EReturnCode.OK.key.intValue());
@@ -217,25 +221,24 @@ public class UserLoginService {
 		}
 		
 		//step3: 校验短信验证码
-		validateSmsCode(session, res, param.getSmscode());
+		validateSmsCode(request.getSession(), res, param.getSmscode());
 		if(res.getResult() != EReturnCode.OK.key.intValue()){
 			return res;
 		}
 		
 		//step4：用户绑定小程序的信息不存在于session中
 		//调用添加用户的接口
-		//dubboPerPersonService
-		String personId = "";
 		String sessionKey = keyAndOpendId.split("#")[0];
 		String openId = keyAndOpendId.split("#")[1];
-		
-		if(1 == ELoginStatus.REGISTER_NO.key){
+		ServiceResult sr = dubboPerPersonService.weixinMinaBind(sysParamUtil.getMpNum(), openId, param.getTelephone(), request.getRemoteAddr());
+			
+		if(sr.getResult() == EReturnCode.OK.key.intValue() || sr.getResult() == 1){ //未注册
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
 			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_NO.key);
 			res.setDatas(datas);
-		}else if(2 == ELoginStatus.REGISTER_YES.key){
+		}else if(sr.getResult() == 9999){ //已注册
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
@@ -243,8 +246,16 @@ public class UserLoginService {
 			res.setDatas(datas);
 		}
 		
+		PerPerson person = (PerPerson)sr.getParams();
+		if(person == null){
+			LOGGER.error("UserLoginService >> login >> 调用dubbo添加用户的接口，返回的params is null");
+			res.setResult(EReturnCode.DATA_NOT_EXISTS.key.intValue());
+			res.setMessage(EReturnCode.DATA_NOT_EXISTS.value);
+			return res;
+		}
+		
 		//step5: 将绑定小程序的用户信息存储在session
-		addPersonVoToSession(session, openId, sessionKey, personId);
+		addPersonVoToSession(request.getSession(), openId, sessionKey, person.getPersonId());
 		
 		return res;
 	}
@@ -258,6 +269,7 @@ public class UserLoginService {
 	public void validateSmsCode(HttpSession session, HttpResponse res, String smsCode){
 		Object smsCodeSession = session.getAttribute(Constant.SMSCODE_SESSION);
 		if(smsCode == null || StringUtils.isEmpty(smsCodeSession.toString())){
+			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.DATA_NOT_EXISTS.key);
 			res.setMessage(EReturnCode.DATA_NOT_EXISTS.value);
 			return;
@@ -265,12 +277,14 @@ public class UserLoginService {
 		
 		//校验短信验证码是否过期
 		if(System.currentTimeMillis()- Long.parseLong(smsCodeSession.toString().split("#")[1]) >= Constant.EFFECTIVE_TIME){
+			LOGGER.error(EReturnCode.NOTE_IS_INVALID.value);
 			res.setResult(EReturnCode.NOTE_IS_INVALID.key.intValue());
 			res.setMessage(EReturnCode.NOTE_IS_INVALID.value);
 			return;
 		}
 		
 		if(!smsCodeSession.toString().equals(smsCode)){
+			LOGGER.error(EReturnCode.NOTE_IS_WRONG.value);
 			res.setResult(EReturnCode.NOTE_IS_WRONG.key.intValue());
 			res.setMessage(EReturnCode.NOTE_IS_WRONG.value);
 			return;
@@ -306,6 +320,7 @@ public class UserLoginService {
 		//step1: 获取session的sessionKey和openId的字符串
 		String keyAndOpendId = getKeyAndOpenIdStr(session, param.getThirdSession());
 		if(StringUtils.isEmpty(keyAndOpendId)){
+			LOGGER.error("慈云平台生成的sessionkey已失效");
 			res.setResult(EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;

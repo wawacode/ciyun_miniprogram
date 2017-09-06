@@ -1,5 +1,6 @@
 package com.centrin.ciyun.medrpt.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.medrpt.domain.req.CommonParam;
 import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
@@ -35,6 +38,7 @@ public class UserLoginApi {
 	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getCode())){
+			LOGGER.error("UserLoginApi >> getThidSession >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
@@ -60,6 +64,7 @@ public class UserLoginApi {
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getRawData()) || 
 				StringUtils.isEmpty(param.getSignature()) || StringUtils.isEmpty(param.getThirdSession())){
+			LOGGER.error("UserLoginApi >> valSignature >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
@@ -85,6 +90,7 @@ public class UserLoginApi {
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
+			LOGGER.error("UserLoginApi >> validateSmscode >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
@@ -106,16 +112,17 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/login")
-	public HttpResponse login(@RequestBody CommonParam param, HttpSession session){
+	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) 
 				|| StringUtils.isEmpty(param.getThirdSession()) || StringUtils.isEmpty(param.getSmscode())){
+			LOGGER.error("UserLoginApi >> login >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try{
-			res = userLoginService.login(param, session);
+			res = userLoginService.login(param, request);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
@@ -134,6 +141,7 @@ public class UserLoginApi {
 	public HttpResponse saveUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
+			LOGGER.error("UserLoginApi >> saveUserinfo >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
