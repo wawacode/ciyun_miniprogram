@@ -236,6 +236,10 @@ public class MiniMedExamRptService {
 					for (String idcard : cardTypeArray) {
 						if (hidCertificateMap.containsKey(idcard)) {
 							HidCertificates hidCertificate = hidCertificateMap.get(idcard);
+							//针对航天体检中心的特殊处理，目前只导入报告，航天只能根据体检号导入报告，门诊号是化验单报告的查询条件
+							if ("CYH3211204110000".equals(medCorp.getHmoId()) && 30 == hidCertificate.getCerId().intValue()) {
+								continue;
+							}
 							chooseRuleMap.put(idcard, hidCertificate.getCerName());
 						}
 					}
@@ -271,6 +275,7 @@ public class MiniMedExamRptService {
 			LOGGER.info("MiniMedExamRptService#queryMedRpt 参数信息为：" + (null == medFindRptParam ? "空" : medFindRptParam.toString()));
 		}
 		JSONObject jsonResp = new JSONObject();
+		jsonResp.put("rptSize", 0);
 		jsonResp.put("result", ReturnCode.EReturnCode.OK.key.intValue());
 		if (null == medFindRptParam || StringUtils.isEmpty(medFindRptParam.getMedCorpId())) {
 			LOGGER.error("参数medCorpId为空");
@@ -353,7 +358,7 @@ public class MiniMedExamRptService {
 				rptSize = 0;
 			}
 		}
-		jsonResp.put("rptsize", rptSize);
+		jsonResp.put("rptSize", rptSize);
 		return jsonResp;
 	}
 	
