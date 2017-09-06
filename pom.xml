@@ -18,6 +18,7 @@
 		<ojdbc14.version>10.2.0.3.0</ojdbc14.version>
 		<mybatis-spring-boot-starter.version>1.1.1</mybatis-spring-boot-starter.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
+		<zkclient.version>0.1</zkclient.version>
 		<ciyun.medrpt>1.1.1</ciyun.medrpt>
 
 		<rocketmq-client.version>3.5.9</rocketmq-client.version>
@@ -140,22 +141,35 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>${zookeeper.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
+		    <groupId>org.apache.zookeeper</groupId>
+		    <artifactId>zookeeper</artifactId>
+		    <version>${zookeeper.version}</version>
+		    <exclusions>
+            	<exclusion>    
+		            <groupId>junit</groupId>
+					<artifactId>junit</artifactId>   
+		        </exclusion>
+		        <exclusion>    
+		             <groupId>jline</groupId>
+					<artifactId>jline</artifactId>
+		        </exclusion>
+		        <exclusion>    
+		            <groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		        <exclusion>    
+		             <groupId>org.slf4j</groupId>
+					 <artifactId>slf4j-log4j12</artifactId>
+		        </exclusion>
+            </exclusions>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${zkclient.version}</version>
+		</dependency>
+		
 		<dependency>
   			<groupId>ciyun</groupId>
   			<artifactId>ciyun_rpt_dubbo_interface</artifactId>

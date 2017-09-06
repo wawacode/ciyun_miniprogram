@@ -38,6 +38,15 @@ public class MedRptApi {
 	@Autowired
 	private MiniMedExamRptService miniMedExamRptService;
 	
+	private void setPersonSession(HttpSession session) {
+		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
+		if (null == perPerson) {
+			perPerson = new PerPersonVo();
+			perPerson.setPersonId("p160526143010037");
+			session.setAttribute(Constant.USER_SESSION, perPerson);
+		}
+	}
+	
 	@RequestMapping("/list")
 	@ResponseBody
 	public HttpResponse<List<MedExamRpt>> list(@RequestBody BaseEntity rptEntity, HttpSession session){
@@ -49,6 +58,7 @@ public class MedRptApi {
 			return listResp;
 		}
 		try {
+			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			listResp = miniMedExamRptService.listRpt(perPerson.getPersonId());
 		} catch(Exception ex) {
@@ -65,6 +75,7 @@ public class MedRptApi {
 		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 		HttpResponse<MedReportDetail> reportDetailResp = null;
 		try {
+			setPersonSession(session);
 			reportDetailResp = miniMedExamRptService.viewRptDetail(perPerson.getPersonId(), medrptId);
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
@@ -86,6 +97,7 @@ public class MedRptApi {
 			return medCorpDictResp;
 		}
 		try {
+			setPersonSession(session);
 			medCorpDictResp = miniMedExamRptService.listMedCorp();
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
@@ -106,6 +118,7 @@ public class MedRptApi {
 			return medCorpRulesResp;
 		}
 		try {
+			setPersonSession(session);
 			medCorpRulesResp = miniMedExamRptService.queryhidMedRules(corpRuleParam);
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
@@ -126,6 +139,7 @@ public class MedRptApi {
 			return queryMedRptResp;
 		}
 		try {
+			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			medFindRptParam.setPersonId(perPerson.getPersonId());
 			JSONObject objResp = miniMedExamRptService.queryMedRpt(medFindRptParam);

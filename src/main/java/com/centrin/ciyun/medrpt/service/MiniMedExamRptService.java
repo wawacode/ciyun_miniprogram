@@ -79,7 +79,7 @@ public class MiniMedExamRptService {
 	private CiyunUrlUtil ciyunUrlUtil;
 	
 	@Autowired
-	private IDubboHidMedCorpService iDubboHidMedCorpService;
+	private IDubboHidMedCorpService dubboHidMedCorpService;
 	
 	@Autowired
 	private IDubboHidWxKeyService hidWxKeyService;
@@ -156,7 +156,7 @@ public class MiniMedExamRptService {
 			LOGGER.info("MiniMedExamRptService#listMedCorp");
 		}
 		HttpResponse<Map<String, List<HidMedCorp>>> medCorpDictResp = new HttpResponse<Map<String, List<HidMedCorp>>>();
-		medCorpDictResp.setDatas(iDubboHidMedCorpService.queryHidMedCorpGroupAreaMap());
+		medCorpDictResp.setDatas(dubboHidMedCorpService.queryHidMedCorpGroupAreaMap());
 		return medCorpDictResp;
 	}
 	
@@ -182,7 +182,7 @@ public class MiniMedExamRptService {
 			hidRuleResp.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			return hidRuleResp;
 		}
-		HidMedCorp medCorp = iDubboHidMedCorpService.queryhidMedRules(corpRuleParam.getMedCorpId(), 1);
+		HidMedCorp medCorp = dubboHidMedCorpService.queryhidMedRules(corpRuleParam.getMedCorpId(), 1);
 		if (null == medCorp) {
 			LOGGER.error("根据体检中心ID["+corpRuleParam.getMedCorpId()+"], 状态["+1+"]查询体检中心记录为空");
 			hidRuleResp.setResult(ReturnCode.EReturnCode.DATA_NOT_EXISTS.key.intValue());
@@ -269,7 +269,7 @@ public class MiniMedExamRptService {
 		ruleInfo.setUserName(medFindRptParam.getUserName());
 		ruleInfo.setIsFamily(false);
 		int rptSize = 0; //标示导入几份报告
-		HidMedCorp medCorp = iDubboHidMedCorpService.queryhidMedRules(medFindRptParam.getMedCorpId(), 1);
+		HidMedCorp medCorp = dubboHidMedCorpService.queryhidMedRules(medFindRptParam.getMedCorpId(), 1);
 		if (null == medCorp || StringUtils.isEmpty(medCorp.getRuleIds())) {
 			LOGGER.error("参数medCorp或ruleIds为空");
 			jsonResp.put("result", ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
