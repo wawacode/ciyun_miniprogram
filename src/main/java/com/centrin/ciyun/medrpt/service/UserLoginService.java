@@ -255,7 +255,7 @@ public class UserLoginService {
 		}
 		
 		//step5: 将绑定小程序的用户信息存储在session
-		addPersonVoToSession(request.getSession(), openId, sessionKey, person.getPersonId());
+		addPersonVoToSession(request.getSession(), openId, sessionKey, person);
 		
 		return res;
 	}
@@ -299,12 +299,15 @@ public class UserLoginService {
 	 * @param sessionKey 小程序session_key
 	 * @param personId 用户ID
 	 */
-	public void addPersonVoToSession(HttpSession session, String openId, String sessionKey, String personId){
+	public void addPersonVoToSession(HttpSession session, String openId, String sessionKey, PerPerson person){
 		PerPersonVo personVo = new PerPersonVo();
 		personVo.setOpenId(openId);
 		personVo.setMpNum(sysParamUtil.getMpNum());
 		personVo.setSessionKey(sessionKey);
-		personVo.setPersonId(personId);
+		personVo.setPersonId(person.getPersonId());
+		personVo.setSex(person.getGender());
+		personVo.setTelephone(person.getMobile());
+		personVo.setUserName(person.getUserName());
 		//用户绑定小程序的信息保存在session中
 		session.setAttribute(Constant.USER_SESSION, personVo);
 	}

@@ -1,8 +1,5 @@
 package com.centrin.ciyun.medrpt.domain.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -11,11 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class HidMedCorpVo {
-	private String city;
-	private List<CorpDetailVo> hidMedCorpList = new ArrayList<>();
+@AllArgsConstructor
+public class CorpDetailVo {
+	private String medCorpId;
+	private String corpName;
 	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
-import com.centrin.ciyun.entity.hid.HidMedCorp;
 import com.centrin.ciyun.entity.med.MedExamRpt;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
@@ -27,6 +26,7 @@ import com.centrin.ciyun.medrpt.domain.req.BaseEntity;
 import com.centrin.ciyun.medrpt.domain.req.MedCorpRuleParam;
 import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.HidMedCorpVo;
 import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.service.MiniMedExamRptService;
 
@@ -43,6 +43,9 @@ public class MedRptApi {
 		if (null == perPerson) {
 			perPerson = new PerPersonVo();
 			perPerson.setPersonId("p160526143010037");
+			perPerson.setSex(3);
+			perPerson.setTelephone("15818549310");
+			perPerson.setUserName("yanxf");
 			session.setAttribute(Constant.USER_SESSION, perPerson);
 		}
 	}
@@ -94,8 +97,8 @@ public class MedRptApi {
 	
 	@RequestMapping("/listMedCorp")
 	@ResponseBody
-	public HttpResponse<Map<String, List<HidMedCorp>>>  listMedCorp(@RequestBody BaseEntity rptEntity, HttpSession session) {
-		HttpResponse<Map<String, List<HidMedCorp>>> medCorpDictResp = new HttpResponse<Map<String, List<HidMedCorp>>>();
+	public HttpResponse<List<HidMedCorpVo>>  listMedCorp(@RequestBody BaseEntity rptEntity, HttpSession session) {
+		HttpResponse<List<HidMedCorpVo>> medCorpDictResp = new HttpResponse<List<HidMedCorpVo>>();
 		if (null == rptEntity || StringUtils.isEmpty(rptEntity.getThirdSession())) {
 			LOGGER.error("慈云平台生成的sessionkey已失效");
 			medCorpDictResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
@@ -125,6 +128,10 @@ public class MedRptApi {
 		}
 		try {
 			setPersonSession(session);
+			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
+			corpRuleParam.setTelephone(perPerson.getTelephone());
+			corpRuleParam.setSex(perPerson.getSex());
+			corpRuleParam.setUserName(perPerson.getUserName());
 			medCorpRulesResp = miniMedExamRptService.queryhidMedRules(corpRuleParam);
 		} catch(Exception ex) {
 			LOGGER.error("", ex);

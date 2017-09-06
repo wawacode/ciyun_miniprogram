@@ -12,7 +12,9 @@
  */
 package com.centrin.ciyun.medrpt.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSON;
@@ -43,6 +44,8 @@ import com.centrin.ciyun.enumdef.MedReportOperator.EMedReportOperator;
 import com.centrin.ciyun.medrpt.domain.req.MedCorpRuleParam;
 import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.CorpDetailVo;
+import com.centrin.ciyun.medrpt.domain.vo.HidMedCorpVo;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
@@ -151,12 +154,30 @@ public class MiniMedExamRptService {
 	 * @return
 	 *
 	 */
-	public HttpResponse<Map<String, List<HidMedCorp>>>  listMedCorp() {
+	public HttpResponse<List<HidMedCorpVo>>  listMedCorp() {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("MiniMedExamRptService#listMedCorp");
 		}
-		HttpResponse<Map<String, List<HidMedCorp>>> medCorpDictResp = new HttpResponse<Map<String, List<HidMedCorp>>>();
-		medCorpDictResp.setDatas(dubboHidMedCorpService.queryHidMedCorpGroupAreaMap());
+		HttpResponse<List<HidMedCorpVo>> medCorpDictResp = new HttpResponse<List<HidMedCorpVo>>();
+		Map<String, List<HidMedCorp>> hidMedCorpDict = dubboHidMedCorpService.queryHidMedCorpGroupAreaMap();
+		List<HidMedCorpVo> listMedCorpVo = new ArrayList<>();
+		if (hidMedCorpDict != null && !hidMedCorpDict.isEmpty()) {
+			for (Iterator<Map.Entry<String, List<HidMedCorp>>> iter = hidMedCorpDict.entrySet().iterator(); iter.hasNext(); ) {
+				Map.Entry<String, List<HidMedCorp>> entry = iter.next();
+				String key = entry.getKey();
+				String[] keyArray = key.split(",");
+				List<HidMedCorp> medCorpList = entry.getValue();
+				HidMedCorpVo medCorpVo = new HidMedCorpVo();
+				medCorpVo.setCity(keyArray[1]);
+				if (medCorpList != null && !medCorpList.isEmpty()) {
+					for (HidMedCorp medCorp : medCorpList) {
+						medCorpVo.getHidMedCorpList().add(new CorpDetailVo(medCorp.getMedCorpId(),medCorp.getCorpName()));
+					}
+				}
+				listMedCorpVo.add(medCorpVo);
+			} 
+		}
+		medCorpDictResp.setDatas(listMedCorpVo);
 		return medCorpDictResp;
 	}
 	
@@ -170,7 +191,6 @@ public class MiniMedExamRptService {
 	 * @return
 	 *
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public HttpResponse<HidMedCorpInfoVo>  queryhidMedRules(MedCorpRuleParam corpRuleParam) {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("MiniMedExamRptService#queryhidMedRules 参数信息为：" + (null == corpRuleParam ? "空" : corpRuleParam.toString()));
@@ -216,7 +236,7 @@ public class MiniMedExamRptService {
 					for (String idcard : cardTypeArray) {
 						if (hidCertificateMap.containsKey(idcard)) {
 							HidCertificates hidCertificate = hidCertificateMap.get(idcard);
-							chooseRuleMap.put("0"+idcard, hidCertificate.getCerName());
+							chooseRuleMap.put(idcard, hidCertificate.getCerName());
 						}
 					}
 					hidMedCorpRule.setRuleCardType(chooseRuleMap);
