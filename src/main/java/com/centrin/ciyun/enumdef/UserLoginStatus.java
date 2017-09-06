@@ -1,4 +1,4 @@
-package com.centrin.ciyun.common.util.enums;
+package com.centrin.ciyun.enumdef;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * @author
  * 
  */
-public class LoginStatus {
+public class UserLoginStatus {
 	public static Map<Integer, String> ENUMMAP = new LinkedHashMap<Integer, String>();
 
 	public enum ELoginStatus {

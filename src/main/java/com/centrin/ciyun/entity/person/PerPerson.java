@@ -6,8 +6,8 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
 import com.centrin.ciyun.common.util.PrettyDateFormat;
-import com.centrin.ciyun.common.util.enums.IdType;
 import com.centrin.ciyun.entity.hmo.HmoCorporation;
+import com.centrin.ciyun.enumdef.IdType;
 import com.centrin.ciyun.service.interfaces.hmo.HmoCorporationService;
 import com.centrin.webbase.CommonData;
 import com.centrin.webbase.WebContextWrapper;
