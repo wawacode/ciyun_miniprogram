@@ -1,4 +1,4 @@
-package com.centrin.ciyun.common.util.enums;
+package com.centrin.ciyun.enumdef;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;

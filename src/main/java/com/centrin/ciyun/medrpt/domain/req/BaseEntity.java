@@ -1,6 +1,7 @@
 package com.centrin.ciyun.medrpt.domain.req;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,6 @@ public class BaseEntity implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String thirdSession;//第三方服务器会话key
-	
 	private HttpServletRequest request;
+	private HttpSession session;
 }

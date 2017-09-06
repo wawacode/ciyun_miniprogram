@@ -1,6 +1,8 @@
 package com.centrin.ciyun.medrpt.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import com.centrin.ciyun.medrpt.service.UserLoginService;
 @RequestMapping("/user/authorize")
 public class UserLoginApi {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginApi.class);
 	@Autowired
 	private UserLoginService userLoginService;
 	
@@ -34,8 +37,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		
-		res = userLoginService.getThidSessionByCode(param.getCode(), param.getRequest());
+		try{
+			res = userLoginService.getThidSessionByCode(param.getCode(), param.getSession());
+		}catch(Exception ex){
+			LOGGER.error("", ex);
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
 		return res;
 	}
 	
@@ -54,8 +62,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		
-		res = userLoginService.valSignature(param);
+		try{
+			res = userLoginService.valSignature(param);
+		}catch(Exception ex){
+			LOGGER.error("", ex);
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
 		return res;
 		
 	}
@@ -74,7 +87,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		res = userLoginService.validateSmscode(param);
+		try{
+			res = userLoginService.validateSmscode(param);
+		}catch(Exception ex){
+			LOGGER.error("", ex);
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
 		return res;
 	}
 	
@@ -93,7 +112,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		res = userLoginService.login(param);
+		try{
+			res = userLoginService.login(param);
+		}catch(Exception ex){
+			LOGGER.error("", ex);
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
 		return res;
 	}
 	
@@ -113,10 +138,10 @@ public class UserLoginApi {
 		}
 		try {
 			res = userLoginService.saveUserinfo(param);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
-			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		return res;
 	}
