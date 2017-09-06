@@ -222,4 +222,13 @@ public interface DubboPerPersonService {
 		public ServiceResult login(String loginname, String pwd, String ip,
 				int type, String uuid, String deviceCode) ;
 	
+		/**
+		 * 微信小程序绑定
+		 * 
+		 * @param mpnum
+		 * @param openId
+		 * @param mobile
+		 * @return
+		 */
+		public ServiceResult weixinMinaBind(String mpnum, String openId, String mobile, String ip);
 }

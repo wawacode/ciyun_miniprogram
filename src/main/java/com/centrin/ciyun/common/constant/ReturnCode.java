@@ -21,7 +21,7 @@ public final class ReturnCode {
         DATA_SAVE_FAILED(30005,"数据入库失败"),
         SIGNATURE_IS_ERROR(30006,"签名错误"),
         DATA_NOT_EXISTS(30007, "查询数据不存在"),
-        
+        SESSION_INFO_NOT_EXISTS(30008, "会话用户信息不存在"),
         CODE_IS_WRONG(40029,"登录凭证code无效");
     	
         EReturnCode(Integer key, String value){

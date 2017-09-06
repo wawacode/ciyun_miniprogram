@@ -1,5 +1,7 @@
 package com.centrin.ciyun.medrpt.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +32,15 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/getThirdSession")
-	public HttpResponse getThidSession(@RequestBody CommonParam param){
+	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getCode())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
-			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try{
-			res = userLoginService.getThidSessionByCode(param.getCode(), param.getSession());
+			res = userLoginService.getThidSessionByCode(param.getCode(), session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
@@ -54,16 +56,16 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/valSignature")
-	public HttpResponse valSignature(@RequestBody CommonParam param){
+	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getRawData()) || 
 				StringUtils.isEmpty(param.getSignature()) || StringUtils.isEmpty(param.getThirdSession())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
-			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try{
-			res = userLoginService.valSignature(param);
+			res = userLoginService.valSignature(param, session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
@@ -80,15 +82,15 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/validsmscode")
-	public HttpResponse validateSmscode(@RequestBody CommonParam param){
+	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
-			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try{
-			res = userLoginService.validateSmscode(param);
+			res = userLoginService.validateSmscode(param, session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
@@ -104,16 +106,16 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/login")
-	public HttpResponse login(@RequestBody CommonParam param){
+	public HttpResponse login(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) 
 				|| StringUtils.isEmpty(param.getThirdSession()) || StringUtils.isEmpty(param.getSmscode())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
-			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try{
-			res = userLoginService.login(param);
+			res = userLoginService.login(param, session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
@@ -129,15 +131,15 @@ public class UserLoginApi {
 	 */
 	@ResponseBody
 	@RequestMapping("/saveUserinfo")
-	public HttpResponse saveUserinfo(@RequestBody PersonBaseInfoParam param){
+	public HttpResponse saveUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
-			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
+			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key.intValue());
 			return res;
 		}
 		try {
-			res = userLoginService.saveUserinfo(param);
+			res = userLoginService.saveUserinfo(param, session);
 		} catch (Exception ex) {
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
