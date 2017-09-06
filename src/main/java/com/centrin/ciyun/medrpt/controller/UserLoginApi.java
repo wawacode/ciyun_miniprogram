@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centrin.ciyun.common.constant.ReturnCode;
+import com.centrin.ciyun.medrpt.domain.req.CommonParam;
+import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
-import com.centrin.ciyun.medrpt.param.CommonParam;
-import com.centrin.ciyun.medrpt.param.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
@@ -111,7 +111,13 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.PARAM_IS_NULL.key);
 			return res;
 		}
-		res = userLoginService.saveUserinfo(param);
+		try {
+			res = userLoginService.saveUserinfo(param);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
+			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key);
+		}
 		return res;
 	}
 

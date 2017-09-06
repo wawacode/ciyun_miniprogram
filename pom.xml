@@ -187,7 +187,12 @@
 					 <artifactId>netty</artifactId>
 		        </exclusion>
             </exclusions>
-        </dependency> 			
+        </dependency>
+		<dependency>
+			<groupId>ciyun</groupId>
+			<artifactId>ciyun_rpt_encrypt_java</artifactId>
+			<version>${ciyun.medrpt}</version>
+		</dependency> 		
 	</dependencies>
 
 

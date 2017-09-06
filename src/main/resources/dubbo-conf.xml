@@ -11,14 +11,14 @@
 	<dubbo:protocol name="dubbo" port="20882"/>
 	<dubbo:annotation package="com.centrin.ciyun" />
 	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService" id = "iDubboHidMedCorpService"  timeout="10000"></dubbo:reference>
+	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService" id = "iDubboHidWxKeyService"  timeout="10000"></dubbo:reference>
 	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.hmo.HmoCorporationService" id = "hmoCorporationService"  timeout="10000"></dubbo:reference>
 	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.hid.IDubboHidExtrasTempleteService" id = "iDubboHidExtrasTempleteService"  timeout="10000"></dubbo:reference>
-	<!-- 用户信息相关接口 -->
+<!-- 用户信息相关接口 -->
 	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.DubboPerPersonService" id = "dubboPerPersonService"  timeout="10000">
 		<dubbo:method name="addPersonFromMedrpt" timeout="60000" retries="0"/>
 	</dubbo:reference>
-	<!-- <dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.PersonQueryService" id = "personQueryService"  timeout="10000"></dubbo:reference>
-	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.PersonApiService" id = "personApiService"  timeout="10000"></dubbo:reference> -->
+	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.PersonQueryService" id = "personQueryService"  timeout="10000"></dubbo:reference>
     <dubbo:reference interface="com.centrin.ciyun.service.interfaces.system.SystemParamCacheInterface" id = "systemParamCacheInterface" timeout="10000"></dubbo:reference>
     <dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.PersonQueryService" id = "personQueryService"  timeout="10000"></dubbo:reference>
 

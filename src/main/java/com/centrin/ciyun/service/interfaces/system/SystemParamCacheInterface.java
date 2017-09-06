@@ -34,4 +34,16 @@ public interface SystemParamCacheInterface {
 	 * @param personId
 	 */
 	public Map<String, Map> findAllEnumdef();
+	
+	/**
+	 * 
+	 * <p>
+	 *  <li>获取map类型的缓存</li>
+	 * </p>
+	 * @author yanxf
+	 * @since 1.0
+	 * @return
+	 *
+	 */
+	public Map<?, ?> getAllMap(String cacheType);
 }
