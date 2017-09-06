@@ -49,7 +49,7 @@ public class MedRptApi {
 		HttpResponse<List<MedExamRpt>>  listResp = new HttpResponse<List<MedExamRpt>>();
 		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, rptEntity.getThirdSession())) {
 			listResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
-			listResp.setMessage("sessionkey在慈云平台已过期");
+			listResp.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return listResp;
 		}
 		try {
@@ -72,7 +72,7 @@ public class MedRptApi {
 		HttpResponse<MedReportDetail> reportDetailResp = new HttpResponse<MedReportDetail>();
 		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, detailEntity.getThirdSession())) {
 			reportDetailResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
-			reportDetailResp.setMessage("sessionkey在慈云平台已过期");
+			reportDetailResp.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return reportDetailResp;
 		}
 		try {
@@ -96,7 +96,7 @@ public class MedRptApi {
 		HttpResponse<List<HidMedCorpVo>> medCorpDictResp = new HttpResponse<List<HidMedCorpVo>>();
 		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, rptEntity.getThirdSession())) {
 			medCorpDictResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
-			medCorpDictResp.setMessage("sessionkey在慈云平台已过期");
+			medCorpDictResp.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return medCorpDictResp;
 		}
 		try {
@@ -118,7 +118,7 @@ public class MedRptApi {
 		HttpResponse<HidMedCorpInfoVo> medCorpRulesResp = new HttpResponse<HidMedCorpInfoVo>();
 		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, corpRuleParam.getThirdSession())) {
 			medCorpRulesResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
-			medCorpRulesResp.setMessage("sessionkey在慈云平台已过期");
+			medCorpRulesResp.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return medCorpRulesResp;
 		}
 		try {
@@ -144,7 +144,7 @@ public class MedRptApi {
 		HttpResponse<Map<String, String>> queryMedRptResp = new HttpResponse<Map<String, String>>();
 		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, medFindRptParam.getThirdSession())) {
 			queryMedRptResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
-			queryMedRptResp.setMessage("sessionkey在慈云平台已过期");
+			queryMedRptResp.setMessage(ReturnCode.EReturnCode.THIRD_SESSION_KEY.value);
 			return queryMedRptResp;
 		}
 		try {
