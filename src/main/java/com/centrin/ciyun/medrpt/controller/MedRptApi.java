@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centrin.ciyun.common.checks.VisitCheck;
 import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
+import com.centrin.ciyun.common.util.SessionValidateUtil;
 import com.centrin.ciyun.entity.med.MedExamRpt;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
@@ -32,36 +33,26 @@ import com.centrin.ciyun.medrpt.service.MiniMedExamRptService;
 
 @RestController
 @RequestMapping("/user/medrpt")
+@VisitCheck(true)
 public class MedRptApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MedRptApi.class);
 	
 	@Autowired
 	private MiniMedExamRptService miniMedExamRptService;
 	
-	private void setPersonSession(HttpSession session) {
-		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
-		if (null == perPerson) {
-			perPerson = new PerPersonVo();
-			perPerson.setPersonId("p160526143010037");
-			perPerson.setSex(3);
-			perPerson.setTelephone("15818549310");
-			perPerson.setUserName("yanxf");
-			session.setAttribute(Constant.USER_SESSION, perPerson);
-		}
-	}
-	
 	@RequestMapping("/list")
 	@ResponseBody
 	public HttpResponse<List<MedExamRpt>> list(@RequestBody BaseEntity rptEntity, HttpSession session){
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("从前端获取的参数值{thridSession:" + rptEntity.getThirdSession()+"}");
+		}
 		HttpResponse<List<MedExamRpt>>  listResp = new HttpResponse<List<MedExamRpt>>();
-		if (null == rptEntity || StringUtils.isEmpty(rptEntity.getThirdSession())) {
-			LOGGER.error("慈云平台生成的sessionkey已失效");
+		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, rptEntity.getThirdSession())) {
 			listResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			listResp.setMessage("sessionkey在慈云平台已过期");
 			return listResp;
 		}
 		try {
-			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			listResp = miniMedExamRptService.listRpt(perPerson.getPersonId());
 		} catch(Exception ex) {
@@ -75,15 +66,16 @@ public class MedRptApi {
 	@RequestMapping("/detail/{id}")
 	@ResponseBody
 	public HttpResponse<MedReportDetail> viewRptDetail(@PathVariable("id") Long medrptId, @RequestBody BaseEntity detailEntity, HttpSession session) {
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("从前端获取的参数值{thridSession:" + detailEntity.getThirdSession()+", id:"+medrptId+"}");
+		}
 		HttpResponse<MedReportDetail> reportDetailResp = new HttpResponse<MedReportDetail>();
-		if (null == detailEntity || StringUtils.isEmpty(detailEntity.getThirdSession())) {
-			LOGGER.error("慈云平台生成的sessionkey已失效");
+		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, detailEntity.getThirdSession())) {
 			reportDetailResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			reportDetailResp.setMessage("sessionkey在慈云平台已过期");
 			return reportDetailResp;
 		}
 		try {
-			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			reportDetailResp = miniMedExamRptService.viewRptDetail(perPerson.getPersonId(), medrptId);
 		} catch(Exception ex) {
@@ -98,15 +90,16 @@ public class MedRptApi {
 	@RequestMapping("/listMedCorp")
 	@ResponseBody
 	public HttpResponse<List<HidMedCorpVo>>  listMedCorp(@RequestBody BaseEntity rptEntity, HttpSession session) {
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("从前端获取的参数值{thridSession:" + rptEntity.getThirdSession()+"}");
+		}
 		HttpResponse<List<HidMedCorpVo>> medCorpDictResp = new HttpResponse<List<HidMedCorpVo>>();
-		if (null == rptEntity || StringUtils.isEmpty(rptEntity.getThirdSession())) {
-			LOGGER.error("慈云平台生成的sessionkey已失效");
+		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, rptEntity.getThirdSession())) {
 			medCorpDictResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			medCorpDictResp.setMessage("sessionkey在慈云平台已过期");
 			return medCorpDictResp;
 		}
 		try {
-			setPersonSession(session);
 			medCorpDictResp = miniMedExamRptService.listMedCorp();
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
@@ -119,15 +112,16 @@ public class MedRptApi {
 	@RequestMapping("/queryRptRules")
 	@ResponseBody
 	public HttpResponse<HidMedCorpInfoVo>  queryRptRules(@RequestBody MedCorpRuleParam corpRuleParam, HttpSession session) {
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("从前端获取的参数值" + corpRuleParam.toString());
+		}
 		HttpResponse<HidMedCorpInfoVo> medCorpRulesResp = new HttpResponse<HidMedCorpInfoVo>();
-		if (null == corpRuleParam || StringUtils.isEmpty(corpRuleParam.getThirdSession())) {
-			LOGGER.error("慈云平台生成的sessionkey已失效");
+		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, corpRuleParam.getThirdSession())) {
 			medCorpRulesResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			medCorpRulesResp.setMessage("sessionkey在慈云平台已过期");
 			return medCorpRulesResp;
 		}
 		try {
-			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			corpRuleParam.setTelephone(perPerson.getTelephone());
 			corpRuleParam.setSex(perPerson.getSex());
@@ -144,15 +138,16 @@ public class MedRptApi {
 	@RequestMapping("/importRpt")
 	@ResponseBody
 	public HttpResponse<Map<String, String>> queryMedRpt(@RequestBody MedFindRptParam medFindRptParam, HttpSession session) {
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("从前端获取的参数值" + medFindRptParam.toString());
+		}
 		HttpResponse<Map<String, String>> queryMedRptResp = new HttpResponse<Map<String, String>>();
-		if (null == medFindRptParam || StringUtils.isEmpty(medFindRptParam.getThirdSession())) {
-			LOGGER.error("慈云平台生成的sessionkey已失效");
+		if (null == SessionValidateUtil.getKeyAndOpenIdStr(session, medFindRptParam.getThirdSession())) {
 			queryMedRptResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
 			queryMedRptResp.setMessage("sessionkey在慈云平台已过期");
 			return queryMedRptResp;
 		}
 		try {
-			setPersonSession(session);
 			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			medFindRptParam.setPersonId(perPerson.getPersonId());
 			JSONObject objResp = miniMedExamRptService.queryMedRpt(medFindRptParam);

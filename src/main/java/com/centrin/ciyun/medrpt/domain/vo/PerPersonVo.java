@@ -15,6 +15,7 @@ public class PerPersonVo implements java.io.Serializable {
 	private String sessionKey;//小程序的session_key
 	private String openId;//用户的openId
 	private String mpNum;//小程序原始ID
+	private String thirdSession; //慈云平台生成的sessionkey，用于客户端通过此值进行数据传递
 	private String personId;//用户ID
 	private String telephone; //用户登录手机号
 	private Integer sex = 3; //用户性别
