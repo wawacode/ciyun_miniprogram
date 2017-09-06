@@ -30,7 +30,7 @@ public class UserLoginApi {
 	@Autowired
 	private UserLoginService userLoginService;
 	
-	private void setPersonSession(HttpSession session) {
+	/*private void setPersonSession(HttpSession session) {
 		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 		if (null == perPerson) {
 			perPerson = new PerPersonVo();
@@ -38,18 +38,14 @@ public class UserLoginApi {
 			perPerson.setSex(3);
 			perPerson.setTelephone("15818549310");
 			perPerson.setUserName("yanxf");
+			
+			perPerson.setOpenId("o2V2_t0Iehxk0uDWMbF0x0000000");
+			perPerson.setSessionKey("HyVFkGl5F5OQWJZZaNzBBg==");
+			perPerson.setThirdSession("20170906151818847Z0000195845750015394");
 			session.setAttribute(Constant.USER_SESSION, perPerson);
 		}
 
-	}
-	
-	private void setThirdSession(HttpSession session) {
-		String openId = "o2V2_t0Iehxk0uDWMbF0x0000000";
-		String sessionKey= "HyVFkGl5F5OQWJZZaNzBBg==";
-		String key = "20170906151818847Z0000195845750015394";
-		
-		session.setAttribute(key, sessionKey + "#" +openId);
-	}
+	}*/
 	
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
@@ -82,7 +78,7 @@ public class UserLoginApi {
 	 * @param param 请求参数封装对象
 	 * @return
 	 */
-	@VisitCheck(true)
+	@VisitCheck(false)
 	@ResponseBody
 	@RequestMapping("/valSignature")
 	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
@@ -95,7 +91,7 @@ public class UserLoginApi {
 			return res;
 		}
 		try{
-			setThirdSession(session);
+			//setPersonSession(session);
 			res = userLoginService.valSignature(param, session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
@@ -111,7 +107,7 @@ public class UserLoginApi {
 	 * @param param 请求参数封装对象
 	 * @return
 	 */
-	@VisitCheck(true)
+	@VisitCheck(false)
 	@ResponseBody
 	@RequestMapping("/validsmscode")
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
@@ -123,7 +119,7 @@ public class UserLoginApi {
 			return res;
 		}
 		try{
-			setThirdSession(session);
+			//setPersonSession(session);
 			res = userLoginService.validateSmscode(param, session);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
@@ -138,7 +134,7 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(true)
+	@VisitCheck(false)
 	@ResponseBody
 	@RequestMapping("/login")
 	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
@@ -150,7 +146,7 @@ public class UserLoginApi {
 			return res;
 		}
 		try{
-			setThirdSession(request.getSession());
+			//setPersonSession(request.getSession());
 			res = userLoginService.login(param, request);
 		}catch(Exception ex){
 			LOGGER.error("", ex);
@@ -165,7 +161,7 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(true)
+	@VisitCheck(false)
 	@ResponseBody
 	@RequestMapping("/updateUserinfo")
 	public HttpResponse updateUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){

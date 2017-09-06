@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.centrin.ciyun.common.constant.Constant;
@@ -58,7 +57,7 @@ public class UserLoginService {
 		sessionKeyUrl = sessionKeyUrl.replace("%APPID%", sysParamUtil.getAppId());
 		sessionKeyUrl = sessionKeyUrl.replace("%SECRET%", sysParamUtil.getAppSecret());
 		sessionKeyUrl = sessionKeyUrl.replace("%JSCODE%", code);
-		String result = HttpUtils.sendHttpsUrl(sessionKeyUrl, "get");
+		String result = HttpUtils.sendHttpsUrl(sessionKeyUrl, "POST");
 		if(StringUtils.isEmpty(result)){
 			LOGGER.error("UserLoginService >> getThidSessionByCode >> result为空！");
 			res.setResult(EReturnCode.SYSTEM_BUSY.key.intValue());
@@ -78,6 +77,13 @@ public class UserLoginService {
 			LOGGER.error("UserLoginService >> getThidSessionByCode >> " + EReturnCode.CODE_IS_WRONG.value);
 			res.setResult(EReturnCode.CODE_IS_WRONG.key.intValue());
 			res.setMessage(EReturnCode.CODE_IS_WRONG.value);
+			return res;
+		}
+		
+		if(EReturnCode.CODE_IS_USED.key.intValue() == json.getIntValue("errcode")){
+			LOGGER.error("UserLoginService >> getThidSessionByCode >> " + EReturnCode.CODE_IS_USED.value);
+			res.setResult(EReturnCode.CODE_IS_USED.key.intValue());
+			res.setMessage(EReturnCode.CODE_IS_USED.value);
 			return res;
 		}
 		
@@ -133,10 +139,11 @@ public class UserLoginService {
 		}
 		
 		//step2: 对用户数据加密
-		String signature2 = SHA1.getSHA1(param.getRawData() + personVo.getSessionKey());
+		String signature2 = SHA1.getSHA1(JSONObject.toJSONString(param.getRawData()) + personVo.getSessionKey());
 		if(LOGGER.isInfoEnabled()){
 			LOGGER.info("UserLoginService >> valSignature >> 传输的签名参数为：" + param.getSignature());
-			LOGGER.info("UserLoginService >> valSignature >> sessionKey的值为：" + personVo.getSessionKey());
+			LOGGER.info("UserLoginService >> valSignature >> 用户数据：" + JSONObject.toJSONString(param.getRawData()));
+			LOGGER.info("UserLoginService >> valSignature >> 要加密的串：" + param.getRawData() + personVo.getSessionKey());
 			LOGGER.info("UserLoginService >> valSignature >> 加密后的签名为：" + signature2);
 		}
 		
@@ -202,7 +209,6 @@ public class UserLoginService {
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	//@Transactional(rollbackFor=Exception.class)
 	public HttpResponse login(CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
 		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
@@ -322,7 +328,6 @@ public class UserLoginService {
 	 * @param param 请求参数对象
 	 * @return
 	 */
-	//@Transactional(rollbackFor=Exception.class)
 	public HttpResponse updateUserinfo(PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		//step1: 校验用户会话：校验通过，返回用户信息对象；校验不通过，返回null
