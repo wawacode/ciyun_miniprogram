@@ -48,7 +48,7 @@ Page{
   height:60rpx;
   line-height: 60rpx;
   color:#000;
-  font-size:30rpx;
+  font-size:15px;
 }
 .list_mechanism{
   width:100%;
@@ -88,15 +88,13 @@ Page{
   overflow: hidden;
   padding-top:10rpx;
   padding-bottom:20rpx;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
   position: fixed;
   bottom: 0;
   left:0;
 }
-.btn{
-  width:40%;
-  color:#fff;
-  background:#76B400;
-}
+
 .title{
   display:block;
   float: left;

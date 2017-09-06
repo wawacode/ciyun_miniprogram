@@ -39,4 +39,14 @@ input,::after,::before{
     content: "";
     display: table;
 }
+.btn-wrap{
+  padding:0 30rpx 0 30rpx;
+
+}
+.btn{
+  color: #fff;
+  background: #6fba2c;
+  height: 88rpx;
+  line-height: 88rpx;
+}
 

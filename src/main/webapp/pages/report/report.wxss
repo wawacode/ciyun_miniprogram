@@ -92,7 +92,7 @@ page{
     
 }
 .app-form-item-btn{
-    padding: 10px 50rpx;
+    padding: 10px 30rpx;
     background: #f3f5f6;
 }
 .phcolor{

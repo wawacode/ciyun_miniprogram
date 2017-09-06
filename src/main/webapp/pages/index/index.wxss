@@ -33,7 +33,6 @@
   float: left;
   border:1rpx solid #95E300;
   width:94%;
-  height:100rpx;
   background: #6fba2c;
   color: #fff;
   position: fixed;

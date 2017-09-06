@@ -78,6 +78,8 @@
   background:#6fba2c;
   color:#fff;
   margin-top:210rpx;
+  height: 88rpx;
+  line-height: 88rpx;
 }
 .radio-group{
   width:100%;
