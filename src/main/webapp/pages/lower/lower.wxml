@@ -42,7 +42,10 @@
     </picker>
   </view>
 </view>
-<button class="login" bindtap="register">确定</button>
+<view class='btn-wrap'>
+<button class="login btn" bindtap="register">确定</button>
+</view>
+
 <action-sheet hidden="{{sexHidden}}" bindchange="sex">
       <block wx:for-items="{{sex}}">
           <action-sheet-item bindtap="bind{{item.bindtap}}">{{item.txt}}</action-sheet-item>

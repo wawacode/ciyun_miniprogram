@@ -6,6 +6,6 @@
   </view>
   <view class="usermotto">
     <!-- <text class="user-motto">{{motto}}</text> -->
-    <button class="login" bindtap="register">点这里立即查报告</button>
+    <button class="login btn" bindtap="register">点这里立即查报告</button>
   </view>
 </view> 

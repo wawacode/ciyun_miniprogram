@@ -111,8 +111,8 @@
   <!-- <view class="app-form-item-btn">
     <view type="button" name="search-import-btn" id="search-import-btn" class="app-btn-lg app-btn-save" bindtap="queryimport">查询并导入</view>
   </view> -->
-  <view class="app-form-item-btn">
-  <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
+  <view class="app-form-item-btn btn-wrap">
+  <button class='btn' size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
         disabled="{{disabled}}" bindtap="queryimport"> 查询并导入 </button>
         </view>
 </view>

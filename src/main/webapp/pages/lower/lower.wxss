@@ -21,10 +21,6 @@ page{
   margin-left: 40%
 }
 .login{
-  width:690rpx;
-  height:88rpx;
-  background:#6fba2c;
-  color:#fff;
   margin-top:40rpx;
 }
 .container_list{
