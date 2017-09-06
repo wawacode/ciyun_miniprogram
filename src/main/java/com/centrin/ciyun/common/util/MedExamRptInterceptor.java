@@ -81,6 +81,8 @@ public class MedExamRptInterceptor implements HandlerInterceptor {
 		if (needLogin) {
 			PerPersonVo perPerson = (PerPersonVo)request.getSession().getAttribute(Constant.USER_SESSION);
 			if (null == perPerson) {
+				response.setHeader("Content-type", "application/json; charset=UTF-8");
+				response.setCharacterEncoding("UTF-8");
 				HttpResponse<String> errResp = new HttpResponse<>();
 				errResp.setResult(ReturnCode.EReturnCode.SESSION_INFO_NOT_EXISTS.key.intValue());
 				errResp.setMessage(ReturnCode.EReturnCode.SESSION_INFO_NOT_EXISTS.value);

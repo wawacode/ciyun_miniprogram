@@ -32,7 +32,7 @@ import com.centrin.ciyun.common.util.MedExamRptInterceptor;
 public class RptInterceptorConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new MedExamRptInterceptor()).addPathPatterns("/user");
+		registry.addInterceptor(new MedExamRptInterceptor()).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 }
