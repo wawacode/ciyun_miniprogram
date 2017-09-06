@@ -71,11 +71,17 @@ public class MedRptApi {
 	
 	@RequestMapping("/detail/{id}")
 	@ResponseBody
-	public HttpResponse<MedReportDetail> viewRptDetail(@PathVariable("id") Long medrptId, HttpSession session) {
-		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
-		HttpResponse<MedReportDetail> reportDetailResp = null;
+	public HttpResponse<MedReportDetail> viewRptDetail(@PathVariable("id") Long medrptId, @RequestBody BaseEntity detailEntity, HttpSession session) {
+		HttpResponse<MedReportDetail> reportDetailResp = new HttpResponse<MedReportDetail>();
+		if (null == detailEntity || StringUtils.isEmpty(detailEntity.getThirdSession())) {
+			LOGGER.error("慈云平台生成的sessionkey已失效");
+			reportDetailResp.setResult(ReturnCode.EReturnCode.THIRD_SESSION_KEY.key.intValue());
+			reportDetailResp.setMessage("sessionkey在慈云平台已过期");
+			return reportDetailResp;
+		}
 		try {
 			setPersonSession(session);
+			PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 			reportDetailResp = miniMedExamRptService.viewRptDetail(perPerson.getPersonId(), medrptId);
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
