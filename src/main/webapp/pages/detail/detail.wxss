@@ -321,7 +321,7 @@ background-color: #fff;
     font-weight: bold;
 }
 .cap-lev2 {
-    background: #EDF6E5 url(http://devweixinpn.love-health.com.cn/style/user/images/title-2.png) 10px center no-repeat;
+    background: #EDF6E5;
     background-size: 24px;
     line-height: 32px;
     color: #40525C;
@@ -330,15 +330,15 @@ background-color: #fff;
     border-bottom: 1px solid #eee;
 }
 .cap-lev1 .readPicBtn {
-    right: 5px;
-    top: 5px;
+    right: 20px;
+    top: 10px;
 }
 .readPicBtn {
     display: block;
     position: absolute;
     z-index: 10;
-    height: 32px;
-    width: 44px;
+    height:22px;
+    width:30.25px;
     background: url(http://devweixinpn.love-health.com.cn/style/user/images/icon-phone.png) 0 0 no-repeat;
     background-size: 44px 32px;
 }
@@ -348,7 +348,6 @@ background-color: #fff;
     line-height: 24px;
     padding-left: 30px;
     font-weight: bold;
-    background: url(https://wx.ciyun.cn/style/user/images/title-2.png) 5px 0 no-repeat;
     background-size: 24px;
 }
 .lv-2-main,.lv-1-main {
@@ -362,11 +361,9 @@ background-color: #F4FAEF;
 .lv-1-tit em {
     display: block;
     line-height: 24px;
-    padding-left: 35px;
+    padding-left: 30px;
     font-weight: bold;
     color: #3F7E01;
-    background: url(http://devweixinpn.love-health.com.cn/style/user/images/item.png) 5px 0 no-repeat;
-    background-size: 24px;
 }
 .lv-1-doctor {
     text-align: right;

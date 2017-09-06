@@ -427,7 +427,7 @@
     <!-- 分表 -->
     <view class="detail-table first">
         <view class="detail-title">
-            <view class="cap-lev1">肛肠科<text  bindtap="previewImage" data-url="http://devweixinpn.love-health.com.cn/style/user/images/icon-phone.png" class="readPicBtn" title="图片预览"></text></view>
+            <view class="cap-lev1">肛肠科<image  bindtap="previewImage" src='images/previewImage.png' data-url="http://devweixinpn.love-health.com.cn/style/user/images/icon-phone.png" class="readPicBtn" title="图片预览"></image></view>
             <view class="cap-lev2">一般检查</view>
         </view>
         <view class="detail-body">
