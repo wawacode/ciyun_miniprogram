@@ -1,5 +1,7 @@
 package com.centrin.ciyun.medrpt.service;
 
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,7 @@ import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.common.constant.ReturnCode.EReturnCode;
 import com.centrin.ciyun.common.util.CiyunUrlUtil;
+import com.centrin.ciyun.common.util.DateHelper;
 import com.centrin.ciyun.common.util.SHA1;
 import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.common.util.SessionValidateUtil;
@@ -334,9 +337,16 @@ public class UserLoginService {
 			res.setMessage(EReturnCode.THIRD_SESSION_KEY.value);
 			return res;
 		}
+		String birthDay = null;
+		if(param.getAge() != null){
+			// step2：根据年龄获取用户的出生日期，出生日期不准确，接口那边要求
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.YEAR, -param.getAge().intValue());
+			birthDay = DateHelper.convertDateToString(cal.getTime(), DateHelper.sdf);
+		}
 		
-		//step2：修改用户信息
-		ServiceResult sr = dubboPerPersonService.updateBasicInfo(personVo.getPersonId(), param.getNickName(), null, null, null, 0, null, param.getGender() == null ? 3 : param.getGender().intValue(), param.getHeight() == null? 0 :param.getHeight().intValue(), 0, "", param.getNickName());
+		//step3：修改用户信息
+		ServiceResult sr = dubboPerPersonService.updateBasicInfo(personVo.getPersonId(), param.getNickName(), null, null, birthDay, 0, null, param.getGender() == null ? 3 : param.getGender().intValue(), param.getHeight() == null? 0 :param.getHeight().intValue(), 0, "", param.getNickName());
 		if(sr.getResult() != EReturnCode.OK.key.intValue()){
 			res.setResult(EReturnCode.SYSTEM_BUSY.key.intValue());
 			res.setMessage(sr.getMsg());

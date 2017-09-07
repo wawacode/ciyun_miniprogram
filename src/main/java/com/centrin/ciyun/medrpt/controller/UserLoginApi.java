@@ -9,14 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centrin.ciyun.common.checks.VisitCheck;
+import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
 import com.centrin.ciyun.medrpt.domain.req.CommonParam;
 import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
@@ -27,7 +30,7 @@ public class UserLoginApi {
 	@Autowired
 	private UserLoginService userLoginService;
 	
-	/*private void setPersonSession(HttpSession session) {
+	private void setPersonSession(HttpSession session) {
 		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 		if (null == perPerson) {
 			perPerson = new PerPersonVo();
@@ -42,7 +45,7 @@ public class UserLoginApi {
 			session.setAttribute(Constant.USER_SESSION, perPerson);
 		}
 
-	}*/
+	}
 	
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
@@ -51,7 +54,7 @@ public class UserLoginApi {
 	 */
 	@VisitCheck(false)
 	@ResponseBody
-	@RequestMapping("/getThirdSession")
+	@RequestMapping(value="/getThirdSession", method=RequestMethod.POST)
 	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getCode())){
@@ -77,7 +80,7 @@ public class UserLoginApi {
 	 */
 	@VisitCheck(true)
 	@ResponseBody
-	@RequestMapping("/valSignature")
+	@RequestMapping(value="/valSignature", method=RequestMethod.POST)
 	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || param.getRawData() == null || 
@@ -106,7 +109,7 @@ public class UserLoginApi {
 	 */
 	@VisitCheck(true)
 	@ResponseBody
-	@RequestMapping("/validsmscode")
+	@RequestMapping(value="/validsmscode", method=RequestMethod.POST)
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
@@ -133,7 +136,7 @@ public class UserLoginApi {
 	 */
 	@VisitCheck(true)
 	@ResponseBody
-	@RequestMapping("/login")
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
 		if(param == null || StringUtils.isEmpty(param.getThirdSession())){
@@ -158,9 +161,9 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(true)
+	@VisitCheck(false)
 	@ResponseBody
-	@RequestMapping("/updateUserinfo")
+	@RequestMapping(value="/updateUserinfo", method=RequestMethod.POST)
 	public HttpResponse updateUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
@@ -170,6 +173,7 @@ public class UserLoginApi {
 			return res;
 		}
 		try {
+			setPersonSession(session);
 			res = userLoginService.updateUserinfo(param, session);
 		} catch (Exception ex) {
 			LOGGER.error("", ex);

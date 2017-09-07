@@ -227,7 +227,7 @@
 							<!-- 生成的manifest中classpath的前缀,第三方jar在lib目录下,前缀是lib/ -->
 							<classpathPrefix>lib/</classpathPrefix>
 							<!-- 应用的main class -->
-							<mainClass>com.centrin.ciyun.cloud.Application</mainClass>
+							<mainClass>com.centrin.ciyun.Application</mainClass>
 							<!-- 过滤掉不希望包含在jar中的文件 -->
 						</manifest>
 					</archive>

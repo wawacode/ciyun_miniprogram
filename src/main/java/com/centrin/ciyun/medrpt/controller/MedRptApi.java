@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +40,7 @@ public class MedRptApi {
 	@Autowired
 	private MiniMedExamRptService miniMedExamRptService;
 	
-	@RequestMapping("/list")
+	@RequestMapping(value="/list", method=RequestMethod.POST)
 	@ResponseBody
 	public HttpResponse<List<MedExamRpt>> list(@RequestBody BaseEntity rptEntity, HttpSession session){
 		if (LOGGER.isInfoEnabled()) {
@@ -62,7 +63,7 @@ public class MedRptApi {
 		return listResp;
 	}
 	
-	@RequestMapping("/detail/{id}")
+	@RequestMapping(value="/detail/{id}", method=RequestMethod.POST)
 	@ResponseBody
 	public HttpResponse<MedReportDetail> viewRptDetail(@PathVariable("id") Long medrptId, @RequestBody BaseEntity detailEntity, HttpSession session) {
 		if (LOGGER.isInfoEnabled()) {
@@ -86,7 +87,7 @@ public class MedRptApi {
 		return reportDetailResp;
 	}
 	
-	@RequestMapping("/listMedCorp")
+	@RequestMapping(value="/listMedCorp", method=RequestMethod.POST)
 	@ResponseBody
 	public HttpResponse<List<HidMedCorpVo>>  listMedCorp(@RequestBody BaseEntity rptEntity, HttpSession session) {
 		if (LOGGER.isInfoEnabled()) {
@@ -109,7 +110,7 @@ public class MedRptApi {
 		return medCorpDictResp;
 	}
 	
-	@RequestMapping("/queryRptRules")
+	@RequestMapping(value="/queryRptRules", method=RequestMethod.POST)
 	@ResponseBody
 	public HttpResponse<HidMedCorpInfoVo>  queryRptRules(@RequestBody MedCorpRuleParam corpRuleParam, HttpSession session) {
 		if (LOGGER.isInfoEnabled()) {
@@ -135,7 +136,7 @@ public class MedRptApi {
 		return medCorpRulesResp;
 	}
 	
-	@RequestMapping("/importRpt")
+	@RequestMapping(value="/importRpt", method=RequestMethod.POST)
 	@ResponseBody
 	public HttpResponse<Map<String, String>> queryMedRpt(@RequestBody MedFindRptParam medFindRptParam, HttpSession session) {
 		if (LOGGER.isInfoEnabled()) {
