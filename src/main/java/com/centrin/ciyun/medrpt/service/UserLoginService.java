@@ -23,6 +23,7 @@ import com.centrin.ciyun.common.util.http.HttpUtils;
 import com.centrin.ciyun.entity.person.PerPerson;
 import com.centrin.ciyun.entity.person.PerPersonMp;
 import com.centrin.ciyun.enumdef.UserLoginStatus.ELoginStatus;
+import com.centrin.ciyun.enumdef.personStatus.EPersonStatus;
 import com.centrin.ciyun.medrpt.domain.req.CommonParam;
 import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
@@ -99,6 +100,9 @@ public class UserLoginService {
 		personVo.setSessionKey(sessionKey);
 		personVo.setThirdSession(thirdSession);
 		
+		JSONObject datas = new JSONObject();
+		datas.put("thirdSession", thirdSession);
+		
 		//step4：根据openId和mpNum查询用户是否绑定了小程序
 		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
 		if(perPersonMp != null){
@@ -109,14 +113,17 @@ public class UserLoginService {
 				personVo.setTelephone(person.getMobile());
 				personVo.setUserName(person.getUserName());
 			}
+			datas.put("personStatus", EPersonStatus.YES_LOGIN.key);
+		}else{
+			datas.put("personStatus", EPersonStatus.NOREG_AND_NOREG_NOLOG.key);
 		}
+		
 		//step5: 用户绑定小程序的信息保存在session中
+		session.removeAttribute(Constant.USER_SESSION);
 		session.setAttribute(Constant.USER_SESSION, personVo);
 		
 		res.setResult(EReturnCode.OK.key.intValue());
 		res.setMessage(EReturnCode.OK.value);
-		JSONObject datas = new JSONObject();
-		datas.put("thirdSession", thirdSession);
 		res.setDatas(datas);
 		return res;
 	}
@@ -220,17 +227,6 @@ public class UserLoginService {
 			return res;
 		}
 		
-		//step2：判断用户的personId是否有值，说明用户已经登录过
-		if(StringUtils.isNotEmpty(personVo.getPersonId())){
-			//step2.1：存在，直接返回信息
-			res.setResult(EReturnCode.OK.key.intValue());
-			res.setMessage(EReturnCode.OK.value);
-			JSONObject datas = new JSONObject();
-			datas.put("isRegisterAndLogin", ELoginStatus.LOGIN_ALREADY.key);
-			res.setDatas(datas);
-			return res;
-		}
-		
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getSmscode())){
 			LOGGER.error("UserLoginApi >> login >> 请求手机号码或短信验证码为空");
 			res.setMessage("请求手机号码或短信验证码为空");
@@ -252,13 +248,13 @@ public class UserLoginService {
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
-			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_NO.key);
+			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_FIRST);
 			res.setDatas(datas);
 		}else if(sr.getResult() == 9999){ //已注册
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
-			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_YES.key);
+			datas.put("isRegisterAndLogin", ELoginStatus.YES_REGISTER_NO_LOGIN);
 			res.setDatas(datas);
 		}
 		

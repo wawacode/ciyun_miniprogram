@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centrin.ciyun.common.checks.VisitCheck;
-import com.centrin.ciyun.common.constant.Constant;
 import com.centrin.ciyun.common.constant.ReturnCode;
-import com.centrin.ciyun.common.util.SequenceUtils;
 import com.centrin.ciyun.medrpt.domain.req.CommonParam;
 import com.centrin.ciyun.medrpt.domain.req.PersonBaseInfoParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
-import com.centrin.ciyun.medrpt.domain.vo.PerPersonVo;
 import com.centrin.ciyun.medrpt.service.UserLoginService;
 
 @RestController
@@ -78,7 +75,7 @@ public class UserLoginApi {
 	 * @param param 请求参数封装对象
 	 * @return
 	 */
-	@VisitCheck(false)
+	@VisitCheck(true)
 	@ResponseBody
 	@RequestMapping("/valSignature")
 	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
@@ -107,7 +104,7 @@ public class UserLoginApi {
 	 * @param param 请求参数封装对象
 	 * @return
 	 */
-	@VisitCheck(false)
+	@VisitCheck(true)
 	@ResponseBody
 	@RequestMapping("/validsmscode")
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
@@ -134,7 +131,7 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(false)
+	@VisitCheck(true)
 	@ResponseBody
 	@RequestMapping("/login")
 	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
@@ -161,7 +158,7 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(false)
+	@VisitCheck(true)
 	@ResponseBody
 	@RequestMapping("/updateUserinfo")
 	public HttpResponse updateUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
