@@ -58,7 +58,7 @@ public class UserLoginApi {
 	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> getThidSession >>请求参数：{}",param);
+			LOGGER.info("UserLoginApi >> getThidSession >> 从前端请求的参数：{}",param.toString());
 		}
 		if(param == null || StringUtils.isEmpty(param.getCode())){
 			LOGGER.error("UserLoginApi >> getThidSession >> 请求参数为空");
@@ -74,7 +74,7 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> getThidSession >> 返回信息：  {}",res);
+			LOGGER.info("UserLoginApi >> getThidSession >> 返回给前端的结果：  {}",res);
 		}
 		return res;
 	}
@@ -90,7 +90,7 @@ public class UserLoginApi {
 	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> valSignature >>请求参数：{}",param);
+			LOGGER.info("UserLoginApi >> valSignature >> 从前端请求的参数：{}",param.toString());
 		}
 		if(param == null || param.getRawData() == null || 
 				StringUtils.isEmpty(param.getSignature()) || StringUtils.isEmpty(param.getThirdSession())){
@@ -108,7 +108,7 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> valSignature >> 返回信息：  {}",res);
+			LOGGER.info("UserLoginApi >> valSignature >> 返回给前端的结果：  {}",res);
 		}
 		return res;
 		
@@ -125,7 +125,7 @@ public class UserLoginApi {
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> validateSmscode >>请求参数：{}",param);
+			LOGGER.info("UserLoginApi >> validateSmscode >> 从前端请求的参数：{}",param.toString());
 		}
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> validateSmscode >> 请求参数为空");
@@ -142,7 +142,7 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> validateSmscode >> 返回信息：  {}",res);
+			LOGGER.info("UserLoginApi >> validateSmscode >> 返回给前端的结果：  {}",res);
 		}
 		return res;
 	}
@@ -158,7 +158,7 @@ public class UserLoginApi {
 	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> login >>请求参数：{}",param);
+			LOGGER.info("UserLoginApi >> login >> 从前端请求的参数：{}",param.toString());
 		}
 		if(param == null || StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> login >> 请求参数thirdSession为空");
@@ -175,7 +175,7 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> login >> 返回信息：  {}",res);
+			LOGGER.info("UserLoginApi >> login >> 返回给前端的结果：  {}",res);
 		}
 		return res;
 	}
@@ -191,7 +191,7 @@ public class UserLoginApi {
 	public HttpResponse updateUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> updateUserinfo >>请求参数：{}",param);
+			LOGGER.info("UserLoginApi >> updateUserinfo >> 从前端请求的参数：{}",param.toString());
 		}
 		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> updateUserinfo >> 请求参数为空");
@@ -208,7 +208,7 @@ public class UserLoginApi {
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
 		if(LOGGER.isInfoEnabled()){
-			LOGGER.info("UserLoginApi >> updateUserinfo >> 返回信息：  {}",res);
+			LOGGER.info("UserLoginApi >> updateUserinfo >> 返回给前端的结果：  {}",res);
 		}
 		return res;
 	}
