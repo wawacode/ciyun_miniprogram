@@ -251,13 +251,13 @@ public class UserLoginService {
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
-			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_FIRST);
+			datas.put("isRegisterAndLogin", ELoginStatus.REGISTER_FIRST.key);
 			res.setDatas(datas);
 		}else if(sr.getResult() == 9999){ //已注册
 			res.setResult(EReturnCode.OK.key.intValue());
 			res.setMessage(EReturnCode.OK.value);
 			JSONObject datas = new JSONObject();
-			datas.put("isRegisterAndLogin", ELoginStatus.YES_REGISTER_NO_LOGIN);
+			datas.put("isRegisterAndLogin", ELoginStatus.YES_REGISTER_NO_LOGIN.key);
 			res.setDatas(datas);
 		}
 		

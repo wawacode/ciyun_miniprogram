@@ -1,5 +1,8 @@
 package com.centrin.ciyun.medrpt.domain.req;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +19,7 @@ public class CommonParam extends BaseEntity{
 	private String signature;//签名
 	private String medCorpId;//体检中心ID
 	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
+	}
 }

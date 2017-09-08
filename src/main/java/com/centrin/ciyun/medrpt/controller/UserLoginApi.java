@@ -30,7 +30,7 @@ public class UserLoginApi {
 	@Autowired
 	private UserLoginService userLoginService;
 	
-	private void setPersonSession(HttpSession session) {
+	/*private void setPersonSession(HttpSession session) {
 		PerPersonVo perPerson = (PerPersonVo)session.getAttribute(Constant.USER_SESSION);
 		if (null == perPerson) {
 			perPerson = new PerPersonVo();
@@ -45,7 +45,7 @@ public class UserLoginApi {
 			session.setAttribute(Constant.USER_SESSION, perPerson);
 		}
 
-	}
+	}*/
 	
 	/**
 	 * 根据小程序的登录授权code获取thirdSession
@@ -57,6 +57,9 @@ public class UserLoginApi {
 	@RequestMapping(value="/getThirdSession", method=RequestMethod.POST)
 	public HttpResponse getThidSession(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> getThidSession >>请求参数：{}",param);
+		}
 		if(param == null || StringUtils.isEmpty(param.getCode())){
 			LOGGER.error("UserLoginApi >> getThidSession >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -69,6 +72,9 @@ public class UserLoginApi {
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> getThidSession >> 返回信息：  {}",res);
 		}
 		return res;
 	}
@@ -83,6 +89,9 @@ public class UserLoginApi {
 	@RequestMapping(value="/valSignature", method=RequestMethod.POST)
 	public HttpResponse valSignature(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> valSignature >>请求参数：{}",param);
+		}
 		if(param == null || param.getRawData() == null || 
 				StringUtils.isEmpty(param.getSignature()) || StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> valSignature >> 请求参数为空");
@@ -98,6 +107,9 @@ public class UserLoginApi {
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> valSignature >> 返回信息：  {}",res);
+		}
 		return res;
 		
 	}
@@ -112,6 +124,9 @@ public class UserLoginApi {
 	@RequestMapping(value="/validsmscode", method=RequestMethod.POST)
 	public HttpResponse validateSmscode(@RequestBody CommonParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> validateSmscode >>请求参数：{}",param);
+		}
 		if(param == null || StringUtils.isEmpty(param.getTelephone()) || StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> validateSmscode >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -126,6 +141,9 @@ public class UserLoginApi {
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> validateSmscode >> 返回信息：  {}",res);
+		}
 		return res;
 	}
 	
@@ -139,6 +157,9 @@ public class UserLoginApi {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public HttpResponse login(@RequestBody CommonParam param, HttpServletRequest request){
 		HttpResponse res = new HttpResponse();
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> login >>请求参数：{}",param);
+		}
 		if(param == null || StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> login >> 请求参数thirdSession为空");
 			res.setMessage("请求参数thirdSession为空");
@@ -153,6 +174,9 @@ public class UserLoginApi {
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> login >> 返回信息：  {}",res);
+		}
 		return res;
 	}
 	
@@ -161,11 +185,14 @@ public class UserLoginApi {
 	 * @param param
 	 * @return
 	 */
-	@VisitCheck(false)
+	@VisitCheck(true)
 	@ResponseBody
 	@RequestMapping(value="/updateUserinfo", method=RequestMethod.POST)
 	public HttpResponse updateUserinfo(@RequestBody PersonBaseInfoParam param, HttpSession session){
 		HttpResponse res = new HttpResponse();
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> updateUserinfo >>请求参数：{}",param);
+		}
 		if(param == null ||  StringUtils.isEmpty(param.getThirdSession())){
 			LOGGER.error("UserLoginApi >> updateUserinfo >> 请求参数为空");
 			res.setMessage(ReturnCode.EReturnCode.PARAM_IS_NULL.value);
@@ -173,12 +200,15 @@ public class UserLoginApi {
 			return res;
 		}
 		try {
-			setPersonSession(session);
+			//setPersonSession(session);
 			res = userLoginService.updateUserinfo(param, session);
 		} catch (Exception ex) {
 			LOGGER.error("", ex);
 			res.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 			res.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
+		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("UserLoginApi >> updateUserinfo >> 返回信息：  {}",res);
 		}
 		return res;
 	}
