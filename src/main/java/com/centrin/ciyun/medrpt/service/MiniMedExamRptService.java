@@ -247,9 +247,9 @@ public class MiniMedExamRptService {
 					if (LOGGER.isInfoEnabled()) {
 						LOGGER.info("规则详情信息："+hidMedCorpRule.toString());
 					}
-					hidRuleResp.setDatas(hidMedCorpRule);
 				}
 			}
+			hidRuleResp.setDatas(hidMedCorpRule);
 		} else {
 			LOGGER.error("体检中心报告查询规则为空");
 			hidRuleResp.setResult(ReturnCode.EReturnCode.DATA_NOT_EXISTS.key.intValue());
