@@ -105,6 +105,7 @@ public class UserLoginService {
 		
 		JSONObject datas = new JSONObject();
 		datas.put("thirdSession", thirdSession);
+		datas.put("jSessionId", session.getId());
 		
 		//step4：根据openId和mpNum查询用户是否绑定了小程序
 		PerPersonMp perPersonMp = personQueryService.queryFromMpByOpenId(sysParamUtil.getMpNum(), openId);
