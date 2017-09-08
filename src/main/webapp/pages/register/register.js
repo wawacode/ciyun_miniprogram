@@ -106,6 +106,8 @@ Page({
   },
   callback: function (res){
     console.log(res.data)
+    var count = 60;
+    var that=this
     if(res.data.result==0){
       wx.showModal({
         title: "发送成功"

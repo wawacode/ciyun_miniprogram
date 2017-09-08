@@ -68,6 +68,7 @@ Page({
     })
     console.log(res.data.datas.thirdSession)
     app.thirdSession = res.data.datas.thirdSession
+    wx.setStorageSync('jSessionId',res.data.datas.jSessionId)
   },
   // 登录/注册
   register:function(){
