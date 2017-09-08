@@ -4,25 +4,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // array:[
-    //   {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }, {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }, {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }
-    // ],
     // currentTab:1
-    "result": 0,
+    "result": 1,
     "datas": [
-      { "id":"10001","medCorpName": "航天健康管理中心", "medDate": "2017-08-20", "name": "张三",},
+      { "id":10001,"medCorpName": "航天健康管理中心", "medDate": "2017-08-20", "name": "张三"},
       { "id":10002,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
       { "id":10003,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
       { "id":10004,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "李四"}
@@ -43,7 +28,6 @@ Page({
   onReady: function () {
   
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -96,7 +80,7 @@ Page({
     //将id值传给后台
     console.log(id)
     wx.navigateTo({
-      url: "../details/details"
+      url: "../detail/detail"
     })
   }
 })

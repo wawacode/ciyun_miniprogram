@@ -76,14 +76,13 @@ Page({
   },
   //手机号
   userNameInput: function (e) {
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
     this.setData({
       userName: e.detail.value
     })
   },
   //获取验证码
   code: function () {
-    console.log(11111)
     var that = this
     var count = 60;
     var re = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
@@ -95,28 +94,40 @@ Page({
       return false;
     } else {
       if (that.data.isdisable == false) {
-        wx.showModal({
-          title: "发送成功"
-        });
-        var timer = setInterval(function () {
-          count--;
-          if (count >= 1) {
-            that.setData({
-              verifyInfo: count + 's',
-              color:'#6fba2c'
-            })
-          } else {
-            that.setData({
-              verifyInfo: '获取验证码',
-              color: '#bbbbbb',
-              background: "#6fba2c"
-            })
-            clearInterval(timer);
-            that.data.isdisable = false;
-          }
-        }, 1000);
-        that.data.isdisable = true;
+        // console.log(this.data.userName)
+        var json={
+          telephone: this.data.userName,
+          thirdSession: getApp().thirdSession
+        }
+        console.log(json)
+        app.postCallBack('authorize/validsmscode', json, that.callback);
       }
+    }
+  },
+  callback: function (res){
+    console.log(res.data)
+    if(res.data.result==0){
+      wx.showModal({
+        title: "发送成功"
+      });
+      var timer = setInterval(function () {
+        count--;
+        if (count >= 1) {
+          that.setData({
+            verifyInfo: count + 's',
+            color: '#6fba2c'
+          })
+        } else {
+          that.setData({
+            verifyInfo: '获取验证码',
+            color: '#bbbbbb',
+            background: "#6fba2c"
+          })
+          clearInterval(timer);
+          that.data.isdisable = false;
+        }
+      }, 1000);
+      that.data.isdisable = true;
     }
   },
   //验证码

@@ -5,11 +5,6 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    wx.login({
-      success: function (res) {
-        console.log(res.code)
-      }
-    });
   },
   getUserInfo: function (cb) {
     var that = this
@@ -42,7 +37,7 @@ App({
     wx.showLoading({
       title: '加载中',
     });
-    var host = '/user/'+type;
+    var host = 'https://minirpt.ciyun.cn/user/'+type;
     switch (type) {
       case 'medrpt/list':
         break;
@@ -68,15 +63,14 @@ App({
     wx.request({
       url: host, //仅为示例，并非真实的接口地址
       data: data,
+      method:'POST',
       header: {
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res.data)
-        callback(res);
+        // callback(res);
       },
       fail: function (res) {
-        console.log(res)
       },
       complete: function (res) {
         wx.hideLoading();
