@@ -72,7 +72,7 @@ Page({
   },
   // 登录/注册
   register:function(){
-    // console.log(this.data.Return)
+    console.log(this.data.Return)
     var personStatus = this.data.Return.datas.personStatus;
     // console.log(personStatus)
     if (personStatus==0){

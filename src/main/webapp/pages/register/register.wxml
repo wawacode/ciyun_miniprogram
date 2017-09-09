@@ -11,7 +11,7 @@
       <input value="" type="text" placeholder="请输入手机号" placeholder-style="color:#bbbbbb" class="tel" bindinput ="userNameInput"/>
     </view>
     <view class="box">
-      <input value="" type="text" placeholder="请输入验证码" placeholder-style="color:#bbbbbb" class="code" bindinput="Verification" bindblur="background"/> 
+      <input value="" type="text" placeholder="请输入验证码" placeholder-style="color:#bbbbbb" class="code" bindinput="Verification"/> 
     <view class="btn" style="color:{{color}};" bindtap="code">{{verifyInfo}}</view>
     </view>
     <button class="login" disabled="{{disabled}}" bindtap="nexts" style="background:{{background}}">{{state}}</button>

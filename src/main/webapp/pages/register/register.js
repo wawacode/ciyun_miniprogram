@@ -13,17 +13,12 @@ Page({
     background:"#d3d3d3",
     state:"下一步",
     disabled: true,
-    "result": 0,
-    "message": "ok",
-    "datas": {
-      "isRegister": 0
-    }
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
   },
 
   /**
@@ -106,7 +101,7 @@ Page({
   },
   callback: function (res){
     console.log(res.data)
-    var count = 60;
+    var count = 120;
     var that=this
     if(res.data.result==0){
       wx.showModal({
@@ -128,13 +123,17 @@ Page({
           clearInterval(timer);
           that.data.isdisable = false;
         }
-      }, 1000);
+      },1000);
       that.data.isdisable = true;
+    } else if (result == 20006) {
+      wx.showModal({
+        title: "短信验证码发送失败"
+      })
     }
   },
   //验证码
   Verification: function (e) {
-    if (e.detail.value.length == 4) {
+    if (e.detail.value.length ==4 ) {
       this.setData({
         background: "#6fba2c",
         disabled: false
@@ -152,72 +151,90 @@ Page({
   },
   //登录
   nexts: function () {
-    console.log(this.data.datas.isRegister)
-    console.log(this.data.userName)
     var that=this
-    if (that.data.datas.isRegister == 0) {
-      // that.setData({
-      //   btn: 'nexts'
-      // })
-      var loginStatus = getApp().loginStatus;
-      if (!loginStatus) {
-        wx.openSetting({
-          //重新请求获取定位
-          success: function (res) {
-            // console.info(res.userInfo);
-            wx.getUserInfo({
-              lang: "zh_CN",
-              success: function (res) {
-                var userInfo = res.userInfo
-                // 敏感数据
-                var watermark = res.encryptedData;
-                console.log(watermark)
-                // 用户信息
-                var nickName = userInfo.nickName
-                var avatarUrl = userInfo.avatarUrl
-                var gender = userInfo.gender //性别 0：未知、1：男、2：女 
-                var province = userInfo.province
-                var city = userInfo.city
-                var country = userInfo.country
-                // console.log(gender + '......' + gender + '......' + avatarUrl + '......' + city + '......' + province + '......' + country)
-                app.gender = gender
-                app.nickName = nickName
-                app.avatarUrl = avatarUrl
-                app.city = city
-                app.province = province
-                app.country = country
-                // console.log(getApp().gender + '......' + getApp().nickName)
-                wx.navigateTo({
-                  url: "../lower/lower"
-                })
-              }
+    var json={
+      telephone: this.data.userName,
+      smscode: this.data.Verification,
+      thirdSession: getApp().thirdSession
+    }
+    console.log(json)
+    app.postCallBack('authorize/login', json, that.callback2);
+  },
+  callback2:function(res){
+    console.log(res)
+    var that = this
+    var result = res.data.result
+    console.log(result)
+    if (result==0){
+      console.log(res.data.datas.isRegisterAndLogin )
+      if (res.data.datas.isRegisterAndLogin == 0) {
+        // that.setData({
+        //   btn: 'nexts'
+        // })
+        var loginStatus = getApp().loginStatus;
+        console.log(loginStatus)
+        if (!loginStatus) {
+          wx.openSetting({
+            //重新请求获取定位
+            success: function (res) {
+              // console.info(res.userInfo);
+              wx.getUserInfo({
+                lang: "zh_CN",
+                success: function (res) {
+                  var userInfo = res.userInfo
+                  // 敏感数据
+                  var watermark = res.encryptedData;
+                  console.log(watermark)
+                  // 用户信息
+                  var nickName = userInfo.nickName
+                  var avatarUrl = userInfo.avatarUrl
+                  var gender = userInfo.gender //性别 0：未知、1：男、2：女 
+                  var province = userInfo.province
+                  var city = userInfo.city
+                  var country = userInfo.country
+                  // console.log(gender + '......' + gender + '......' + avatarUrl + '......' + city + '......' + province + '......' + country)
+                  app.gender = gender
+                  app.nickName = nickName
+                  app.avatarUrl = avatarUrl
+                  app.city = city
+                  app.province = province
+                  app.country = country
+                  console.log(getApp().gender + '......' + getApp().nickName)
+                  wx.reLaunch({
+                    url: "../lower/lower"
+                  })
+                }
+              })
+            }
+          })
+        } else {
+          wx.navigateTo({
+            url: "../lower/lower"
+          })
+        }
+      } else if (res.data.datas.isRegisterAndLogin == 1) {
+
+          if (result == 20001) {
+            wx.showModal({
+              title: "手机号不正确"
+            })
+          } else if (result == 20002) {
+            wx.showModal({
+              title: "短信验证码不正确"
+            })
+          } else if (result == 20003) {
+            wx.showModal({
+              title: "获取短信验证码超过上限"
+            })
+          } else if (result == 20005) {
+            wx.showModal({
+              title: "短信验证码过期"
             })
           }
-        })
-      } else {
         wx.navigateTo({
-          url: "../lower/lower"
-        })
+            url: '../list/list',
+          })
       }
-    } else if(that.data.datas.isRegister == 1) {
-      
-      var username = this.data.userName
-      var Verification = this.data.Verification
-      if (username == "") {
-        wx.showModal({
-          title: "请输入手机号"
-        });
-      } else if (Verification == '') {
-        wx.showModal({
-          title: "请输入验证码"
-        });
-      } else {
-        wx.reLaunch({
-          url: '../list/list',
-        })
-      }
-    }
-    
-    
-  },
+    } 
+  }
 })

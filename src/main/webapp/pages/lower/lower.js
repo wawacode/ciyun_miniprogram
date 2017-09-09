@@ -14,7 +14,6 @@ Page({
     sexHidden: true,
     gender: "",
     Age: "",
-    height: "",
     array: [10, 20, 30, 40, 50, 60],
     array2: [160, 161, 165, 170, 175, 180],
     index: "请选择年龄",
@@ -145,13 +144,42 @@ Page({
     })
   },
   register: function () {
-    wx.reLaunch({
-      url: '../list/list'
-    })
+    var avatarUrl = this.data.avatarUrl;
+    var username = this.data.username;
+    var gender = this.data.gender;
+    var index=this.data.index;
+    var index2=this.data.index2;
+    var that=this
+    var genderNumber
+    if (gender=="男"){
+      genderNumber=1
+    } else if (gender == "女"){
+      genderNumber = 2
+    }else{
+      genderNumber = 3
+    }
+    var json = {
+      nickName: username,
+      gender: genderNumber,
+      age:index,
+      height: index2, 
+      thirdSession: getApp().thirdSession
+    }
+    console.log(json)
+    app.postCallBack('authorize/updateUserinfo', json, that.callback);
+  },
+  callback:function(res){
+    console.log(res.data)
+    if (res.data.result==0){
+      wx.reLaunch({
+        url: '../list/list'
+      })
+    }
+    
   },
   bindPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    console.log(this.data.array[e.detail.value])
+    // console.log('picker发送选择改变，携带值为', e.detail.value)
+    // console.log(this.data.array[e.detail.value])
     this.setData({
       index: this.data.array[e.detail.value]
     })
