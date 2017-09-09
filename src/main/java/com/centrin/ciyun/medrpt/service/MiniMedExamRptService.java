@@ -36,9 +36,11 @@ import com.centrin.ciyun.entity.hid.HidCertificates;
 import com.centrin.ciyun.entity.hid.HidMedCorp;
 import com.centrin.ciyun.entity.hid.HidWxKey;
 import com.centrin.ciyun.entity.med.MedExamRpt;
+import com.centrin.ciyun.entity.med.MedExamRptSynthetic;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
+import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
 import com.centrin.ciyun.enumdef.ExamExtrasTempleteType.EExamExtrasTempleteType;
 import com.centrin.ciyun.enumdef.MedReportOperator.EMedReportOperator;
 import com.centrin.ciyun.medrpt.domain.req.MedCorpRuleParam;
@@ -46,6 +48,7 @@ import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.domain.vo.CorpDetailVo;
 import com.centrin.ciyun.medrpt.domain.vo.HidMedCorpVo;
+import com.centrin.ciyun.service.interfaces.bus.MedexamRptSyntheticInterface;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
@@ -93,6 +96,9 @@ public class MiniMedExamRptService {
 	@Autowired
 	private PersonQueryService personQueryService;
 	
+	@Autowired
+	private MedexamRptSyntheticInterface medexamRptSyntheticInterface;
+	
 	/**
 	 * 
 	 * <p>
@@ -115,6 +121,12 @@ public class MiniMedExamRptService {
 			return reportResp;
 		}
 		List<MedExamRpt> medExamRptList = iMedExamRptService.medPrimReportList(personId);
+		if (null == medExamRptList) {
+			MedExamRptSynthetic rptSynthetic = medexamRptSyntheticInterface.findExampleRptLab(MedExamRptSyntheticEnum.TableName.MED_EXAM_RPT);
+			if (rptSynthetic != null) {
+				medExamRptList = iMedExamRptService.queryByRptIds(new Object[]{Long.parseLong(rptSynthetic.getRealrptId())});
+			}
+		}
 		reportResp.setDatas(medExamRptList);
 		return reportResp;
 	}
@@ -321,7 +333,7 @@ public class MiniMedExamRptService {
 				message = jsonResult.getString("errMsg");
 				rptSize = jsonResult.getInteger("successCount") == null ? 0 : jsonResult.getIntValue("successCount");
 			}
-			jsonResp.put("result", result);
+			jsonResp.put("result", result != 0 ? ReturnCode.EReturnCode.OTHER_FAILED.key.intValue() : result);
 			jsonResp.put("message", message);
 			
 			//android微信访问时要记录数据库里面已经有的报告数
@@ -332,7 +344,7 @@ public class MiniMedExamRptService {
 		} else {//其他直接在慈云库中查询，然后修改对应表的记录
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
 			if (null == sr || sr.getResult() != 0) {
-				jsonResp.put("result", -1);
+				jsonResp.put("result", ReturnCode.EReturnCode.OTHER_FAILED.key.intValue());
 				jsonResp.put("message", null == sr ? ReturnCode.EReturnCode.SYSTEM_BUSY.value : sr.getMsg());
 				return jsonResp;
 			}
@@ -351,7 +363,7 @@ public class MiniMedExamRptService {
 				} catch (Exception ex) {
 					LOGGER.error("", ex);
 					rptSize = 0;
-					jsonResp.put("result", -1);
+					jsonResp.put("result", ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 					jsonResp.put("message", "体检报告找回失败");
 				}
 			} else {

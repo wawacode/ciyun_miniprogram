@@ -24,7 +24,8 @@ public final class ReturnCode {
         DATA_NOT_EXISTS(30007, "查询数据不存在"),
         SESSION_INFO_NOT_EXISTS(30008, "会话用户信息不存在"),
         CODE_IS_WRONG(40029,"登录凭证code不正确"),
-    	CODE_IS_USED(40163,"登录凭证code已被使用");
+    	CODE_IS_USED(40163,"登录凭证code已被使用"),
+    	OTHER_FAILED(50001, "其他错误");
     	
         EReturnCode(Integer key, String value){
             this.key = key;
