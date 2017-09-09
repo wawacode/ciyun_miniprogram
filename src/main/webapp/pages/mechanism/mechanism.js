@@ -18,65 +18,6 @@ Page({
     currentTab: 0,
     hover_class: "",
     second_height: "",
-    province: [
-      {
-        message: '北京',
-      }, {
-        message: '上海'
-      }, {
-        message: '天津',
-      }, {
-        message: '重庆'
-      }, {
-        message: '河北',
-      }, {
-        message: '河南'
-      }, {
-        message: '云南'
-      }, {
-        message: '辽宁',
-      }, {
-        message: '海南'
-      }, {
-        message: '黑龙江',
-      }, {
-        message: '湖北'
-      }, {
-        message: '吉林'
-      }, {
-        message: '广西',
-      }, {
-        message: '山东'
-      }, {
-        message: '山西',
-      }, {
-        message: '江苏'
-      }, {
-        message: '浙江'
-      }, {
-        message: '安徽',
-      }, {
-        message: '福建'
-      }, {
-        message: '江西',
-      }, {
-        message: '广东'
-      }
-    ],
-    mechanism: [
-      {
-        property: [
-          { name: '中国人民解放军第三0六医院' },
-          { name: '航天中心医院' }
-        ]
-      },
-      {
-        property: [
-          { name: '奥术大师大所' },
-          { name: '奥术大师大所大所' }
-        ]
-      }
-    ],
     data: [
       {
         "city": "北京市",
@@ -113,22 +54,12 @@ Page({
     })
   },
   onLoad: function () {
-    console.log('onLoad')
     var that = this
     //微信获取设备可用高度
-    wx.getSystemInfo({
-      success: function (res) {
-        console.log(res);
-        // 可使用窗口宽度、高度
-        console.log('height=' + res.windowHeight);
-        console.log('width=' + res.windowWidth);
-        // 计算主体部分高度,单位为px
-        that.setData({
-          // second部分高度 = 利用窗口可使用高度 - first部分高度（这里的高度单位为px，所有利用比例将300rpx转换为px）
-          second_height: res.windowHeight + 'px'
-        })
-      }
+    this.setData({
+      second_height: app.globalData.deviceHeigth + "px"
     });
+
     // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
     wx.getSetting({
       success(res) {
@@ -166,9 +97,19 @@ Page({
         console.log(res);
       }
     });
-    console.log(app);
+    wx.checkSession({
+      success: function () {
+        //session 未过期，并且在本生命周期一直有效
+        console.log('未过期')
+      },
+      fail: function () {
+        //登录态过期
+        console.log('过期')
+        wx.login() //重新登录
+      }
+    })
     //页面请求接口；
-    //app.postCallBack('medrpt/detail');
+    app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
   },
   navbarTap: function (e) {
 
@@ -177,10 +118,25 @@ Page({
       currentTab: e.target.dataset.idx
     })
   },
+  //
+  callBack: function (data) {
+    console.log(data);
+    var status = data.result;
+    if (status == 0){
+      app.showToast("手机号不正确");
+      this.setData({
+        data: data.datas
+      })
+    } else{
+      app.showToast(res.data.message);
+    }
+
+  },
   //全部订单
   importPage: function (e) {
     var medcorpid = e.currentTarget.dataset.medcorpid;
     console.log(medcorpid);
+    wx.setStorageSync('medcorpid', medcorpid);
     wx.navigateTo({
       url: '../report/report' + "?medcorpid=" + medcorpid
     })

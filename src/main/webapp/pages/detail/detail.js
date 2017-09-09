@@ -1,4 +1,6 @@
 // pages/detail/detail.js
+//获取应用实例
+var app = getApp();
 Page({
 
   /**
@@ -88,7 +90,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.setReportListHeight();
+    app.postCallBack('medrpt/detail/269590', { thirdSession: wx.getStorageSync('thirdSession')}, function (data) {
+      console.log(data);
+    });
+  },
+  // 设置项目列表高度
+  setReportListHeight:function(){
+    this.setData({
+      reportListHeight: app.globalData.deviceHeigth + "px"
+    })
   },
 
   /**
