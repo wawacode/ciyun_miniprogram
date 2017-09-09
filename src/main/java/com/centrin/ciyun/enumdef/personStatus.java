@@ -9,13 +9,13 @@ import java.util.Map;
  * @author
  * 
  */
-public class UserLoginStatus {
+public class personStatus {
 	public static Map<Integer, String> ENUMMAP = new LinkedHashMap<Integer, String>();
 
-	public enum ELoginStatus {
+	public enum EPersonStatus {
 
-		REGISTER_FIRST(0, "首次注册登录"), 
-		YES_REGISTER_NO_LOGIN(1, "已注册但未登录小程序");
+		NOREG_AND_NOREG_NOLOG(0, "用户未注册过慈云平台或已注册但是未登录过慈云小程序"), 
+		YES_LOGIN(1, "登录过慈云小程序");
 		
 		public String value;
 		public int key;
@@ -26,14 +26,14 @@ public class UserLoginStatus {
 		 * @param value
 		 * @param key
 		 */
-		private ELoginStatus(int key, String value) {
+		private EPersonStatus(int key, String value) {
 			this.key = key;
 			this.value = value;
 		}
 	}
 
 	static {
-		for (ELoginStatus ect : ELoginStatus.values()) {
+		for (EPersonStatus ect : EPersonStatus.values()) {
 			ENUMMAP.put(ect.key, ect.value);
 		}
 	}

@@ -12,7 +12,9 @@
  */
 package com.centrin.ciyun.medrpt.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSON;
@@ -35,14 +36,19 @@ import com.centrin.ciyun.entity.hid.HidCertificates;
 import com.centrin.ciyun.entity.hid.HidMedCorp;
 import com.centrin.ciyun.entity.hid.HidWxKey;
 import com.centrin.ciyun.entity.med.MedExamRpt;
+import com.centrin.ciyun.entity.med.MedExamRptSynthetic;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
+import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
 import com.centrin.ciyun.enumdef.ExamExtrasTempleteType.EExamExtrasTempleteType;
 import com.centrin.ciyun.enumdef.MedReportOperator.EMedReportOperator;
 import com.centrin.ciyun.medrpt.domain.req.MedCorpRuleParam;
 import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
+import com.centrin.ciyun.medrpt.domain.vo.CorpDetailVo;
+import com.centrin.ciyun.medrpt.domain.vo.HidMedCorpVo;
+import com.centrin.ciyun.service.interfaces.bus.MedexamRptSyntheticInterface;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
@@ -90,6 +96,9 @@ public class MiniMedExamRptService {
 	@Autowired
 	private PersonQueryService personQueryService;
 	
+	@Autowired
+	private MedexamRptSyntheticInterface medexamRptSyntheticInterface;
+	
 	/**
 	 * 
 	 * <p>
@@ -112,6 +121,12 @@ public class MiniMedExamRptService {
 			return reportResp;
 		}
 		List<MedExamRpt> medExamRptList = iMedExamRptService.medPrimReportList(personId);
+		if (null == medExamRptList) {
+			MedExamRptSynthetic rptSynthetic = medexamRptSyntheticInterface.findExampleRptLab(MedExamRptSyntheticEnum.TableName.MED_EXAM_RPT);
+			if (rptSynthetic != null) {
+				medExamRptList = iMedExamRptService.queryByRptIds(new Object[]{Long.parseLong(rptSynthetic.getRealrptId())});
+			}
+		}
 		reportResp.setDatas(medExamRptList);
 		return reportResp;
 	}
@@ -151,12 +166,30 @@ public class MiniMedExamRptService {
 	 * @return
 	 *
 	 */
-	public HttpResponse<Map<String, List<HidMedCorp>>>  listMedCorp() {
+	public HttpResponse<List<HidMedCorpVo>>  listMedCorp() {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("MiniMedExamRptService#listMedCorp");
 		}
-		HttpResponse<Map<String, List<HidMedCorp>>> medCorpDictResp = new HttpResponse<Map<String, List<HidMedCorp>>>();
-		medCorpDictResp.setDatas(dubboHidMedCorpService.queryHidMedCorpGroupAreaMap());
+		HttpResponse<List<HidMedCorpVo>> medCorpDictResp = new HttpResponse<List<HidMedCorpVo>>();
+		Map<String, List<HidMedCorp>> hidMedCorpDict = dubboHidMedCorpService.queryHidMedCorpGroupAreaMap();
+		List<HidMedCorpVo> listMedCorpVo = new ArrayList<>();
+		if (hidMedCorpDict != null && !hidMedCorpDict.isEmpty()) {
+			for (Iterator<Map.Entry<String, List<HidMedCorp>>> iter = hidMedCorpDict.entrySet().iterator(); iter.hasNext(); ) {
+				Map.Entry<String, List<HidMedCorp>> entry = iter.next();
+				String key = entry.getKey();
+				String[] keyArray = key.split(",");
+				List<HidMedCorp> medCorpList = entry.getValue();
+				HidMedCorpVo medCorpVo = new HidMedCorpVo();
+				medCorpVo.setCity(keyArray[1]);
+				if (medCorpList != null && !medCorpList.isEmpty()) {
+					for (HidMedCorp medCorp : medCorpList) {
+						medCorpVo.getHidMedCorpList().add(new CorpDetailVo(medCorp.getMedCorpId(),medCorp.getCorpName()));
+					}
+				}
+				listMedCorpVo.add(medCorpVo);
+			} 
+		}
+		medCorpDictResp.setDatas(listMedCorpVo);
 		return medCorpDictResp;
 	}
 	
@@ -170,7 +203,6 @@ public class MiniMedExamRptService {
 	 * @return
 	 *
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public HttpResponse<HidMedCorpInfoVo>  queryhidMedRules(MedCorpRuleParam corpRuleParam) {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("MiniMedExamRptService#queryhidMedRules 参数信息为：" + (null == corpRuleParam ? "空" : corpRuleParam.toString()));
@@ -216,16 +248,20 @@ public class MiniMedExamRptService {
 					for (String idcard : cardTypeArray) {
 						if (hidCertificateMap.containsKey(idcard)) {
 							HidCertificates hidCertificate = hidCertificateMap.get(idcard);
-							chooseRuleMap.put("0"+idcard, hidCertificate.getCerName());
+							//针对航天体检中心的特殊处理，目前只导入报告，航天只能根据体检号导入报告，门诊号是化验单报告的查询条件
+							if ("CYH3211204110000".equals(medCorp.getHmoId()) && 30 == hidCertificate.getCerId().intValue()) {
+								continue;
+							}
+							chooseRuleMap.put(idcard, hidCertificate.getCerName());
 						}
 					}
 					hidMedCorpRule.setRuleCardType(chooseRuleMap);
 					if (LOGGER.isInfoEnabled()) {
 						LOGGER.info("规则详情信息："+hidMedCorpRule.toString());
 					}
-					hidRuleResp.setDatas(hidMedCorpRule);
 				}
 			}
+			hidRuleResp.setDatas(hidMedCorpRule);
 		} else {
 			LOGGER.error("体检中心报告查询规则为空");
 			hidRuleResp.setResult(ReturnCode.EReturnCode.DATA_NOT_EXISTS.key.intValue());
@@ -251,6 +287,7 @@ public class MiniMedExamRptService {
 			LOGGER.info("MiniMedExamRptService#queryMedRpt 参数信息为：" + (null == medFindRptParam ? "空" : medFindRptParam.toString()));
 		}
 		JSONObject jsonResp = new JSONObject();
+		jsonResp.put("rptSize", 0);
 		jsonResp.put("result", ReturnCode.EReturnCode.OK.key.intValue());
 		if (null == medFindRptParam || StringUtils.isEmpty(medFindRptParam.getMedCorpId())) {
 			LOGGER.error("参数medCorpId为空");
@@ -296,7 +333,7 @@ public class MiniMedExamRptService {
 				message = jsonResult.getString("errMsg");
 				rptSize = jsonResult.getInteger("successCount") == null ? 0 : jsonResult.getIntValue("successCount");
 			}
-			jsonResp.put("result", result);
+			jsonResp.put("result", result != 0 ? ReturnCode.EReturnCode.OTHER_FAILED.key.intValue() : result);
 			jsonResp.put("message", message);
 			
 			//android微信访问时要记录数据库里面已经有的报告数
@@ -307,7 +344,7 @@ public class MiniMedExamRptService {
 		} else {//其他直接在慈云库中查询，然后修改对应表的记录
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
 			if (null == sr || sr.getResult() != 0) {
-				jsonResp.put("result", -1);
+				jsonResp.put("result", ReturnCode.EReturnCode.OTHER_FAILED.key.intValue());
 				jsonResp.put("message", null == sr ? ReturnCode.EReturnCode.SYSTEM_BUSY.value : sr.getMsg());
 				return jsonResp;
 			}
@@ -326,14 +363,14 @@ public class MiniMedExamRptService {
 				} catch (Exception ex) {
 					LOGGER.error("", ex);
 					rptSize = 0;
-					jsonResp.put("result", -1);
+					jsonResp.put("result", ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 					jsonResp.put("message", "体检报告找回失败");
 				}
 			} else {
 				rptSize = 0;
 			}
 		}
-		jsonResp.put("rptsize", rptSize);
+		jsonResp.put("rptSize", rptSize);
 		return jsonResp;
 	}
 	

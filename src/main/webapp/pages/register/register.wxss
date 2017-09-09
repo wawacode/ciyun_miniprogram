@@ -1,14 +1,10 @@
 /* pages/register/register.wxss */
-.container{
-  padding:20rpx;
-}
 .box_title{
-  width:94%;
+  width:650rpx;
   height:auto;
   background:#fff;
-  padding-left:3%;
-  padding-right:3%;
-  margin-top:69rpx;
+  margin-left:50rpx;
+  margin-top:96rpx;
 }
 .logo{
   display:block;
@@ -24,65 +20,56 @@
   margin:0 auto;
   margin-top:40rpx
 }
-.title{
-  width: 100%;
-  height:100rpx;
-  line-height: 150rpx;
-  color:#fff;
+.container{
+  width:650rpx;
+  height:auto;
+  margin-top:30rpx;
+  margin-left:50rpx
 }
-.notes{
+.box{
   width:100%;
-  height:100rpx;
-  line-height:50rpx;
-  color:#fff;
+  height:120rpx;
+  border-bottom:1px solid #dfdfdf;
+  position: relative;
 }
 .tel{
-  display: block;
-  width:100%;
-  height:90rpx;
-  /* border:1rpx solid #E9E9E9; */
-  padding-left:15rpx;
-  border-bottom:1px solid #dfdfdf;
-  font-size: 26rpx;
-  color:#222222;
-}
-.code{
   display:block;
   width:100%;
   height:90rpx;
-  /* border:1rpx solid #E9E9E9; */
   float: left;
-  padding-left: 15rpx;
-  margin-left:0;
-  margin-top:20rpx;
-  border-bottom:1px solid #dfdfdf;
-  font-size: 26rpx;
+  padding-left:24rpx;
+  border:0;
+  font-size: 30rpx;
   color:#222222;
+  margin-top:30rpx;
+}
+.code{
+  display:block;
+  width:466rpx;
+  height:90rpx;
+  float: left;
+  padding-left:24rpx;
+  border:0;
+  font-size: 30rpx;
+  color:#222222;
+  margin-top:30rpx;
 }
 .btn{
   position: absolute;
-  width:183rpx;
-  top:430rpx;
-  right:11rpx;
-  /* background:#76B400; */
-  color:#6fba2c;
+  width:184rpx;
+  top:62rpx;
+  right:0rpx;
   height:26rpx;
   line-height: 26rpx;
   background:#fff;
   border-left:1rpx solid #dfdfdf;
-  font-size: 26rpx;
-  padding-left:2%
+  font-size: 30rpx;
+  text-align: center;
 }
 .login{
   width:100%;
-  background:#6fba2c;
   color:#fff;
-  margin-top:210rpx;
+  margin-top:100rpx;
   height: 88rpx;
   line-height: 88rpx;
-}
-.radio-group{
-  width:100%;
-  margin-top:20rpx;
-  font-size: 23rpx
 }

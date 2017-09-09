@@ -1,21 +1,6 @@
 <!--pages/list/list.wxml-->
 <view class="container">
   <view class="list_box" wx:for="{{datas}}" hidden="{{result!==0}}">
-    <!-- <view class="list_time">
-      <text>{{item.times}}</text>
-      <image class="list_icon" src="images/icon-report-year.png"></image>
-    </view>
-    <view class="list_centent" wx:for="{{item.centent}}" wx:for-item="centent" bindtap="details"> 
-      <view class="list_border"></view>
-      <view class="list_right">
-        <view class="list_title">体检报告</view>
-        <view class="list_mechanism">{{centent.mechanism}}</view>
-        <view class="list_times">
-          <text class="list_times_left">{{centent.time}}</text>
-          <text class="list_times_right">{{centent.name}}</text>
-        </view>
-      </view> 
-    </view>-->
     <view class="list_centent" data-id="{{item.id}}" bindtap="details"> 
       <view class="list_right"  data-id="{{item.id}}">
         <view class="list_title"  data-id="{{item.id}}">体检报告</view>

@@ -20,7 +20,12 @@
 	</dubbo:reference>
 	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.person.PersonQueryService" id = "personQueryService"  timeout="10000"></dubbo:reference>
     <dubbo:reference interface="com.centrin.ciyun.service.interfaces.system.SystemParamCacheInterface" id = "systemParamCacheInterface" timeout="10000"></dubbo:reference>
-
+	<!-- 体检报告总表，入库删除，修改等方法 -->
+	<dubbo:reference interface="com.centrin.ciyun.service.interfaces.bus.MedexamRptSyntheticInterface" id="medexamRptSyntheticInterface">
+		<dubbo:method name="addExamRpt" retries="0" timeout="15000"/>
+		<dubbo:method name="updateRptOwner" retries="0" timeout="15000"/>
+		<dubbo:method name="find" retries="0" timeout="15000"/>
+	</dubbo:reference>
 	<!-- 体检报告dubbo服务  -->
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedLabService" id="iMedLabService"  timeout="10000"></dubbo:reference>
 	<dubbo:reference interface="com.ciyun.dubbo.interfaces.med.IMedExamRptService" id="iMedExamRptService"  timeout="600000">

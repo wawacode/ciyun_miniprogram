@@ -4,38 +4,72 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // array:[
-    //   {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }, {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }, {
-    //     mechanism: "航天中心医院",
-    //     time: "2017-08-28",
-    //     name: "张三"
-    //   }
-    // ],
     // currentTab:1
-    "result": 0,
-    "datas": [
-      { "id":"10001","medCorpName": "航天健康管理中心", "medDate": "2017-08-20", "name": "张三",},
-      { "id":10002,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
-      { "id":10003,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "张三"},
-      { "id":10004,"medCorpName": "北大健康管理中心", "medDate": "2016-01-12", "name": "李四"}
-    ]
+    "result": 1,
+    datas:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
     //载入时请求数据更新array和currentTab
     // currentTab = 1表示没有体检报告，currentTab=0表示有体检报告
+    console.log(getApp().thirdSession)
+    // app.postCallBack('medrpt/list', { "thirdSession": getApp().thirdSession }, that.callback);
+    var that = this
+    wx.request({
+      url: 'https://minirpt.ciyun.cn/user/medrpt/list',
+      data: { thirdSession: getApp().thirdSession },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
+      },
+      success: function (res) {
+          console.log(res.data)
+          console.log(res.data.datas.length)
+          // 
+          var datass = res.data.datas
+          that.setData({
+            "datas": datass
+          })
+          console.log(that.data.datas)
+          if (res.data.datas.length == 0) {
+            that.setData({
+              result: 1
+            })
+          } else {
+            that.setData({
+              result: 0
+            })
+          }
+          console.log(that.data.datas)
+      },
+      fail: function (res) {
+      },
+      complete: function (res) {
+        wx.hideLoading();
+        // var that = this
+        var datass = res.data.datas
+        that.setData({
+          "datas": datass
+        })
+        if (res.data.datas.length == 0) {
+          that.setData({
+            result: 1
+          })
+        } else {
+          that.setData({
+            result: 0
+          })
+        }
+      }
+
+    })
   },
+
+  
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -43,7 +77,6 @@ Page({
   onReady: function () {
   
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -62,7 +95,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+    
   },
 
   /**
@@ -96,7 +129,7 @@ Page({
     //将id值传给后台
     console.log(id)
     wx.navigateTo({
-      url: "../details/details"
+      url: "../detail/detail"
     })
   }
 })

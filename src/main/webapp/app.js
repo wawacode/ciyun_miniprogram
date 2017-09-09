@@ -70,6 +70,7 @@ App({
       })
     }
   },
+  
 
   globalData: {
     userInfo: null,
@@ -92,7 +93,8 @@ App({
     wx.showLoading({
       title: '加载中',
     });
-    var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
+
+    var host = 'https://minirpt.ciyun.cn/user/'+type;
     switch (type) {
       case 'medrpt/list':
         break;
@@ -117,7 +119,7 @@ App({
     };
     console.log(wx.getStorageSync('jSessionId'));
     wx.request({
-      url: host, //仅为示例，并非真实的接口地址
+      url: host, 
       data: data,
       method: 'POST',
       header: {
@@ -126,9 +128,9 @@ App({
       },
       success: function (res) {
         console.log(res.data)
+
       },
       fail: function (res) {
-        console.log(res)
       },
       complete: function (res) {
         wx.hideLoading();
@@ -136,6 +138,8 @@ App({
       }
 
     })
-  }
+  },
+  
+
 });
 

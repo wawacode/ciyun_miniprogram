@@ -29,7 +29,10 @@
   </view>
   <view class="container_list">
     <picker bindchange="bindPickerChange2" value="{{index2}}" range="{{array2}}">
-      <view class="container_left"> 身高(cm)</view>
+      <view class="container_left"> 
+      <text>身高</text>
+      <text style="color:#999999;font-size:22rpx">(cm)</text>
+      </view>
       <view class="container_right"  style="color:#222222">
         <!-- <input type="number" value="" bindblur="height"></input> -->
          {{index2}}
