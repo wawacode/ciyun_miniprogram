@@ -6,41 +6,41 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now());
     console.log("执行了");
-    wx.login({
-      success: function (res) {
-        console.log(res);
+    // wx.login({
+    //   success: function (res) {
+    //     console.log(res);
 
-        if (res.code) {
-          wx.request({
-            url: 'https://minirpt.ciyun.cn/user/authorize/getThirdSession',
-            method: 'POST',
-            header: {
-              'content-type': 'application/json',
+    //     if (res.code) {
+    //       wx.request({
+    //         url: 'https://minirpt.ciyun.cn/user/authorize/getThirdSession',
+    //         method: 'POST',
+    //         header: {
+    //           'content-type': 'application/json',
               
-            },
-            data: {
-              code: res.code
-            }, success: function (res) {
-            },
-            fail: function (res) {
-              console.log(res)
-            },
-            complete: function (res) {
-              wx.hideLoading()
-              console.log(res.data);
-              wx.setStorageSync('thirdSession', res.data.datas.thirdSession);
-              wx.setStorageSync('jSessionId', res.data.datas.jSessionId);
-            }
+    //         },
+    //         data: {
+    //           code: res.code
+    //         }, success: function (res) {
+    //         },
+    //         fail: function (res) {
+    //           console.log(res)
+    //         },
+    //         complete: function (res) {
+    //           wx.hideLoading()
+    //           console.log(res.data);
+    //           wx.setStorageSync('thirdSession', res.data.datas.thirdSession);
+    //           wx.setStorageSync('jSessionId', res.data.datas.jSessionId);
+    //         }
 
-          })
-        } else {
-          console.log('获取用户登录态失败！' + res.errMsg)
-        }
-      },
-      fail:function(res){
-        console.log(res);
-      }
-    });
+    //       })
+    //     } else {
+    //       console.log('获取用户登录态失败！' + res.errMsg)
+    //     }
+    //   },
+    //   fail:function(res){
+    //     console.log(res);
+    //   }
+    // });
     wx.setStorageSync('logs', logs);
     //微信获取设备可用高度
     wx.getSystemInfo({
@@ -70,7 +70,6 @@ App({
       })
     }
   },
-  
 
   globalData: {
     userInfo: null,
@@ -93,33 +92,10 @@ App({
     wx.showLoading({
       title: '加载中',
     });
-
-    var host = 'https://minirpt.ciyun.cn/user/'+type;
-    switch (type) {
-      case 'medrpt/list':
-        break;
-      case 'medrpt/detail':
-        break;
-      case 'authorize/login':
-        break;
-      case 'authorize/validsmscode':
-        break;
-      case 'authorize/getThirdSession':
-        break;
-      case 'authorize/valSignature':
-        break;
-      case 'medrpt/listMedCorp':
-        break;
-      case 'authorize/saveUserinfo':
-        break;
-      case 'medrpt/queryRptRules':
-        break;
-      case 'medrpt/importRpt':
-        break;
-    };
+    var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
     console.log(wx.getStorageSync('jSessionId'));
     wx.request({
-      url: host, 
+      url: host, //仅为示例，并非真实的接口地址
       data: data,
       method: 'POST',
       header: {
@@ -128,9 +104,9 @@ App({
       },
       success: function (res) {
         console.log(res.data)
-
       },
       fail: function (res) {
+        console.log(res)
       },
       complete: function (res) {
         wx.hideLoading();
@@ -138,8 +114,6 @@ App({
       }
 
     })
-  },
-  
-
+  }
 });
 
