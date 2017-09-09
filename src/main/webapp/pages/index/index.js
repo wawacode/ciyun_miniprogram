@@ -61,7 +61,7 @@ Page({
     })
   },
   //获取数据
-  callback: function (res) {
+  callback: function (res) { 
     console.log(res.data)
     this.setData({
       Return: res.data
@@ -75,11 +75,11 @@ Page({
     console.log(this.data.Return)
     var personStatus = this.data.Return.datas.personStatus;
     // console.log(personStatus)
-    if (personStatus==0){
+    if (personStatus==1){
       wx.reLaunch({
         url: '../register/register'
       })
-    } else if (personStatus==1){
+    } else if (personStatus==0){
       wx.reLaunch({
         url: '../list/list'
       })

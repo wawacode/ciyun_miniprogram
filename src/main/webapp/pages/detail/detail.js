@@ -1,6 +1,4 @@
 // pages/detail/detail.js
-//获取应用实例
-var app = getApp();
 Page({
 
   /**
@@ -90,18 +88,33 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setReportListHeight();
-    app.postCallBack('medrpt/detail/269590', { thirdSession: wx.getStorageSync('thirdSession')}, function (data) {
-      console.log(data);
-    });
-  },
-  // 设置项目列表高度
-  setReportListHeight:function(){
-    this.setData({
-      reportListHeight: app.globalData.deviceHeigth + "px"
+    var that=this
+    var json={
+      id:getApp().listId,
+      thirdSession: getApp().thirdSession
+    }
+
+    wx.request({
+      url: 'https://minirpt.ciyun.cn/user/medrpt/detail/'+getApp().listId,
+      data: json,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
+      },
+      success: function (res) {
+        console.log(res.data)
+      },
+      fail: function (res) {
+      },
+      complete: function (res) {
+        wx.hideLoading();
+        // var that = this
+        var datass = res.data.datas
+      }
+
     })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

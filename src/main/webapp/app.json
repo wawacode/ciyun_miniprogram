@@ -1,17 +1,13 @@
 {
   "pages": [
-    "pages/list/list",
-    "pages/register/register",
-    "pages/mechanism/mechanism",
-      "pages/detail/detail",
-      "pages/index/index",
-        
+    "pages/index/index",
+    "pages/detail/detail",
     "pages/report/report",
-  
+    "pages/mechanism/mechanism",
     "pages/logs/logs",
     "pages/login/login",
-   
-    
+    "pages/list/list",
+    "pages/register/register",
     "pages/lower/lower"
   ],
   "window": {

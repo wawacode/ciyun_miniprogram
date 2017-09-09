@@ -3,15 +3,15 @@
 
   <view class="left-scroll-content" style="height:{{second_height}}">
     <scroll-view scroll-y style="height:{{second_height}}" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <view  data-idx="{{index}}" class="ft-15 color-2 province-content item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap" wx:for="{{data}}">
+    <view  data-idx="{{index}}" class="province-content item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap" wx:for="{{data}}">
       {{item.city}}
     </view>
     </scroll-view>
   </view>
   <view hidden="" class="right-scroll-content" style="height:{{second_height}}">
     <scroll-view scroll-y style="height:{{second_height}}" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-      <view class="scroll-view-item bc_green"  wx:for="{{data}}" hidden="{{currentTab!==index}}"  wx:key="machanism">
-        <view bindtap="importPage" class="mechanism-content" data-medcorpid="{{item.medCorpId}}" wx:for="{{item.hidMedCorpList}}" wx:key="machanismItem"><view class="mechanism-item"><text class="mechanism-text">{{item.corpName}}</text></view></view>
+      <view class="scroll-view-item bc_green"  wx:for="{{data}}" hidden="{{currentTab!==index}}">
+        <view bindtap="importPage" class="mechanism-content" data-medcorpid="{{item.medCorpId}}" wx:for="{{item.hidMedCorpList}}"><view class="mechanism-item"><text class="mechanism-text">{{item.corpName}}</text></view></view>
       </view>
     </scroll-view>
   </view>

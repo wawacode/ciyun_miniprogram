@@ -3,28 +3,28 @@ var app = getApp();
 Page({
 
   /**
-   * 页面的app-form-item clearfix
+   * 页面的初始数据
    */
   data: {
     //
+    defaultSize: 'default',
+    primarySize: 'default',
+    warnSize: 'default',
+    disabled: false,
+    plain: false,
+    loading: false,
     cardTypeIndex: 0,
     sex: ['男','女','未知'],
     sexIndex: 0,
     date: "请选择体检日期",
     importCode: [-1, 0, 1, 2],
-    idCardValue:'',
-    medPersonNo:'',
-    idCard_boo:false,
-    sex_boo:false,
-    mobile_boo:false,
-    medDate_boo:false,
-    medPersonNo_boo:false,
-    userName_boo:false,
+    phone: 13832322217,
     datas: {
       "username": "张三",
       "sex": 1,
       "telephone": 13412312311,
       "medCorpId": "1383",
+      "ruleState": 1,
       "ruleIds": "idCard|sex|mobile|medDate|medPersonNo|userName",
       "ruleCardType": "1|2|3|4|5|6|23|26"
     }
@@ -32,127 +32,53 @@ Page({
   /**
    * 证件类型过滤器
    */
-  ruleCardTypeFilter: function (obj, type) {
+  ruleCardTypeFilter: function (str, type) {
     if (type == 'post') {
 
     } else {
-      var ruleCardTypeArr= [];
-      for(var key in obj){
-        ruleCardTypeArr.push(obj[key]);
-      };
+      var ruleCardTypeArr = str.split("|").map(function (index) {
+        switch (index) {
+          case '1':
+            return '身份证';
+          case '2':
+            return '回乡证';
+          case '3':
+            return '护照';
+          case '4':
+            return '军官证';
+          case '5':
+            return '医保卡号';
+          case '6':
+            return '警察证';
+          case '23':
+            return '员工号';
+          case '26':
+            return '唯一号';
+
+        }
+      });
       this.setData({
         "ruleCardType": ruleCardTypeArr
       })
       console.log(ruleCardTypeArr);
     }
   },
-  // 赛选 条件渲染
-  filterTypeRendering:function(){
-    console.log(this.data.datas);
-    var ruleArr = this.data.datas.ruleIds.split("|");
-    var sexIndex = this.data.datas.sex-1;
-    this.setData({
-      idCard_boo: ruleArr.includes('idCard'),
-      sex_boo:ruleArr.includes('sex'),
-      mobile_boo:ruleArr.includes('mobile'),
-      medDate_boo:ruleArr.includes('medDate'),
-      medPersonNo_boo:ruleArr.includes('medPersonNo'),
-      userName_boo:ruleArr.includes('userName'),
-      sexIndex: sexIndex
-    })
-    console.log(ruleArr);
-  },
-  changeIdCardValue:function(e){
-      this.setData({
-        idCardValue:e.detail.value
-      })
-      console.log(this.data);
-  },
-  changeMedPersonNoValue:function(e){
-    this.setData({
-      medPersonNo: e.detail.value
-    })
-    console.log(this.data);
-  },
-  changeuserNameValue: function (e) {
-    
-    this.setData({
-      userName: e.detail.value
-    })
-    console.log(this.data);
-  },
-  //表单校验
-  queryimport: function () {
-
-    if (this.data.idCard_boo){
-      if (!app.isEmpty(this.data.idCardValue)){
-        app.showToast('证件号码不能为空');
-        return false;
-      };
-    }
-    if (this.data.medDate_boo){
-      if (this.data.date == '请选择体检日期') {
-        app.showToast('日期不能为空');
-        return false;
-      };
-    }
-    if (this.data.medPersonNo_boo){
-      if (!this.data.medPersonNo) {
-        app.showToast('档案ID不能为空');
-        return false;
-      };
-    }
-    if (this.data.userName_boo){
-      if (!app.isEmpty(this.data.userName)) {
-        app.showToast('用户名称不能为空');
-        return false;
-      };
-    }
-    var data={
-      thirdSession: wx.getStorageSync('thirdSession'),
-      idCardType:1,
-      idCard: this.data.idCardValue,
-      sex:1,
-      mobile: 15910795522||this.data.datas.telephone,
-      medDate:"2017-08-31",
-      medPersonNo: this.data.medPersonNo,
-      medCorpId: this.data.datas.medCorpId,
-      userName: this.data.userName
-    }
-    app.postCallBack('medrpt/importRpt', data, function(data){
-        console.log(data);
-    });
-    setTimeout(function () {
-      wx.navigateTo({
-        url: '../detail/detail'
-      })
-    }, 1500)
-  },
-  //接口回调初始化渲染模板
-  callBack: function (data) {
-   if(data.result == 0){
-     this.setData({
-        datas:data.datas
-     });
-     this.ruleCardTypeFilter(this.data.datas.ruleCardType);
-     this.filterTypeRendering();
-   }else{
-     app.showToast(data.message)
-   }
-
+  callBack: function (res) {
+   this.ruleCardTypeFilter(this.data.datas.ruleCardType);
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(wx.getStorageSync('thirdSession'));
+    console.log(options.medcorpid);
     var that = this;
     var data = {
-      thirdSession: options.thirdSession || wx.getStorageSync('thirdSession'),
-      medCorpId: options.medcorpid || wx.getStorageSync('medcorpid')
+      thirdSession: options.thirdSession,
+      medCorpId: options.medcorpid
     };
     app.postCallBack('medrpt/queryRptRules', data, that.callBack);
+
   },
 
   /**
@@ -209,6 +135,23 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  //事件处理函数
+  queryimport: function () {
+    // wx.navigateTo({
+    //   url: '../detail/detail'
+    // })
+    wx.showToast({
+      title: '失败',
+      icon: 'error',
+      duration: 1000
+    });
+
+    setTimeout(function () {
+      wx.navigateTo({
+        url: '../detail/detail'
+      })
+    }, 1500)
   },
   // 证件类型
   bindCardTypeChange: function (e) {

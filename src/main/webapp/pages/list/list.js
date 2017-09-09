@@ -1,4 +1,5 @@
 // pages/list/list.js
+var app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -127,6 +128,7 @@ Page({
   details: function (e) {
     var id = e.target.dataset.id
     //将id值传给后台
+    app.listId=id
     console.log(id)
     wx.navigateTo({
       url: "../detail/detail"

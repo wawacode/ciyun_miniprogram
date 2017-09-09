@@ -13,16 +13,16 @@
     </view>
   </view>
   <view class="list_box" hidden="{{result!==1}}">
-    <view class="list_centent" bindtap="details"> 
-      <view class="list_right">
-        <view class="list_title">
-          <text class="title">体检报告</text>
-          <text class="shi">示例</text>
+    <view class="list_centent" data-id="519014" bindtap="details"> 
+      <view class="list_right" data-id="519014"> 
+        <view class="list_title" data-id="519014">
+          <text class="title" data-id="519014">体检报告</text>
+          <text class="shi" data-id="519014">示例</text>
         </view>
-        <view class="list_mechanism">航天中心医院</view>
-        <view class="list_times">
-          <text class="list_times_left">2017-09-05</text>
-          <text class="list_times_right">张三</text>
+        <view class="list_mechanism" data-id="519014">航天中心医院</view>
+        <view class="list_times" data-id="519014">
+          <text class="list_times_left" data-id="519014">2017-09-05</text>
+          <text class="list_times_right" data-id="519014">张三</text>
         </view>
       </view> 
     </view>
