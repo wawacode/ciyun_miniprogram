@@ -16,7 +16,7 @@
 .left-scroll-content{
   float: left;
   width: 27%;
-  background: #eee;
+  background: #f0f0f0;
     overflow: hidden;
 }
 .right-scroll-content{
@@ -40,5 +40,5 @@
   font-size: 30rpx;
 }
 .mechanism-text{
-
+  color: #222222;
 }
