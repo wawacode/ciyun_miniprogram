@@ -13,11 +13,11 @@ background-color: #fff;
     text-align: center;
 }
 .navbar .item.active {
-    border-bottom: 2px solid #74AD46;
+    border-bottom: 2px solid #6fba2c;
 
 }
 .navbar .item.active text{
-    color: #74AD46;
+    color: #6fba2c;
     font-weight: bold;
 }
 .navbar text{
@@ -26,7 +26,8 @@ background-color: #fff;
     color: #383838;
     line-height: 19rpx;
     height: 65rpx;
-    border-right: 1px solid #DCE1D9;
+    border-right: 1rpx solid #dadada;
+    font-size: 14px;
 }
 .navbar .item{
     -webkit-box-flex: 1;
@@ -35,7 +36,7 @@ background-color: #fff;
     width: 100%;
     padding: 18rpx 0;
     position: relative;
-    border-bottom: 2px solid #BEC3C7;
+    border-bottom: 2rpx solid #dbdbdb;
 }
 /* 基本信息*/
 .report-content {
@@ -46,33 +47,31 @@ background-color: #fff;
     padding: 0 10px;
 }
 .form-view .form-group {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 0px;
+    border-bottom: 0.5px solid #dbdbdb;
     background-color: #fff;
     margin-right: -10px;
     margin-left: -10px;
+    height: 100rpx;
+    line-height: 100rpx;
 }
 .form-view .form-group .form-label {
     float: left;
-    text-align: right;
-    width: 33.33333333333333%;
-    padding-top: 12px;
-    padding-bottom: 4px;
-    color: #666;
+    text-align: left;
+    width: 250rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    color: #888888;
 }
 .form-group .form-label, .form-group .form-val {
     position: relative;
     z-index: 2;
     min-height: 1px;
     padding-right: 10px;
-    padding-left: 10px;
+    padding-left: 15px;
     float: left;
-    width: 66.66666666666666%;
 }
 .form-view .form-group .form-val view{
-    padding-top: 12px;
-    padding-bottom: 4px;
+    color: #222;
 }
 .form .form-group:before,.form .form-group:after {
     display: table;
@@ -81,16 +80,22 @@ background-color: #fff;
 .form .form-group:after {
     clear: both;
 }
+.infomation-footer{
+  margin-top: 90px;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+}
 /* 汇总分析 */
 .new-report-app {
     background-color: #fff;
 }
 .new-report-app-hd .title {
     font-weight: bold;
-    line-height: 42px;
-    height: 42px;
-    color: #31AF57;
-    background-color: #EDF7E5;
+    line-height: 74rpx;
+    height: 74rpx;
+    color: #6fba2c;
+    background-color: #f6ffee;
     display: block;
     text-indent: 10px;
 }
@@ -244,7 +249,7 @@ background-color: #fff;
   border: none;
 }
 .new-report-total {
-    padding: 10px;
+    padding: 10px 15px 10px 15px;
     text-indent: 20px;
 }
 /* 超标项  */
@@ -255,36 +260,42 @@ background-color: #fff;
 .fiexed{
   position: fixed;
 }
+.th:first-child{
+  flex:2;
+}
 .th{
   background-color: #f0f0f0;
     text-indent: 10px;
-    width: 25%;
     flex: 1;
-    height: 54rpx;
-    line-height: 54rpx;
+    height: 52rpx;
+    line-height: 52rpx;
     border-bottom: 1px solid #BEC3C7;
+    font-size: 12px;
     text-align: left;
     color: #888;
 }
 
 .report-table-td{
   flex: 1;
-  border-bottom: 1px solid #D6D6D6;
+  border-bottom: 1px solid #e5e5e5;
   text-align: left;
-  border-left: 1px solid #D6D6D6;
+  border-left: 1px solid #e5e5e5;
   padding: 10px 5px;
 }
 .report-table-td:first-child{
   border-left: none;
+  flex:2;
+  padding-left: 10px;
 }
 .down{
-  color: #0D8CD6;
+  color: #00a5ff;
 }
 .r-unit, .r-reference {
-    color: #8B8C8C;
+    color: #888888;
+    font-size: 12px;
 }
 .up {
-    color: #D40909;
+    color: #ff4646;
 }
 /* 报告详情  */
 .tbody{
@@ -299,78 +310,90 @@ background-color: #fff;
   color: red;
 }
 .td{
-    padding: 10px 5px;
-    border-bottom: 1px solid #D6D6D6;
+    padding:8.5px 0 8.5px 5px;
+    border-bottom: 0.5px solid #e5e5e5;
     text-align: left;
-    width: 25%;
-   border-left: 1px solid #D6D6D6;
+   flex: 1;
+   border-left: 0.5px solid #e5e5e5;
 }
 .td:first-child{
   border-left: none;
+  font-size: 14px;
+  color: #333;
+  padding-left: 10px;
+  padding-right: 10px;
+  flex: 2;
 }
 .cap-lev1, .cap-lev2 {
-    padding: 0 35px;
+    padding: 0 10px;
     position: relative;
+
 }
 .cap-lev1 {
     background: #f6ffee;
-    background-size: 24px;
     color: #6fba2c;
-    line-height: 42px;
+    height: 37px;
+    line-height: 37px;
     text-align: left;
     font-weight: bold;
+    border-bottom: 2px solid #6fba2c;
 }
 .cap-lev2 {
-    background: #EDF6E5;
-    background-size: 24px;
-    line-height: 32px;
-    color: #40525C;
+    background: #f7f8f9;
+    line-height: 30px;
+    height: 30px;
+    color: #3e454f;
     text-align: left;
     font-weight: bold;
     border-bottom: 1px solid #eee;
+    font-size: 14px;
+
 }
 .cap-lev1 .readPicBtn {
-    right: 20px;
-    top: 10px;
+    right: 10px;
+    top: 7px;
 }
 .readPicBtn {
     display: block;
     position: absolute;
     z-index: 10;
     height:22px;
-    width:30.25px;
-    background: url(http://devweixinpn.love-health.com.cn/style/user/images/icon-phone.png) 0 0 no-repeat;
-    background-size: 44px 32px;
+    width:31px;
 }
-
+.lv-2{
+  background: #f7f8f9;
+  padding-top:18px;
+}
 .lv-2-tit em {
     display: block;
-    line-height: 24px;
-    padding-left: 30px;
-    font-weight: bold;
-    background-size: 24px;
+    line-height: 18px;
+    font-size: 13px;
+    color: #3e454f;
 }
 .lv-2-main,.lv-1-main {
-    padding: 5px 5px 5px 30px;
+    padding: 5px 0px 5px 30px;
 }
 .lv-1{
-background-color: #F4FAEF;
+background-color: #fafff5;
     padding: 5px;
     color: #3F7E01;
 }
 .lv-1-tit em {
     display: block;
-    line-height: 24px;
-    padding-left: 30px;
+    line-height: 18px;
     font-weight: bold;
-    color: #3F7E01;
+    font-size: 13px;
+    color: #6fba2c;
 }
-.lv-1-doctor {
-    text-align: right;
+.lv-1-text{
+  color: #6fba2c;
+  font-size:13px;
+  line-height: 18px;
 }
-
-.lv-2-doctor {
+.lv-1-doctor,.lv-2-doctor {
     text-align: right;
+    color: #acacac;
+    font-size: 12px;
 }
 .w100{
   width: 100%;
@@ -379,8 +402,8 @@ background-color: #F4FAEF;
 
 .report-tab-search {
     position: fixed;
-    right: 9px;
-    bottom: 45px;
+    right: 0px;
+    bottom: 8px;
     width: 56px;
     height: 56px;
     display: block;
@@ -407,15 +430,14 @@ background-color: #F4FAEF;
     position: relative;
     z-index: 999;
     width: 100%;
-    height: 150px;
     background-color: #fff;
 }
 .report-item-list .close-content{
     width: 100%;
     text-align: right;
     display: table;
-    height: 36px;
-    line-height: 36px;
+    height: 40px;
+    line-height: 40px;
     padding: 5px 10px;
     background-color: #F9F9F9;
     border-bottom: 1px solid #eee;
@@ -431,15 +453,17 @@ background-color: #F4FAEF;
     background-color: #fff;
     border-bottom: 1px solid #D8D5D1;
     width: 100%;
-    height: 250px;
+    height: 100%;
     overflow: auto;
 }
 
 .report-list .item {
-    border-top: 1px solid #eee;
+    border-top: 0.5px solid #e5e5e5;
     display: block;
     text-align: left;
-    color: #000;
     padding: 10px;
     width: 100%;
+    height: 100rpx;
+    font-size: 15px;
+    color: #222222;
 }
