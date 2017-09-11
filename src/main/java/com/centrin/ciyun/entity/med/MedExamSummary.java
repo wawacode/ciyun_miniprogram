@@ -1,5 +1,6 @@
 package com.centrin.ciyun.entity.med;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MedExamSummary implements java.io.Serializable {
@@ -15,8 +16,10 @@ public class MedExamSummary implements java.io.Serializable {
 	private String doctor;					
 	private String dempartmentDoctor;		//科室小结医生
 	private Date examTime;
+	private String preExamTime; //检查日期字符串
 	private String revDoctor;  //审核医生
 	private Date revTime;      //审核时间
+	private String preRevTime; //审核日期字符串
 	private Date createTime;
 	private Integer signFlag; //1:确定 2：不确定
 	
@@ -50,6 +53,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setExamTime(Date examTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(examTime != null)
+			setPreExamTime(sdf.format(examTime));
 		this.examTime = examTime;
 	}
 
@@ -126,6 +132,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setRevTime(Date revTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(revTime != null)
+			setPreRevTime(sdf.format(revTime));
 		this.revTime = revTime;
 	}
 
@@ -135,6 +144,22 @@ public class MedExamSummary implements java.io.Serializable {
 
 	public void setSignFlag(Integer signFlag) {
 		this.signFlag = signFlag;
+	}
+
+	public String getPreExamTime() {
+		return preExamTime;
+	}
+
+	public void setPreExamTime(String preExamTime) {
+		this.preExamTime = preExamTime;
+	}
+
+	public String getPreRevTime() {
+		return preRevTime;
+	}
+
+	public void setPreRevTime(String preRevTime) {
+		this.preRevTime = preRevTime;
 	}
 	
 }

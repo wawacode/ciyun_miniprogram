@@ -1,5 +1,6 @@
 package com.centrin.ciyun.entity.med;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MedExamAdvice implements java.io.Serializable {
@@ -13,6 +14,15 @@ public class MedExamAdvice implements java.io.Serializable {
 	private String doctorBegin;
 	private String doctorLast;
 	private Date createTime;
+	private String preCreateTime; //
+	public String getPreCreateTime() {
+		return preCreateTime;
+	}
+
+	public void setPreCreateTime(String preCreateTime) {
+		this.preCreateTime = preCreateTime;
+	}
+
 	private String remarks;
 
 	public long getId() {
@@ -52,6 +62,9 @@ public class MedExamAdvice implements java.io.Serializable {
 	}
 
 	public void setCreateTime(Date createTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(createTime != null)
+			setPreCreateTime(sdf.format(createTime));
 		this.createTime = createTime;
 	}
 
