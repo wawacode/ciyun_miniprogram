@@ -67,14 +67,14 @@ Page({
       Return: res.data
     })
     console.log(res.data.datas.thirdSession)
-    app.thirdSession = res.data.datas.thirdSession
+    app.thirdSession = res.data.datas.thirdSession;
+    wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
     wx.setStorageSync('jSessionId',res.data.datas.jSessionId)
   },
   // 登录/注册
   register:function(){
     console.log(this.data.Return)
     var personStatus = this.data.Return.datas.personStatus;
-    // console.log(personStatus)
     if (personStatus==1){
       wx.reLaunch({
         url: '../register/register'
