@@ -17,7 +17,7 @@
   </view>
 
   <view class="container_list">
-  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+  <picker bindchange="bindPickerChange" value="35" range="{{array}}">
     <view class="container_left"> 年龄</view>
     <view class="container_right">
         <view class="picker" style="color:#222222">
@@ -28,7 +28,7 @@
    </picker>
   </view>
   <view class="container_list">
-    <picker bindchange="bindPickerChange2" value="{{index2}}" range="{{array2}}">
+    <picker bindchange="bindPickerChange2" value="125" range="{{array2}}">
       <view class="container_left"> 
       <text>身高</text>
       <text style="color:#999999;font-size:22rpx">(cm)</text>

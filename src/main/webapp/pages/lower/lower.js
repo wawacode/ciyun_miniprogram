@@ -16,8 +16,8 @@ Page({
     Age: "",
     array: [10, 20, 30, 40, 50, 60],
     array2: [160, 161, 165, 170, 175, 180],
-    index: "请选择年龄",
-    index2: "请选择身高"
+    index: "35",
+    index2: "175"
   },
   bindPickerChange2: function (e) {
     // console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -46,11 +46,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var age=[];
+    var height=[]
+    for(var i=0;i<=120;i++){
+      age.push(i)
+    }
+    for(var i=50;i<=250;i++){
+      height.push(i)
+    }
+    console.log(age)
     // console.log(getApp().avatarUrl)
     this.setData({
       avatarUrl: getApp().avatarUrl,
-      username: getApp().nickName
+      username: getApp().nickName,
+      array: age,
+      array2: height
     })
     if (getApp().gender == 1) {
       this.setData({
