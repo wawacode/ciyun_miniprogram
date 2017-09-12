@@ -1,9 +1,7 @@
 <!--index.wxml-->
  <image src="images/bg.png" class="bg"></image>
 <view class="container" style="padding-top:20rpx">
-  <view class="userinfo">
-     <text style="display:block;float:left;margin-left:-90rpx;font-size:30rpx;width:70%;margin-top:247rpx">中金慈云已与全国逾百家医疗与体检机构建立深度合作，为用户提供便捷的体检报告查看体验</text>
-  </view>
+ 
   <view class="usermotto">
     <!-- <text class="user-motto">{{motto}}</text> -->
     <button class="login btn" bindtap="register">点这里立即查报告</button>
