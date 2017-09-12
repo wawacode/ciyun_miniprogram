@@ -84,6 +84,10 @@ Page({
   //
   callBack: function (res) {
     var userCity = app.city;
+    var datas = res.data.datas;
+    for (var i in datas){
+      
+    }
       this.setData({
         data: res.data.datas
       });
