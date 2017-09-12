@@ -55,11 +55,13 @@ Page({
         app.province = province
         app.country = country
         app.loginStatus=true
+        console.log(province)
       }
     })
   },
   //获取数据
   callback: function (res) { 
+    console.log(res);
     this.setData({
       Return: res.data
     })
@@ -70,11 +72,11 @@ Page({
   // 登录/注册
   register:function(){
     var personStatus = this.data.Return.datas.personStatus;
-    if (personStatus==0){
+    if (personStatus==1){
       wx.navigateTo({
         url: '../register/register'
       })
-    } else if (personStatus==1){
+    } else if (personStatus==0){
       wx.navigateTo({
         url: '../list/list'
       })
