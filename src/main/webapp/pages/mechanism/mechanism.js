@@ -27,7 +27,7 @@ Page({
     })
   },
   onLoad: function () {
-    var that = this
+    var that = this;
     //微信获取设备可用高度
     this.setData({
       second_height: app.globalData.deviceHeigth + "px"
@@ -53,7 +53,8 @@ Page({
             var gender = userInfo.gender //性别 0：未知、1：男、2：女 
             var province = userInfo.province
             var city = userInfo.city
-            var country = userInfo.country
+            var country = userInfo.country;
+            app.city = province;
             console.log(res);
           }
         })
@@ -70,17 +71,6 @@ Page({
         console.log(res);
       }
     });
-    wx.checkSession({
-      success: function () {
-        //session 未过期，并且在本生命周期一直有效
-        console.log('未过期')
-      },
-      fail: function () {
-        //登录态过期
-        console.log('过期')
-        wx.login() //重新登录
-      }
-    })
     //页面请求接口；
     app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
   },
@@ -93,17 +83,10 @@ Page({
   },
   //
   callBack: function (res) {
-    console.log(res.data);
-    var status = res.data.result;
-    if (status == 0){
-      app.showToast("手机号不正确");
+    var userCity = app.city;
       this.setData({
         data: res.data.datas
-      })
-    } else{
-      app.showToast(res.data.message);
-    }
-
+      });
   },
   //全部订单
   importPage: function (e) {

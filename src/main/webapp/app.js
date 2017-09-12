@@ -104,18 +104,16 @@ App({
         'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
       },
       success: function (res) {
-        console.log(res.data)
-      },
-      fail: function (res) {
-        console.log(res);
-      },
-      complete: function (res) {
         wx.hideLoading();
-        if(res.data.result == 0){
+        if (res.data.result == 0) {
           callback(res);
-        }else{
+        } else {
           that.showToast(res.data.message);
         }
+      },
+      fail: function (res) {
+        wx.hideLoading();
+        that.showToast(res.data.message);
       }
 
     })
