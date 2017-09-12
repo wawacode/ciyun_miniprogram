@@ -73,7 +73,7 @@ Page({
   },
   // 登录/注册
   register:function(){
-    var personStatus = this.data.Return.datas.personStatus;
+    var personStatus = this.data.Return.datas.personStatus || "";
     console.log(personStatus)
     if (personStatus==""){
       return false
