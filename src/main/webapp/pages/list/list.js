@@ -6,7 +6,7 @@ Page({
    */
   data: {
     // currentTab:1
-    "result": 1,
+    "result":"" ,
     datas:""
   },
 
@@ -32,17 +32,15 @@ Page({
           console.log(res.data.datas.length)
           // 
           var datass = res.data.datas
-          that.setData({
-            "datas": datass
-          })
-          console.log(that.data.datas)
+          console.log(datass)
           if (res.data.datas.length == 0) {
             that.setData({
               result: 1
             })
           } else {
             that.setData({
-              result: 0
+              result: 0,
+              datas: datass
             })
           }
           console.log(that.data.datas)
