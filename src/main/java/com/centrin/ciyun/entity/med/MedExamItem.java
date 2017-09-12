@@ -2,6 +2,8 @@ package com.centrin.ciyun.entity.med;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MedExamItem implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -10,10 +12,10 @@ public class MedExamItem implements java.io.Serializable {
 	private long examRptId;		//体检报告的id
 	private Long refOrganId;	//所属体检机构的引用组织id
 	private String itemId;		//小项id
-	private String itemName;	//体检机构中，原始项目的名字
+	private String itemName = null;	//体检机构中，原始项目的名字
 	private Integer itemOrder;	//小项在体检机构里的显示顺序
-	private String itemUnit;	//在体检机构里，小项的单位名称（如果有单位）
-	private String itemResult;	//小项的原始结果
+	private String itemUnit = null;	//在体检机构里，小项的单位名称（如果有单位）
+	private String itemResult = null;	//小项的原始结果
 	private Integer itemResultType;	//体检机构里，项目的结果类型 定性，定量的说明 1=定量(数值型) 2=定性(结果值编号化:无排列顺序) 3=定性(結果值编号化:有排列顺序) 4=定性(文字说明)
 	private Integer itemDecDigits;	//如果结果类型是数值型，那么显示时保留的有效小数位 当值为-1时，不做约束
 	private Double itemLow;			//小项的下限
@@ -36,18 +38,18 @@ public class MedExamItem implements java.io.Serializable {
 	private Double stdItemLow;			//
 	private Double stdItemHigh;			//
 	private Integer stdItemResultType;	//
-	private String stdRange;			//  这里改为存放api传来的不规则的上下限，不再存放标准项的上下限，以前都是空的20161101
+	private String stdRange = null;			//  这里改为存放api传来的不规则的上下限，不再存放标准项的上下限，以前都是空的20161101
 	private Integer isNormal;			//
 	private Date createTime;			//
 	private String createUser;			//
 	private int itemRecType;			//
 	private Integer organOrder;			//
-	private String organName;			//
-	private String departmentName;		//
+	private String organName = null;			//
+	private String departmentName = null;		//
 	private Long itemLinkStd;			//
 
 	public String getStdItemName() {
-		return itemName == null ? "" : itemName;
+		return itemName == null ? null : itemName;
 	}
 
 	public long getId() {
@@ -71,6 +73,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setItemName(String itemName) {
+		if (StringUtils.isEmpty(itemName)) {
+			itemName = null;
+		}
 		this.itemName = itemName;
 	}
 
@@ -87,6 +92,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setItemUnit(String itemUnit) {
+		if (StringUtils.isEmpty(itemUnit)) {
+			itemUnit = null;
+		}
 		this.itemUnit = itemUnit;
 	}
 
@@ -95,6 +103,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setItemResult(String itemResult) {
+		if (StringUtils.isEmpty(itemResult)) {
+			itemResult = null;
+		}
 		this.itemResult = itemResult;
 	}
 
@@ -271,6 +282,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setStdRange(String stdRange) {
+		if (StringUtils.isEmpty(stdRange)) {
+			stdRange = null;
+		}
 		this.stdRange = stdRange;
 	}
 
@@ -335,6 +349,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setOrganName(String organName) {
+		if (StringUtils.isEmpty(organName)) {
+			organName = null;
+		}
 		this.organName = organName;
 	}
 
@@ -343,6 +360,9 @@ public class MedExamItem implements java.io.Serializable {
 	}
 
 	public void setDepartmentName(String departmentName) {
+		if (StringUtils.isEmpty(departmentName)) {
+			departmentName = null;
+		}
 		this.departmentName = departmentName;
 	}
 

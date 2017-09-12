@@ -65,7 +65,7 @@ public class MedReportDetail implements Serializable {
 
 	public static class MedDetail implements java.io.Serializable {
 		private int rptMode = 0; //1:科室-大项-小项  2：科室-小项  3：大项-小项,,,一份报告中可能多种层次的结构都有
-		private String organName; //科室或大项目名称
+		private String organName = ""; //科室或大项目名称
 		private List<String> mediaList = new ArrayList<String>();   //当rptLevel为1时，这里没有值，值在itemClassList中
 		private List<MedExamItem> itemList = new ArrayList<MedExamItem>();   //rptLevel为1时，这里没有值
 		private Map<String, MedDetail> itemClassList = new LinkedHashMap<String, MedDetail>(); // 大项列表，k为大项，v为图片和小项

@@ -3,23 +3,25 @@ package com.centrin.ciyun.entity.med;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MedExamSummary implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private long examRptId;
 	private Long refOrganId;
-	private String organName;
-	private String departmentName;
+	private String organName = null;
+	private String departmentName = null;
 	private Integer organOrder;
-	private String summary;
-	private String doctor;					
-	private String dempartmentDoctor;		//科室小结医生
+	private String summary = null;
+	private String doctor = null;					
+	private String dempartmentDoctor = null;		//科室小结医生
 	private Date examTime;
 	private String preExamTime; //检查日期字符串
-	private String revDoctor;  //审核医生
+	private String revDoctor = null;  //审核医生
 	private Date revTime;      //审核时间
-	private String preRevTime; //审核日期字符串
+	private String preRevTime = null; //审核日期字符串
 	private Date createTime;
 	private Integer signFlag; //1:确定 2：不确定
 	
@@ -37,6 +39,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setSummary(String summary) {
+		if (StringUtils.isEmpty(summary)) {
+			summary = null;
+		}
 		this.summary = summary;
 	}
 
@@ -45,6 +50,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setDoctor(String doctor) {
+		if (StringUtils.isEmpty(doctor)) {
+			doctor = null;
+		}
 		this.doctor = doctor;
 	}
 
@@ -76,6 +84,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setOrganName(String organName) {
+		if (StringUtils.isEmpty(organName)) {
+			organName = null;
+		}
 		this.organName = organName;
 	}
 
@@ -85,10 +96,6 @@ public class MedExamSummary implements java.io.Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public String getOrganName() {
@@ -108,6 +115,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setDepartmentName(String departmentName) {
+		if (StringUtils.isEmpty(departmentName)) {
+			departmentName = null;
+		}
 		this.departmentName = departmentName;
 	}
 
@@ -116,6 +126,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setDempartmentDoctor(String dempartmentDoctor) {
+		if (StringUtils.isEmpty(dempartmentDoctor)) {
+			dempartmentDoctor = null;
+		}
 		this.dempartmentDoctor = dempartmentDoctor;
 	}
 
@@ -124,6 +137,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setRevDoctor(String revDoctor) {
+		if (StringUtils.isEmpty(revDoctor)) {
+			revDoctor = null;
+		}
 		this.revDoctor = revDoctor;
 	}
 
@@ -151,6 +167,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setPreExamTime(String preExamTime) {
+		if (StringUtils.isEmpty(preExamTime)) {
+			preExamTime = null;
+		}
 		this.preExamTime = preExamTime;
 	}
 
@@ -159,6 +178,9 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setPreRevTime(String preRevTime) {
+		if (StringUtils.isEmpty(preRevTime)) {
+			preRevTime = null;
+		}
 		this.preRevTime = preRevTime;
 	}
 	
