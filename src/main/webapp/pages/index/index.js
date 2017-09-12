@@ -75,12 +75,12 @@ Page({
   register:function(){
     console.log(this.data.Return)
     var personStatus = this.data.Return.datas.personStatus;
-    if (personStatus==1){
-      wx.reLaunch({
+    if (personStatus==0){
+      wx.navigateTo({
         url: '../register/register'
       })
-    } else if (personStatus==0){
-      wx.reLaunch({
+    } else if (personStatus==1){
+      wx.navigateTo({
         url: '../list/list'
       })
     }
