@@ -1,9 +1,3 @@
 <!--index.wxml-->
  <image src="images/bg.png" class="bg"></image>
-<view class="container" style="padding-top:20rpx">
- 
-  <view class="usermotto">
-    <!-- <text class="user-motto">{{motto}}</text> -->
-    <button class="login btn" bindtap="register">点这里立即查报告</button>
-  </view>
-</view> 
+ <button class="log btn" bindtap="register">点这里立即查报告</button>
