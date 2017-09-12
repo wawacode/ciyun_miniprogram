@@ -51,7 +51,7 @@
       <view class="table">
         <view class="new-report-total">
           <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
-            <text style="font-weight:bold;"> {{item.summary}}</text>
+            <text> {{item.summary}}</text>
             <view>{{item.advice}}</view>
           </view>
         </view>
@@ -418,39 +418,50 @@
           <view class="cap-lev2" wx:for="{{item.itemClassList}}" wx:for-item="itemName" wx:key="productName">
             <view class="cap-lev2-title">{{itemName.organName}}</view>
             <view class='cap-lev3 report-table-tr' wx:for="{{itemName.itemList}}" wx:for-item="lev3Item" wx:key="lev3Item">
-              <view class="td r-item">{{lev3Item.itemName}}</view>
-              <view class="td">{{lev3Item.itemResult}}</view>
-              <block wx-if="{{lev3Item.itemUnit == ''}}">
-                <block wx-if="{{lev3Item.itemLow == null}}">
+
+              <block wx:if="{{lev3Item.itemUnit == ''}}">
+                <block wx:if="{{lev3Item.itemLow == null}}">
+                  <view class="td r-item  itemName">{{lev3Item.itemName}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
                 </block>
                 <block wx:else>
+                  <view class="td r-item">{{lev3Item.itemName}}</view>
+                  <view class="td">{{lev3Item.itemResult}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
               </block>
               <block wx:else>
-                <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
-                <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
+                <block wx:if="{{lev3Item.itemLow == null}}">
+                  <view class="td r-item itemName">{{lev3Item.itemName}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                </block>
+                <block wx:else>
+                  <view class="td r-item">{{lev3Item.itemName}}</view>
+                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
+                  <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
+                </block>
               </block>
 
             </view>
           </view>
         </view>
-        <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for=  wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
+        <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
           <!-- 项目组级小结开始 -->
-          <block wx-if="{{summaryList.summary != 'ciyun'}}">
-          <view class="report-table-tr">
-            <view class="td w100 lv-2">
-              <view class="lv-2-tit">
-                <em>{{summaryItem.summary}}</em>
-              </view>
-              <view class="lv-2-main">
+          <block wx:if="{{summaryList.summary != 'ciyun'}}">
+            <view class="report-table-tr">
+              <view class="td w100 lv-2">
+                <view class="lv-2-tit">
+                  <em>{{summaryItem.summary}}</em>
+                </view>
+                <view class="lv-2-main">
 
-                <view class="lv-2-doctor">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx-if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+                  <view class="lv-2-doctor">检查医师：{{summaryItem.doctor}}</view>
+                  <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+                </view>
               </view>
             </view>
-          </view>
           </block>
         </view>
       </block>
@@ -461,41 +472,50 @@
             <image data-idx='{{idx}}' bindtap="previewImage" src='images/previewImage.png' class="readPicBtn" title="图片预览" wx:if="{{item.mediaList.length>0}}"></image>
           </view>
 
-          <view class="cap-lev2"  wx:for="{{item.itemList}}" wx:for-item="lev3Item" wx:key="lev3Item">
+          <view class="cap-lev2" wx:for="{{item.itemList}}" wx:for-item="lev3Item" wx:key="lev3Item">
             <view class='cap-lev3 report-table-tr'>
-              <view class="td r-item">{{lev3Item.itemName}}</view>
-              <view class="td">{{lev3Item.itemResult}}</view>
-              <block wx-if="{{lev3Item.itemUnit == ''}}">
-                <block wx-if="{{lev3Item.itemLow == null}}">
+              <block wx:if="{{lev3Item.itemUnit == ''}}">
+                <block wx:if="{{lev3Item.itemLow == null}}">
+                  <view class="td r-item itemName">{{lev3Item.itemName}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
                 </block>
                 <block wx:else>
+                  <view class="td r-item">{{lev3Item.itemName}}</view>
+                  <view class="td">{{lev3Item.itemResult}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
               </block>
               <block wx:else>
-                <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
-                <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
+                <block wx:if="{{lev3Item.itemLow == null}}">
+                  <view class="td r-item itemName">{{lev3Item.itemName}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                </block>
+                <block wx:else>
+                  <view class="td r-item">{{lev3Item.itemName}}</view>
+                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
+                  <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
+                </block>
               </block>
 
             </view>
           </view>
         </view>
-        <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for=  wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
+        <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
           <!-- 项目组级小结开始 -->
-          <block wx-if="{{summaryList.summary != 'ciyun'}}">
-          <view class="report-table-tr">
-            <view class="td w100 lv-2">
-              <view class="lv-2-tit">
-                <em>{{summaryItem.summary}}</em>
-              </view>
-              <view class="lv-2-main">
-
-                <view class="lv-2-doctor">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx-if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+          <block wx:if="{{summaryList.summary != 'ciyun'}}">
+            <view class="report-table-tr">
+              <view class="td w100 lv-2">
+                <view class="lv-2-tit">
+                  <em>{{summaryItem.summary}}</em>
+                </view>
+                <view class="lv-2-main">
+                  <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
+                  <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+                </view>
               </view>
             </view>
-          </view>
           </block>
         </view>
       </block>

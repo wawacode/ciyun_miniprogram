@@ -256,6 +256,9 @@ background-color: #fff;
     padding: 10px 15px 10px 15px;
     text-indent: 20px;
 }
+.new-report-total text{
+  font-weight:bold;
+}
 /* 超标项  */
 .report-table-tr{
   display: flex;
@@ -327,6 +330,12 @@ background-color: #fff;
   padding-left: 10px;
   padding-right: 10px;
   flex: 1;
+}
+.itemName{
+  flex:1;
+}
+.itemResult{
+  flex:3;
 }
 .cap-lev1{
      padding: 0 10px;
@@ -401,6 +410,7 @@ background-color: #fafff5;
   line-height: 30px;
   padding: 0 10px;
   position: relative; 
+  border-bottom:1px solid #eee;
 }
 .cap-lev3{
   background: white;

@@ -112,21 +112,18 @@ Page({
       thirdSession: wx.getStorageSync('thirdSession'),
       idCardType:1,
       idCard: this.data.idCardValue,
-      sex:1,
+      sex:this.data.datas.sex,
       mobile: 15910795522||this.data.datas.telephone,
-      medDate:"2017-08-31",
+      medDate: this.data.date,
       medPersonNo: this.data.medPersonNo,
       medCorpId: this.data.datas.medCorpId,
       userName: this.data.userName
     }
     app.postCallBack('medrpt/importRpt', data, function(data){
-        console.log(data);
+        wx.navigateTo({
+          url: '../list/list'
+        })
     });
-    // setTimeout(function () {
-    //   wx.navigateTo({
-    //     url: '../detail/detail'
-    //   })
-    // }, 1500)
   },
   //接口回调初始化渲染模板
   callBack: function (res) {
