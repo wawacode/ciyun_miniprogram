@@ -71,7 +71,6 @@ Page({
   },
   //手机号
   userNameInput: function (e) {
-    // console.log(e.detail.value)
     this.setData({
       userName: e.detail.value
     })
@@ -89,18 +88,15 @@ Page({
       return false;
     } else {
       if (that.data.isdisable == false) {
-        // console.log(this.data.userName)
         var json={
           telephone: this.data.userName,
           thirdSession: getApp().thirdSession
         }
-        console.log(json)
         app.postCallBack('authorize/validsmscode', json, that.callback);
       }
     }
   },
   callback: function (res){
-    console.log(res.data)
     var count = 120;
     var that=this
     if(res.data.result==0){
@@ -157,22 +153,17 @@ Page({
       smscode: this.data.Verification,
       thirdSession: getApp().thirdSession
     }
-    console.log(json)
     app.postCallBack('authorize/login', json, that.callback2);
   },
   callback2:function(res){
-    console.log(res)
     var that = this
     var result = res.data.result
-    console.log(result)
     if (result==0){
-      console.log(res.data.datas.isRegisterAndLogin )
       if (res.data.datas.isRegisterAndLogin == 0) {
         // that.setData({
         //   btn: 'nexts'
         // })
         var loginStatus = getApp().loginStatus;
-        console.log(loginStatus)
         if (!loginStatus) {
           wx.openSetting({
             //重新请求获取定位
@@ -184,7 +175,6 @@ Page({
                   var userInfo = res.userInfo
                   // 敏感数据
                   var watermark = res.encryptedData;
-                  console.log(watermark)
                   // 用户信息
                   var nickName = userInfo.nickName
                   var avatarUrl = userInfo.avatarUrl
@@ -199,7 +189,6 @@ Page({
                   app.city = city
                   app.province = province
                   app.country = country
-                  console.log(getApp().gender + '......' + getApp().nickName)
                   wx.reLaunch({
                     url: "../lower/lower"
                   })

@@ -15,59 +15,23 @@ Page({
    */
   onLoad: function () {
     //载入时请求数据更新array和currentTab
-    // currentTab = 1表示没有体检报告，currentTab=0表示有体检报告
-    console.log(getApp().thirdSession)
-    // app.postCallBack('medrpt/list', { "thirdSession": getApp().thirdSession }, that.callback);
-    var that = this
-    wx.request({
-      url: 'https://minirpt.ciyun.cn/user/medrpt/list',
-      data: { thirdSession: getApp().thirdSession },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json',
-        'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
-      },
-      success: function (res) {
-          console.log(res.data)
-          console.log(res.data.datas.length)
-          // 
-          var datass = res.data.datas
-          console.log(datass)
-          if (res.data.datas.length == 0) {
-            that.setData({
-              result: 1
-            })
-          } else {
-            that.setData({
-              result: 0,
-              datas: datass
-            })
-          }
-          console.log(that.data.datas)
-      },
-      fail: function (res) {
-      },
-      complete: function (res) {
-        wx.hideLoading();
-        // var that = this
-        var datass = res.data.datas
-        that.setData({
-          "datas": datass
-        })
-        if (res.data.datas.length == 0) {
-          that.setData({
-            result: 1
-          })
-        } else {
-          that.setData({
-            result: 0
-          })
-        }
-      }
-
-    })
+    var that = this;
+    app.postCallBack('medrpt/list', { thirdSession: getApp().thirdSession }, that.callback);
   },
-
+callback:function(res){
+  var datass = res.data.datas
+  var that=this
+  if (res.data.datas.length == 0) {
+    that.setData({
+      result: 1
+    })
+  } else {
+    that.setData({
+      result: 0,
+      datas: datass
+    })
+  }
+},
   
 
   /**

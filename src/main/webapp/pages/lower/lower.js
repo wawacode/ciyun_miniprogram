@@ -20,7 +20,6 @@ Page({
     index2: "175"
   },
   bindPickerChange2: function (e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index2: this.data.array2[e.detail.value]
     })
@@ -54,8 +53,6 @@ Page({
     for(var i=50;i<=250;i++){
       height.push(i)
     }
-    console.log(age)
-    // console.log(getApp().avatarUrl)
     this.setData({
       avatarUrl: getApp().avatarUrl,
       username: getApp().nickName,
@@ -132,23 +129,19 @@ Page({
         gender: '女',
       })
     }
-    console.log(this.data.gender)
   },
   name: function (e) {
-    console.log(e.detail)
     this.setData({
       username: e.detail.value,
     })
 
   },
   Age: function (e) {
-    console.log(e.detail)
     this.setData({
       Age: e.detail.value,
     })
   },
   height: function () {
-    console.log(e.detail)
     this.setData({
       height: e.detail.value,
     })
@@ -175,11 +168,9 @@ Page({
       height: index2, 
       thirdSession: getApp().thirdSession
     }
-    console.log(json)
     app.postCallBack('authorize/updateUserinfo', json, that.callback);
   },
   callback:function(res){
-    console.log(res.data)
     if (res.data.result==0){
       wx.reLaunch({
         url: '../list/list'
@@ -188,8 +179,6 @@ Page({
     
   },
   bindPickerChange: function (e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
-    // console.log(this.data.array[e.detail.value])
     this.setData({
       index: this.data.array[e.detail.value]
     })

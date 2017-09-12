@@ -23,7 +23,6 @@ Page({
     wx.login({
       success: function (res) {
         var code=res.code
-        console.log('code值：' + code)
         app.postCallBack('authorize/getThirdSession', { code: code }, that.callback);
       }
     })
@@ -49,7 +48,6 @@ Page({
         var province = userInfo.province
         var city = userInfo.city
         var country = userInfo.country
-        // console.log(gender + '......' + gender + '......' + avatarUrl + '......' + city + '......' + province + '......' + country)
         app.gender = gender
         app.nickName = nickName
         app.avatarUrl = avatarUrl
@@ -62,18 +60,15 @@ Page({
   },
   //获取数据
   callback: function (res) { 
-    console.log(res.data)
     this.setData({
       Return: res.data
     })
-    console.log(res.data.datas.thirdSession)
     app.thirdSession = res.data.datas.thirdSession;
     wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
     wx.setStorageSync('jSessionId',res.data.datas.jSessionId)
   },
   // 登录/注册
   register:function(){
-    console.log(this.data.Return)
     var personStatus = this.data.Return.datas.personStatus;
     if (personStatus==0){
       wx.navigateTo({
