@@ -1,10 +1,13 @@
 {
   "pages": [
+    "pages/index/index",
+        "pages/mechanism/mechanism",
+          
     "pages/list/list",
     "pages/register/register",
-    "pages/mechanism/mechanism",
+
       "pages/detail/detail",
-      "pages/index/index",
+
         
     "pages/report/report",
   

@@ -43,6 +43,10 @@ background-color: #fff;
     padding-top: 98rpx;
     padding-bottom: 98rpx;
 }
+.report-content:last-child {
+    padding-top: 150rpx;
+    padding-bottom: 98rpx;
+}
 .form-view {
     padding: 0 10px;
 }
@@ -322,11 +326,11 @@ background-color: #fff;
   color: #333;
   padding-left: 10px;
   padding-right: 10px;
-  flex: 2;
+  flex: 1;
 }
-.cap-lev1, .cap-lev2 {
-    padding: 0 10px;
-    position: relative;
+.cap-lev1{
+     padding: 0 10px;
+    position: relative; 
 
 }
 .cap-lev1 {
@@ -340,8 +344,6 @@ background-color: #fff;
 }
 .cap-lev2 {
     background: #f7f8f9;
-    line-height: 30px;
-    height: 30px;
     color: #3e454f;
     text-align: left;
     font-weight: bold;
@@ -394,6 +396,14 @@ background-color: #fafff5;
     text-align: right;
     color: #acacac;
     font-size: 12px;
+}
+.cap-lev2-title{
+  line-height: 30px;
+  padding: 0 10px;
+  position: relative; 
+}
+.cap-lev3{
+  background: white;
 }
 .w100{
   width: 100%;

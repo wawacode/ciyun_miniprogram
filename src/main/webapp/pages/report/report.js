@@ -122,22 +122,22 @@ Page({
     app.postCallBack('medrpt/importRpt', data, function(data){
         console.log(data);
     });
-    setTimeout(function () {
-      wx.navigateTo({
-        url: '../detail/detail'
-      })
-    }, 1500)
+    // setTimeout(function () {
+    //   wx.navigateTo({
+    //     url: '../detail/detail'
+    //   })
+    // }, 1500)
   },
   //接口回调初始化渲染模板
-  callBack: function (data) {
-   if(data.result == 0){
+  callBack: function (res) {
+   if(res.data.result == 0){
      this.setData({
-        datas:data.datas
+        datas:res.data.datas
      });
      this.ruleCardTypeFilter(this.data.datas.ruleCardType);
      this.filterTypeRendering();
    }else{
-     app.showToast(data.message)
+     app.showToast(res.data.message)
    }
 
   },

@@ -102,7 +102,7 @@
                 <view style="display: block;" for="idCardType">
                     <view id="idCardType" name="idCardType" class="app-select-rul">
                         <view class="section">
-                            <input placeholder-class="phcolor" class="app-select-rul" value='{{datas.username}}' type="text" placeholder="请输入" />
+                            <input placeholder-class="phcolor" class="app-select-rul" value='{{datas.username}}' type="text" placeholder="请输入"  bindinput="changeuserNameValue" />
                         </view>
                     </view>
                 </view>

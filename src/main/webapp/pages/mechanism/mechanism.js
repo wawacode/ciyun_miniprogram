@@ -18,34 +18,7 @@ Page({
     currentTab: 0,
     hover_class: "",
     second_height: "",
-    data: [
-      {
-        "city": "北京市",
-        "hidMedCorpList": [
-          {
-            "corpName": "中国人民解放军第三〇六医院",
-            "medCorpId": "1383"
-          },
-          {
-            "corpName": "航天中心医院",
-            "medCorpId": "721"
-          }
-        ]
-      },
-      {
-        "city": "上海市",
-        "hidMedCorpList": [
-          {
-            "corpName": "上海市第一人民医院",
-            "medCorpId": "13843"
-          },
-          {
-            "corpName": "上海市第六人民医院",
-            "medCorpId": "722"
-          }
-        ]
-      }
-    ]
+    data: []
   },
   //事件处理函数
   bindViewTap: function () {
@@ -119,13 +92,13 @@ Page({
     })
   },
   //
-  callBack: function (data) {
-    console.log(data);
-    var status = data.result;
+  callBack: function (res) {
+    console.log(res.data);
+    var status = res.data.result;
     if (status == 0){
       app.showToast("手机号不正确");
       this.setData({
-        data: data.datas
+        data: res.data.datas
       })
     } else{
       app.showToast(res.data.message);

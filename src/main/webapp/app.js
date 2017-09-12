@@ -85,14 +85,15 @@ App({
   },
   //简写为空判断
   isEmpty: function (str) {
-    return (str === '' || str === null) ? false : true;
+    return (str === '' || str === null || str === undefined) ? false : true;
   },
   //请求回调结果
   postCallBack: function (type, data, callback) {
+    var that = this;
     wx.showLoading({
       title: '加载中',
     });
-    var host = 'https://minirpt.ciyun.cn/user/'+type;
+    var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
     console.log(wx.getStorageSync('jSessionId'));
     wx.request({
       url: host, //仅为示例，并非真实的接口地址
@@ -106,11 +107,15 @@ App({
         console.log(res.data)
       },
       fail: function (res) {
-        console.log(res)
+        console.log(res);
       },
       complete: function (res) {
         wx.hideLoading();
-        callback(res.data);
+        if(res.data.result == 0){
+          callback(res);
+        }else{
+          that.showToast(res.data.message);
+        }
       }
 
     })
