@@ -56,6 +56,8 @@ Page({
         app.country = country
         app.loginStatus=true
         console.log(province)
+        console.log(city)
+        console.log(getApp().city)
       }
     })
   },
@@ -72,14 +74,19 @@ Page({
   // 登录/注册
   register:function(){
     var personStatus = this.data.Return.datas.personStatus;
-    if (personStatus==1){
-      wx.navigateTo({
-        url: '../register/register'
-      })
-    } else if (personStatus==0){
-      wx.navigateTo({
-        url: '../list/list'
-      })
+    console.log(personStatus)
+    if (personStatus==""){
+      return false
+    }else{
+      if (personStatus == 0) {
+        wx.navigateTo({
+          url: '../register/register'
+        })
+      } else if (personStatus == 1) {
+        wx.navigateTo({
+          url: '../list/list'
+        })
+      }
     }
   }
 })
