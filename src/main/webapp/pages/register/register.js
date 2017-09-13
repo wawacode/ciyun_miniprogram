@@ -9,7 +9,7 @@ Page({
     Verification: "",
     verifyInfo: "获取验证码",
     isdisable: false,
-    color:'#bbbbbb',
+    color:'#666666',
     background:"#d3d3d3",
     state:"下一步",
     disabled: true,
@@ -113,7 +113,7 @@ Page({
         } else {
           that.setData({
             verifyInfo: '获取验证码',
-            color: '#bbbbbb',
+            color: '#666666',
             background: "#6fba2c"
           })
           clearInterval(timer);
@@ -121,9 +121,9 @@ Page({
         }
       },1000);
       that.data.isdisable = true;
-    } else if (result == 20006) {
+    } else {
       wx.showModal({
-        title: "短信验证码发送失败"
+        title: res.data.message
       })
     }
   },
@@ -168,7 +168,6 @@ Page({
           wx.openSetting({
             //重新请求获取定位
             success: function (res) {
-              // console.info(res.userInfo);
               wx.getUserInfo({
                 lang: "zh_CN",
                 success: function (res) {
@@ -182,7 +181,6 @@ Page({
                   var province = userInfo.province
                   var city = userInfo.city
                   var country = userInfo.country
-                  // console.log(gender + '......' + gender + '......' + avatarUrl + '......' + city + '......' + province + '......' + country)
                   app.gender = gender
                   app.nickName = nickName
                   app.avatarUrl = avatarUrl
@@ -203,27 +201,19 @@ Page({
         }
       } else if (res.data.datas.isRegisterAndLogin == 1) {
 
-          if (result == 20001) {
+        if (result !=0) {
             wx.showModal({
-              title: "手机号不正确"
+              title: res.data.message
             })
-          } else if (result == 20002) {
-            wx.showModal({
-              title: "短信验证码不正确"
-            })
-          } else if (result == 20003) {
-            wx.showModal({
-              title: "获取短信验证码超过上限"
-            })
-          } else if (result == 20005) {
-            wx.showModal({
-              title: "短信验证码过期"
-            })
-          }
+          } 
         wx.navigateTo({
             url: '../list/list',
           })
       }
-    } 
+    } else{
+      wx.showModal({
+        title: res.data.message
+      })
+    }
   }
 })

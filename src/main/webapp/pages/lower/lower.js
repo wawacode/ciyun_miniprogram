@@ -19,6 +19,7 @@ Page({
     index: "35",
     index2: "175"
   },
+  //身高
   bindPickerChange2: function (e) {
     this.setData({
       index2: this.data.array2[e.detail.value]
@@ -119,7 +120,6 @@ Page({
 
   },
   radioChange: function (e) {
-    // console.log('携带value值为：', e.detail.value)
     if (e.detail.value == '1') {
       this.setData({
         gender: '男',
@@ -175,6 +175,11 @@ Page({
       wx.reLaunch({
         url: '../list/list'
       })
+    }else{
+      wx.showModal({
+        title: res.data.message
+      })
+      
     }
     
   },

@@ -9,7 +9,6 @@ Page({
     "result":"" ,
     datas:""
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -19,16 +18,22 @@ Page({
     app.postCallBack('medrpt/list', { thirdSession: getApp().thirdSession }, that.callback);
   },
 callback:function(res){
-  var datass = res.data.datas
-  var that=this
-  if (res.data.datas.length == 0) {
-    that.setData({
-      result: 1
-    })
-  } else {
-    that.setData({
-      result: 0,
-      datas: datass
+  if (res.data.result==0){
+    var datass = res.data.datas
+    var that = this
+    if (res.data.datas.length == 0) {
+      that.setData({
+        result: 1
+      }) 
+    } else {
+      that.setData({
+        result: 0,
+        datas: datass
+      })
+    }
+  }else{
+    wx.showModal({
+      title: res.data.message
     })
   }
 },
@@ -91,7 +96,6 @@ callback:function(res){
     var id = e.target.dataset.id
     //将id值传给后台
     app.listId=id
-    console.log(id)
     wx.navigateTo({
       url: "../detail/detail"
     })

@@ -19,29 +19,28 @@ Page({
       url: '../logs/logs'
     })
   },
+  // 在页面加载时获取thirdSession值
   onLoad: function () {
-    var that = this;
+    var that = this; 
     wx.login({
       success: function (res) {
         var code=res.code
         app.postCallBack('authorize/getThirdSession', { code: code }, that.callback);
       }
     })
-    
-    //调用应用实例的方法获取全局数据
     app.getUserInfo(function(userInfo){
       //更新数据
       this.setData({
         userInfo:userInfo
       })
     })
+    // 获取用户信息
     wx.getUserInfo({
       lang:"zh_CN",
       success: function (res){
         var userInfo = res.userInfo
         // 敏感数据
         var watermark = res.encryptedData;
-        console.log(watermark)
         // 用户信息
         var nickName = userInfo.nickName
         var avatarUrl = userInfo.avatarUrl
@@ -56,28 +55,29 @@ Page({
         app.province = province
         app.country = country
         app.loginStatus=true
-        console.log(province)
-        console.log(city)
-        console.log(getApp().city)
       }
     })
   },
   //获取数据
   callback: function (res) { 
-    console.log(res);
-    this.setData({
-      Return: res.data,
-      disabled:false,
-    })
-    app.thirdSession = res.data.datas.thirdSession;
-    wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
-    wx.setStorageSync('jSessionId',res.data.datas.jSessionId)
+    if (res.data.result==0){
+      this.setData({
+        Return: res.data,
+        disabled: false,
+      })
+      app.thirdSession = res.data.datas.thirdSession;
+      wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
+      wx.setStorageSync('jSessionId', res.data.datas.jSessionId)
+    }else{
+      wx.showModal({
+        title: res.data.message
+      })
+    }
+    
   },
   // 登录/注册
   register:function(){
-    var personStatus = this.data.Return.datas.personStatus || "";
-    console.log(personStatus)
-   
+    var personStatus = this.data.Return.datas.personStatus;
       if (personStatus == 0) {
         wx.navigateTo({
           url: '../register/register'
