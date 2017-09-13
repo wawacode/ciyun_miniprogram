@@ -43,12 +43,10 @@ Page({
       this.setData({
         "ruleCardType": ruleCardTypeArr
       })
-      console.log(ruleCardTypeArr);
     }
   },
   // 赛选 条件渲染
   filterTypeRendering:function(){
-    console.log(this.data.datas);
     var ruleArr = this.data.datas.ruleIds.split("|");
     var sexIndex = this.data.datas.sex-1;
     this.setData({
@@ -60,26 +58,22 @@ Page({
       userName_boo:ruleArr.includes('userName'),
       sexIndex: sexIndex
     })
-    console.log(ruleArr);
   },
   changeIdCardValue:function(e){
       this.setData({
         idCardValue:e.detail.value
       })
-      console.log(this.data);
   },
   changeMedPersonNoValue:function(e){
     this.setData({
       medPersonNo: e.detail.value
     })
-    console.log(this.data);
   },
   changeuserNameValue: function (e) {
     
     this.setData({
       userName: e.detail.value
     })
-    console.log(this.data);
   },
   //表单校验
   queryimport: function () {
@@ -112,7 +106,7 @@ Page({
       thirdSession: wx.getStorageSync('thirdSession'),
       idCardType:1,
       idCard: this.data.idCardValue,
-      sex:this.data.datas.sex,
+      sex: (Number(this.data.sexIndex) + 1),
       mobile: 15910795522||this.data.datas.telephone,
       medDate: this.data.date,
       medPersonNo: this.data.medPersonNo,
@@ -120,9 +114,9 @@ Page({
       userName: this.data.userName
     }
     app.postCallBack('medrpt/importRpt', data, function(data){
-        wx.navigateTo({
-          url: '../list/list'
-        })
+      wx.reLaunch({
+        url:'../list/list'
+      })
     });
   },
   //接口回调初始化渲染模板
@@ -143,7 +137,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(wx.getStorageSync('thirdSession'));
     var that = this;
     var data = {
       thirdSession: options.thirdSession || wx.getStorageSync('thirdSession'),
@@ -212,7 +205,7 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       cardTypeIndex: e.detail.value
-    })
+    }) 
   },
   // 性别
   bindSexChange: function (e) {

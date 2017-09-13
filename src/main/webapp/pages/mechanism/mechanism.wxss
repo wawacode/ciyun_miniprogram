@@ -34,6 +34,7 @@
   padding: 0 0 0 40rpx;
   height: 100rpx;
   line-height: 100rpx;
+  overflow:hidden;
 }
 .mechanism-item{
   border-bottom: 1rpx solid #cbcbcb;

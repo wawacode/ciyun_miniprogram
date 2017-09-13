@@ -379,10 +379,10 @@
       <view class="report-table-tr" wx:for="{{data.exceptionItems}}" wx:key="exceptionItems">
         <view class="report-table-td">{{item.itemName}}</view>
         <view class="report-table-td" wx:if="{{item.isNormal > 3}}">
-          <text class="down">{{item.itemResult}}↓</text>
+          <text class="down">{{lev3Item.itemResult || ''}}↓</text>
         </view>
         <view class="report-table-td" wx:if="{{item.isNormal < 4}}">
-          <text class="up">{{item.itemResult}}↑</text>
+          <text class="up">{{lev3Item.itemResult || ''}}↑</text>
         </view>
         <view class="report-table-td">
           <text class="r-unit">{{item.itemUnit}}</text>
@@ -407,7 +407,7 @@
   </view>
   <!-- 分表 -->
   <block wx:if="{{data.adviceList.length>0}}">
-    <view wx:for-index="idx" data-idx='{{idx}}' class="detail-table {{index == 0 ?  first : ''}}" wx:for="{{data.medDetails}}" hidden="{{idx != currentClassifyId && currentClassifyId != '0'}}">
+    <view wx:key="idx" wx:for-index="idx" data-idx='{{idx}}' class="detail-table {{index == 0 ?  first : ''}}" wx:for="{{data.medDetails}}" hidden="{{idx != currentClassifyId && currentClassifyId != '0'}}">
       <!-- 科室 大小 项目  -->
       <block wx:if="{{item.rptMode == 1}}">
         <view class="detail-title">
@@ -421,24 +421,24 @@
 
               <block wx:if="{{lev3Item.itemUnit == ''}}">
                 <block wx:if="{{lev3Item.itemLow == null}}">
-                  <view class="td r-item  itemName">{{lev3Item.itemName}}</view>
-                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                  <view class="td r-item  itemName">{{lev3Item.itemName || ''}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult || ''}}</view>
                 </block>
                 <block wx:else>
-                  <view class="td r-item">{{lev3Item.itemName}}</view>
-                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td r-item">{{lev3Item.itemName || ''}}</view>
+                  <view class="td">{{lev3Item.itemResult || ''}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
               </block>
               <block wx:else>
                 <block wx:if="{{lev3Item.itemLow == null}}">
-                  <view class="td r-item itemName">{{lev3Item.itemName}}</view>
-                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                  <view class="td r-item itemName">{{lev3Item.itemName || ''}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult || ''}}</view>
                 </block>
                 <block wx:else>
-                  <view class="td r-item">{{lev3Item.itemName}}</view>
-                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td r-item">{{lev3Item.itemName || ''}}</view>
+                  <view class="td">{{lev3Item.itemResult || ''}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
@@ -457,7 +457,7 @@
                 </view>
                 <view class="lv-2-main">
 
-                  <view class="lv-2-doctor">检查医师：{{summaryItem.doctor}}</view>
+                  <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
                   <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
                 </view>
               </view>
@@ -476,12 +476,12 @@
             <view class='cap-lev3 report-table-tr'>
               <block wx:if="{{lev3Item.itemUnit == ''}}">
                 <block wx:if="{{lev3Item.itemLow == null}}">
-                  <view class="td r-item itemName">{{lev3Item.itemName}}</view>
-                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                  <view class="td r-item itemName">{{lev3Item.itemName || ''}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult || ''}}</view>
                 </block>
                 <block wx:else>
                   <view class="td r-item">{{lev3Item.itemName}}</view>
-                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td">{{lev3Item.itemResult || ''}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
@@ -489,11 +489,11 @@
               <block wx:else>
                 <block wx:if="{{lev3Item.itemLow == null}}">
                   <view class="td r-item itemName">{{lev3Item.itemName}}</view>
-                  <view class="td itemResult">{{lev3Item.itemResult}}</view>
+                  <view class="td itemResult">{{lev3Item.itemResult || ''}}</view>
                 </block>
                 <block wx:else>
                   <view class="td r-item">{{lev3Item.itemName}}</view>
-                  <view class="td">{{lev3Item.itemResult}}</view>
+                  <view class="td">{{lev3Item.itemResult || ''}}</view>
                   <view class="td r-unit">{{lev3Item.itemUnit || ''}}</view>
                   <view class="td r-reference">{{lev3Item.itemLow || ''}}-{{lev3Item.itemHight || ''}}</view>
                 </block>
