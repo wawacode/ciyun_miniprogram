@@ -54,7 +54,7 @@ Page({
             var province = userInfo.province
             var city = userInfo.city
             var country = userInfo.country;
-            app.city = province;
+            app.province = province;
             console.log(res);
           }
         })
@@ -83,11 +83,16 @@ Page({
   },
   //
   callBack: function (res) {
-    var userCity = app.city;
+    var userCity = app.province || '';
     var datas = res.data.datas;
     for (var i in datas){
-      
+      if (datas[i].city == userCity){
+        var arr = datas.splice(i, 1);
+        datas.unshift(arr[0]);
+        break;
+      }
     }
+    console.log(datas);
       this.setData({
         data: res.data.datas
       });
