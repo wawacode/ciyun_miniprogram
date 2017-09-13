@@ -4,8 +4,8 @@ Page{
 }
 .container{
   padding:24rpx;
-  
   padding-top:0;
+  margin-bottom:88rpx;
 }
 .list_box{
   width:100%;
@@ -73,13 +73,13 @@ Page{
   width:100%;
   height:auto;
   overflow: hidden;
-  padding-top:10rpx;
   padding-bottom:20rpx;
   padding-left: 24rpx;
   padding-right: 24rpx;
   position: fixed;
   bottom: 0;
   left:0;
+  background:#f3f5f6;
 }
 
 .title{
