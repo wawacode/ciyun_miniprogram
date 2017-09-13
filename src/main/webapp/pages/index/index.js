@@ -4,8 +4,6 @@ var app = getApp()
 Page({
   data: {
     motto: '欢迎查看慈云微报告',
-    userInfo: {
-    },
     item:"images/logo.png",
     name: "中金慈云", 
     btn:"login",
@@ -19,20 +17,16 @@ Page({
       url: '../logs/logs'
     })
   },
-  // 在页面加载时获取thirdSession值
+  
   onLoad: function () {
+    app.loginStatus=false
     var that = this; 
+    // 在页面加载时获取thirdSession值
     wx.login({
       success: function (res) {
         var code=res.code
         app.postCallBack('authorize/getThirdSession', { code: code }, that.callback);
       }
-    })
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      this.setData({
-        userInfo:userInfo
-      })
     })
     // 获取用户信息
     wx.getUserInfo({
@@ -58,7 +52,7 @@ Page({
       }
     })
   },
-  //获取数据
+  //向后台获取到的值后，执行函数
   callback: function (res) { 
     if (res.data.result==0){
       this.setData({
@@ -78,11 +72,11 @@ Page({
   // 登录/注册
   register:function(){
     var personStatus = this.data.Return.datas.personStatus;
-      if (personStatus == 0) {
+    if (personStatus == 0) {//用户未注册过慈云平台或已注册但是未登录过慈云小程序
         wx.navigateTo({
           url: '../register/register'
         })
-      } else if (personStatus == 1) {
+    } else if (personStatus == 1) {//登录过慈云小程序
         wx.navigateTo({
           url: '../list/list'
         })
