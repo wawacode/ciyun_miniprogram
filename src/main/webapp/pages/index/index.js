@@ -10,7 +10,8 @@ Page({
     name: "中金慈云", 
     btn:"login",
     code:"",
-    Return:""
+    Return:"",
+    disabled: true,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -65,7 +66,8 @@ Page({
   callback: function (res) { 
     console.log(res);
     this.setData({
-      Return: res.data
+      Return: res.data,
+      disabled:false,
     })
     app.thirdSession = res.data.datas.thirdSession;
     wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
@@ -75,9 +77,7 @@ Page({
   register:function(){
     var personStatus = this.data.Return.datas.personStatus;
     console.log(personStatus)
-    if (personStatus==""){
-      return false
-    }else{
+   
       if (personStatus == 0) {
         wx.navigateTo({
           url: '../register/register'
@@ -88,5 +88,4 @@ Page({
         })
       }
     }
-  }
 })
