@@ -13,7 +13,7 @@
     <view class="form-group">
       <text class="form-label">体检日期</text>
       <view class="form-val">
-        <view>{{data.medExamRpt.preMedDate}}</view>
+        <view>{{data.medExamRpt.preMedDate || ''}}</view>
       </view>
     </view>
     <view class="form-group">

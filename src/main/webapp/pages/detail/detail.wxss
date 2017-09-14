@@ -422,8 +422,8 @@ background-color: #fafff5;
 
 .report-tab-search {
     position: fixed;
-    right: 0px;
-    bottom: 8px;
+    right: 10px;
+    bottom: 10px;
     width: 56px;
     height: 56px;
     display: block;

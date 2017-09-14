@@ -5,41 +5,6 @@ App({
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now());
-    // wx.login({
-    //   success: function (res) {
-    //     console.log(res);
-
-    //     if (res.code) {
-    //       wx.request({
-    //         url: 'https://minirpt.ciyun.cn/user/authorize/getThirdSession',
-    //         method: 'POST',
-    //         header: {
-    //           'content-type': 'application/json',
-              
-    //         },
-    //         data: {
-    //           code: res.code
-    //         }, success: function (res) {
-    //         },
-    //         fail: function (res) {
-    //           console.log(res)
-    //         },
-    //         complete: function (res) {
-    //           wx.hideLoading()
-    //           console.log(res.data);
-    //           wx.setStorageSync('thirdSession', res.data.datas.thirdSession);
-    //           wx.setStorageSync('jSessionId', res.data.datas.jSessionId);
-    //         }
-
-    //       })
-    //     } else {
-    //       console.log('获取用户登录态失败！' + res.errMsg)
-    //     }
-    //   },
-    //   fail:function(res){
-    //     console.log(res);
-    //   }
-    // });
     wx.setStorageSync('logs', logs);
     //微信获取设备可用高度
     wx.getSystemInfo({
@@ -70,10 +35,33 @@ App({
   globalData: {
     userInfo: null,
     shareTitle: "慈云微报告",
-    errorMsg:'',
+    errorMsg: '',
+  },
+  //会话机制处理
+  checkThirdSession: function () {
+    var that = this;
+    if (this.clear){
+      console.log("已经存在定时器了");
+      clearInterval(this.clear);
+    };
+    this.clear=setInterval(function(){
+      wx.login({
+        success: function (res) {
+          var code = res.code
+          that.postCallBack('authorize/getThirdSession', { code: code }, function(res){
+            that.thirdSession = res.data.datas.thirdSession;
+            wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
+            wx.setStorageSync('jSessionId', res.data.datas.jSessionId)
+            console.log('登入成功');
+          });
+        },fail:function(res){
+          
+        }
+      })
+    },1000*60);
   },
   //通用提示语
-  showToast:function(title){
+  showToast: function (title) {
     wx.showToast({
       title: title || '',
       duration: 1000
@@ -86,6 +74,7 @@ App({
   //请求回调结果
   postCallBack: function (type, data, callback) {
     var that = this;
+    this.checkThirdSession();
     wx.showLoading({
       title: '加载中',
     });
@@ -96,9 +85,9 @@ App({
         // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
         var networkType = res.networkType
         console.log(networkType);
-        if(networkType == 'none'){
+        if (networkType == 'none') {
           that.showToast(res.data.message);
-        }else{
+        } else {
           var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
           wx.request({
             url: host, //仅为示例，并非真实的接口地址
@@ -125,7 +114,7 @@ App({
           })
         }
       },
-      fail:function(res){
+      fail: function (res) {
         console.log(res);
       }
     })

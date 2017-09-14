@@ -21,32 +21,42 @@ Page({
     // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
     console.log(app.loginStatus);
     if (!app.loginStatus){
-      wx.openSetting({
-        success(res) {
-          if (!res.authSetting['scope.userInfo']) {
-            wx.getUserInfo({
-              lang: "zh_CN",
-              success: function (res) {
-                var userInfo = res.userInfo
-                var nickName = userInfo.nickName
-                var avatarUrl = userInfo.avatarUrl
-                var gender = userInfo.gender //性别 0：未知、1：男、2：女 
-                var province = userInfo.province
-                var city = userInfo.city
-                var country = userInfo.country;
-                app.province = province;
-                app.loginStatus = true
-                console.log(province);
-                //页面请求接口；
-                app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
-              }
-            })
-          }else{
-            //页面请求接口；
-            app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
+      setTimeout(function(){
+        wx.openSetting({
+          success(res) {
+            console.log("one");
+            if (res.authSetting['scope.userInfo']) {
+              console.log("tuo");
+              wx.getUserInfo({
+                lang: "zh_CN",
+                success: function (res) {
+                  var userInfo = res.userInfo
+                  var nickName = userInfo.nickName
+                  var avatarUrl = userInfo.avatarUrl
+                  var gender = userInfo.gender //性别 0：未知、1：男、2：女 
+                  var province = userInfo.province
+                  var city = userInfo.city
+                  var country = userInfo.country;
+                  app.province = province;
+                  app.loginStatus = true
+                  console.log(province);
+                  //页面请求接口；
+                  app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
+                },fail:function(res){
+                  //页面请求接口；
+                  app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
+                }
+              })
+            } else {
+              //页面请求接口；
+              app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
+            }
+          }, fail(res) {
+            console.log(res)
           }
-        }
-      });
+        });
+      },500)
+
     }else{
       app.postCallBack('medrpt/listMedCorp', { thirdSession: wx.getStorageSync('thirdSession') }, that.callBack);
     }
@@ -61,14 +71,10 @@ Page({
     //     var accuracy = res.accuracy
     //   }
     // });
-
-    console.log(3);
   },
   
   //焦点省份切换
   navbarTap: function (e) {
-
-    console.log(this.data.currentTab, e.target.dataset.idx);
     this.setData({
       currentTab: e.target.dataset.idx
     })
