@@ -82,9 +82,12 @@ Page({
     var re = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
     //向后台请求数据
     if (!re.test(this.data.userName)) {
-      wx.showModal({
-        title: "请输入正确的手机号"
-      });
+      // wx.showToast({
+      //   image: "../index/images/警示1.png",
+      //   title: "手机号错误",
+      //   duration: 3000
+      // });
+      app.showToast("手机号错误",1)
       return false;
     } else {
       if (that.data.isdisable == false) {
@@ -99,10 +102,7 @@ Page({
   callback: function (res){
     var count = 120;
     var that=this
-    if(res.data.result==0){
-      wx.showModal({
-        title: "发送成功"
-      });
+    app.showToast("发送成功", 0)
       var timer = setInterval(function () {
         count--;
         if (count >= 1) {
@@ -121,11 +121,7 @@ Page({
         }
       },1000);
       that.data.isdisable = true;
-    } else {
-      wx.showModal({
-        title: res.data.message
-      })
-    }
+
   },
   //验证码
   Verification: function (e) {
@@ -158,7 +154,7 @@ Page({
   callback2:function(res){
     var that = this
     var result = res.data.result
-    if (result==0){
+
       if (res.data.datas.isRegisterAndLogin == 0) {
         // that.setData({
         //   btn: 'nexts'
@@ -202,18 +198,17 @@ Page({
       } else if (res.data.datas.isRegisterAndLogin == 1) {
 
         if (result !=0) {
-            wx.showModal({
-              title: res.data.message
-            })
-          } 
-        wx.navigateTo({
+          wx.showToast({
+            image: "../index/images/警示1.png",
+            title: res.data.message,
+            duration: 3000
+          });
+        } else{
+          wx.navigateTo({
             url: '../list/list',
           })
+        }
+       
       }
-    } else{
-      wx.showModal({
-        title: res.data.message
-      })
-    }
   }
 })

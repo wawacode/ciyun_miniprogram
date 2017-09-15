@@ -43,7 +43,7 @@ Page{
   line-height: 56rpx;
   color:#666666;
   padding-bottom:21rpx;
-  border-bottom:1px solid #CBCBCB;
+  border-bottom:1px solid #e5e5e5;
   font-size: 26rpx;
 }
 .list_times{
@@ -51,6 +51,7 @@ Page{
   height:76rpx;
   line-height: 76rpx;
   color:#999999;
+  font-size:24rpx;
 }
 .list_times_left{
   float: left;

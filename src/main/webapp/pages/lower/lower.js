@@ -171,16 +171,9 @@ Page({
     app.postCallBack('authorize/updateUserinfo', json, that.callback);
   },
   callback:function(res){
-    if (res.data.result==0){
       wx.reLaunch({
         url: '../list/list'
       })
-    }else{
-      wx.showModal({
-        title: res.data.message
-      })
-      
-    }
     
   },
   bindPickerChange: function (e) {

@@ -18,7 +18,6 @@ Page({
     app.postCallBack('medrpt/list', { thirdSession: getApp().thirdSession }, that.callback);
   },
 callback:function(res){
-  if (res.data.result==0){
     var datass = res.data.datas
     var that = this
     if (res.data.datas.length == 0) {
@@ -31,11 +30,6 @@ callback:function(res){
         datas: datass
       })
     }
-  }else{
-    wx.showModal({
-      title: res.data.message
-    })
-  }
 },
   
 
