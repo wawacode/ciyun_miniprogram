@@ -101,7 +101,8 @@ background-color: #fff;
     color: #6fba2c;
     background-color: #f6ffee;
     display: block;
-    text-indent: 10px;
+    padding-left: 10px;
+    border-bottom: 2px solid #6fba2c
 }
 .new-report-app-bd .table {
     background-color: #fff;
@@ -253,7 +254,7 @@ background-color: #fff;
   border: none;
 }
 .new-report-total {
-    padding: 10px 15px 10px 15px;
+    padding: 10px 10px 10px 10px;
     text-indent: 20px;
 }
 .new-report-total text{
@@ -459,13 +460,14 @@ background-color: #fafff5;
     height: 40px;
     line-height: 40px;
     padding: 5px 10px;
-    background-color: #F9F9F9;
+    background-color: #f3f5f6;
     border-bottom: 1px solid #eee;
     border-top: 1px solid #eee;
 }   
 
 .report-item-list .report-item-close {
-    color: #999;
+    color: #888888;
+    font-size: 12px;
     font-weight: normal;
 }
 

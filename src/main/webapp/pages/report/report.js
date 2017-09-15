@@ -80,25 +80,33 @@ Page({
 
     if (this.data.idCard_boo){
       if (!app.isEmpty(this.data.idCardValue)){
-        app.showToast('证件号码不能为空',1);
+        console.log(this.data.idCardValue);
+        app.showToast('证件号码不能为空',0);
         return false;
+      } else if (this.data.cardTypeIndex == 0){
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (!reg.test(this.data.idCardValue)){
+          app.showToast('身份证号码格式有误', 0);
+          console.log('身份证号码格式有误');
+          return false;
+        }
       };
     }
     if (this.data.medDate_boo){
       if (this.data.date == '请选择体检日期') {
-        app.showToast('日期不能为空',1);
+        app.showToast('日期不能为空',0);
         return false;
       };
     }
     if (this.data.medPersonNo_boo){
       if (!this.data.medPersonNo) {
-        app.showToast('档案ID不能为空');
+        app.showToast('档案ID不能为空',0);
         return false;
       };
     }
     if (this.data.userName_boo){
       if (!app.isEmpty(this.data.userName)) {
-        app.showToast('用户名称不能为空');
+        app.showToast('体检名称不能为空',0);
         return false;2212
       };
     }
@@ -134,7 +142,7 @@ Page({
      this.ruleCardTypeFilter(this.data.datas.ruleCardType);
      this.filterTypeRendering();
    }else{
-     app.showToast(res.data.message)
+     app.showToast(res.data.message,1)
    }
 
   },

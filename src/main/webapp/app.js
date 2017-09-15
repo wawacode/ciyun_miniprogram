@@ -41,8 +41,8 @@ App({
   },
   //通用提示语
   showToast: function (title,type) {
-    var imageUrl = type || '';
-    if(type != ''){
+    var imageUrl;
+    if (this.isEmpty(type)){
       imageUrl = this.globalData.toastIconList[type];
     }
 
@@ -97,7 +97,7 @@ App({
         var networkType = res.networkType
         console.log(networkType);
         if (networkType == 'none') {
-          that.showToast(networkType);
+          that.showToast(networkType,0);
         } else {
             var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
             wx.request({
@@ -116,13 +116,13 @@ App({
                     that.isLogin(type, data, callback);
                     console.log("服务器会话失效")
                 }else {
-                  that.showToast(res.data.message);
+                  that.showToast(res.data.message,0);
                 }
               },
               fail: function (res) {
                 console.log(res);
                 wx.hideLoading();
-                that.showToast(res.data.message);
+                that.showToast(res.errMsg,0);
               }
 
             })

@@ -37,8 +37,9 @@
   overflow:hidden;
 }
 .mechanism-item{
-  border-bottom: 1rpx solid #cbcbcb;
+  border-bottom: 1rpx solid #e5e5e5;
   font-size: 30rpx;
+  height: 100%
 }
 .mechanism-text{
   color: #222222;
