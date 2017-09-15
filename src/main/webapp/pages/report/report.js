@@ -80,13 +80,13 @@ Page({
 
     if (this.data.idCard_boo){
       if (!app.isEmpty(this.data.idCardValue)){
-        app.showToast('证件号码不能为空');
+        app.showToast('证件号码不能为空',1);
         return false;
       };
     }
     if (this.data.medDate_boo){
       if (this.data.date == '请选择体检日期') {
-        app.showToast('日期不能为空');
+        app.showToast('日期不能为空',1);
         return false;
       };
     }

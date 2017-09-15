@@ -36,24 +36,20 @@ App({
     userInfo: null,
     shareTitle: "慈云微报告",
     errorMsg: '',
-  },
-  //会话机制处理
-  checkThirdSession: function () {
-    var that = this;
-    if (this.clear){
-      console.log("已经存在定时器了");
-      clearInterval(this.clear);
-    };
-    this.clear=setInterval(function(){
-      that.login = true;
-      console.log("执行了")
-    },1000*60);
+    appversion:'3.5.8',
+    toastIconList: ["../index/images/警示1.png", "../index/images/提醒次级警示.png"]
   },
   //通用提示语
-  showToast: function (title) {
+  showToast: function (title,type) {
+    var imageUrl = type || '';
+    if(type != ''){
+      imageUrl = this.globalData.toastIconList[type];
+    }
+
     wx.showToast({
+      image: imageUrl,
       title: title || '',
-      duration: 1000
+      duration: 3000
     });
   },
   //简写为空判断
