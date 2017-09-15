@@ -45,19 +45,8 @@ App({
       clearInterval(this.clear);
     };
     this.clear=setInterval(function(){
-      wx.login({
-        success: function (res) {
-          var code = res.code
-          that.postCallBack('authorize/getThirdSession', { code: code }, function(res){
-            that.thirdSession = res.data.datas.thirdSession;
-            wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
-            wx.setStorageSync('jSessionId', res.data.datas.jSessionId)
-            console.log('登入成功');
-          });
-        },fail:function(res){
-          
-        }
-      })
+      that.login = true;
+      console.log("执行了")
     },1000*60);
   },
   //通用提示语
@@ -71,10 +60,36 @@ App({
   isEmpty: function (str) {
     return (str === '' || str === null || str === undefined) ? false : true;
   },
+  isLogin: function (type,data,callback){
+    var that = this;
+      wx.login({
+        success: function (res) {
+          var code = res.code
+          wx.request({
+            url: 'https://minirpt.ciyun.cn/user/authorize/getThirdSession',
+            data:{
+              code:code
+            },
+            method: 'POST',
+            success:function(res){
+              that.thirdSession = res.data.datas.thirdSession;
+              wx.setStorageSync('thirdSession', res.data.datas.thirdSession)
+              wx.setStorageSync('jSessionId', res.data.datas.jSessionId);
+              data.thirdSession = res.data.datas.thirdSession;
+              that.postCallBack(type,data,callback);
+            },
+            fail:function(res){
+              return res;
+            }
+          })
+        }, fail: function (res) {
+            return res;
+        }
+      });
+  },
   //请求回调结果
   postCallBack: function (type, data, callback) {
     var that = this;
-    this.checkThirdSession();
     wx.showLoading({
       title: '加载中',
     });
@@ -86,32 +101,36 @@ App({
         var networkType = res.networkType
         console.log(networkType);
         if (networkType == 'none') {
-          that.showToast(res.data.message);
+          that.showToast(networkType);
         } else {
-          var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
-          wx.request({
-            url: host, //仅为示例，并非真实的接口地址
-            data: data,
-            method: 'POST',
-            header: {
-              'content-type': 'application/json',
-              'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
-            },
-            success: function (res) {
-              wx.hideLoading();
-              if (res.data.result == 0) {
-                callback(res);
-              } else {
+            var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
+            wx.request({
+              url: host, //仅为示例，并非真实的接口地址
+              data: data,
+              method: 'POST',
+              header: {
+                'content-type': 'application/json',
+                'Cookie': 'JSESSIONID=' + wx.getStorageSync('jSessionId')
+              },
+              success: function (res) {
+                wx.hideLoading();
+                if (res.data.result == 0) {
+                  callback(res);
+                } else if (res.data.result == 30001 || res.data.result == 30008){//重新走1-6步流程
+                    that.isLogin(type, data, callback);
+                    console.log("服务器会话失效")
+                }else {
+                  that.showToast(res.data.message);
+                }
+              },
+              fail: function (res) {
+                console.log(res);
+                wx.hideLoading();
                 that.showToast(res.data.message);
               }
-            },
-            fail: function (res) {
-              console.log(res);
-              wx.hideLoading();
-              that.showToast(res.data.message);
-            }
 
-          })
+            })
+          
         }
       },
       fail: function (res) {

@@ -53,7 +53,8 @@ Page({
     })
   },
   //向后台获取到的值后，执行函数
-  callback: function (res) { 
+  callback: function (res) {
+    console.log(res);
     if (res.data.result==0){
       this.setData({
         Return: res.data,

@@ -379,10 +379,10 @@
       <view class="report-table-tr" wx:for="{{data.exceptionItems}}" wx:key="exceptionItems">
         <view class="report-table-td">{{item.itemName}}</view>
         <view class="report-table-td" wx:if="{{item.isNormal > 3}}">
-          <text class="down">{{lev3Item.itemResult || ''}}↓</text>
+          <text class="down">{{item.itemResult || ''}}↓</text>
         </view>
         <view class="report-table-td" wx:if="{{item.isNormal < 4}}">
-          <text class="up">{{lev3Item.itemResult || ''}}↑</text>
+          <text class="up">{{item.itemResult || ''}}↑</text>
         </view>
         <view class="report-table-td">
           <text class="r-unit">{{item.itemUnit}}</text>

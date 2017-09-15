@@ -99,7 +99,7 @@ Page({
     if (this.data.userName_boo){
       if (!app.isEmpty(this.data.userName)) {
         app.showToast('用户名称不能为空');
-        return false;
+        return false;2212
       };
     }
     var data={
@@ -113,10 +113,16 @@ Page({
       medCorpId: this.data.datas.medCorpId,
       userName: this.data.userName
     }
-    app.postCallBack('medrpt/importRpt', data, function(data){
-      wx.reLaunch({
-        url:'../list/list'
-      })
+    app.postCallBack('medrpt/importRpt', data, function(res){
+      if (res.data.datas.rptSize == 0){
+        app.showToast("无新报告");
+      }
+      setTimeout(function(){
+        wx.reLaunch({
+          url: '../list/list'
+        })
+      },1000)
+
     });
   },
   //接口回调初始化渲染模板
