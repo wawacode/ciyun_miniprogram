@@ -51,315 +51,252 @@
       <view class="table">
         <view class="new-report-total">
           <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
-            <text> {{item.summary}}</text>
+            <text wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
             <view>{{item.advice}}</view>
           </view>
         </view>
         <block wx:if="{{data.adviceList.length>0}}">
           <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime!=null}}">
-            <text>主检日期：</text>{{data.adviceList[0].preCreateTime}}</view>
+            <text>主检日期：</text>{{data.adviceList[0].preCreateTime}}
+          </view>
         </block>
       </view>
     </view>
-    <view class="new-report-app-hd">
-      <view class="title">
-        检查所见
+    <block wx:if="{{data.summaryList != null}}">
+      <view class="new-report-app-hd">
+        <view class="title">
+          检查所见
+        </view>
       </view>
-    </view>
-    <view class="new-report-app-hd">
-      <view class="new-report-app-tbody table">
-        <!-- 科室 -->
-        <view class="flex">
-          <view class="report-name">分院采血室</view>
-          <view class="report-value">
-            <view>
+      <view class="new-report-app-hd">
+        <view class="new-report-app-tbody table" wx:for="{{data.summaryList}}" wx:key="summaryList">
+          <!-- 科室 -->
+          <view class="flex">
+            <view class="report-name">{{item.organName}}</view>
+            <view class="report-value">
               <!-- 项目组 -->
               <!-- 项目组小结 -->
-              <view>
-                <view class="p">血小板低122.0×10^9/L(参考范围:125―350)</view>
-
-                <view class="new-report-other p">
-                  <text>检查医师：</text>李秀芬</view>
-                <view class="new-report-other p">
-                  <text>审核医师：</text>杨志刚</view>
-              </view>
-              <!-- itemClass.showSummary == 1 -->
-              <!-- itemClass.showSummary == 1 -->
-              <!-- 科室 -->
-              <view>
-                <!-- 项目组 -->
-                <!-- 项目组小结 -->
-                <view>
-                  <view class="p">总胆固醇偏高5.63mmol/L(参考范围:＜5.2)低密度脂蛋白胆固醇高4.01mmol/L(参考范围:＜3.37)</view>
-
-                  <view class="new-report-other p">
-                    <text>检查医师：</text>崔明星</view>
-                  <view class="new-report-other p">
-                    <text>审核医师：</text>杨德洁</view>
+              <view wx:if="{{item.summary != null}}">
+                <view class="p">{{item.summary}}</view>
+                <view class="new-report-other p" wx:if="{{item.doctor != null}}">
+                  <text>检查医师：{{item.doctor}}</text>
                 </view>
-                <!-- itemClass.showSummary == 1 -->
-                <!-- 科室 -->
-                <view>
-                  <!-- 项目组 -->
-                  <!-- 项目组小结 -->
-                  <view>
-                    <view class="p">尿酸低181umol/L(参考范围:210―430)</view>
+                <view class="new-report-other p"  wx:if="{{item.revDoctor != null}}">
+                  <text>审核医师：{{item.revDoctor}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
 
-                    <view class="new-report-other p">
-                      <text>检查医师：</text>崔明星</view>
-                    <view class="new-report-other p">
-                      <text>审核医师：</text>杨德洁</view>
+    <!-- 既往史 航天机构专有  -->
+    <block wx:if="{{data.medExamRpt.hmoId=='CYH3211204110000' && data.extrasContsVo != null}}">
+      <view wx:if="{{data.extrasContsVo.listJsonObject != null && data.extrasContsVo.listJsonObject[0] != null && data.extrasContsVo.listJsonObject[0].type6[0] != null }}">
+        <view class="new-report-app-hd">
+          <view class='title'>既往史</view>
+        </view>
+        <view class="new-report-app-hd">
+          <view class='new-report-app-tbody table'>
+            <view class='flex-tr'>
+              <view class='report-name'>既往疾病</view>
+              <view class='report-value'>
+                <view class='app-check-group  clearfix'>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgxy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">高血压</view>
+                    </view>
                   </view>
-                  <!-- itemClass.showSummary == 1 -->
-                  <!-- itemClass.showSummary == 1 -->
-                  <!-- itemClass.showSummary == 1 -->
-                  <!-- organId -->
-                  <!--dO.itemClassviewst?size gt 0> -->
 
-                  <!--dO.showSummary == 1  -->
-                  <!-- 是否输出过 科室名称 -->
-                  <!-- 科室 -->
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwtnb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">糖尿病</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgxb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">冠心病</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzf != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">中风</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">肝炎</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzl != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">肿瘤</view>
+                    </view>
+                  </view>
+
                 </view>
               </view>
             </view>
-          </view>
-        </view>
-        <view class="flex">
-          <view class="report-name">分院放射科</view>
-          <view class="report-value">
-            <view>
-              <!-- 项目组 -->
-              <!-- 项目组小结 -->
-              <view>
-                <view class="p">双膝关节退变</view>
+            <view class='flex-tr'>
+              <view class='report-name'>家族史</view>
+              <view class='report-value'>
+                <view class='app-check-group  clearfix'>
 
-                <view class="new-report-other p">
-                  <text>检查医师：</text>文才</view>
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">高血压</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jztnb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">糖尿病</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">冠心病</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzf != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">脑血管疾病</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzl != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
+                      </view>
+                      <view class="app-check-item">恶性肿瘤</view>
+                    </view>
+                  </view>
+
+                </view>
               </view>
-              <!-- itemClass.showSummary == 1 -->
-              <!-- organId -->
-              <!--dO.itemClassList?size gt 0> -->
-
-              <!--dO.showSummary == 1  -->
-              <!-- 是否输出过 科室名称 -->
-              <!-- itemClass.showSummary == 1 -->
-              <!-- organId -->
-              <!--dO.itemClassList?size gt 0> -->
-
-              <!--dO.showSummary == 1  -->
-              <!-- 是否输出过 科室名称 -->
-              <!-- 科室 -->
             </view>
-          </view>
-        </view>
-        <view class="flex">
-          <view class="report-name">分院碳十三</view>
-          <view class="report-value">
 
-            <!-- 项目组 -->
-            <!-- 项目组小结 -->
-            <view class="p">碳十四呼气试验阳性：cpm=200(参考范围:0-50)</view>
+            <view class='flex-tr'>
+              <view class='report-name'>过敏史</view>
+              <view class='report-value'>
+                <view class='app-check-group  clearfix'>
 
-            <view class="new-report-other p">
-              <text>检查医师：</text>孙亚莉</view>
-            <!-- itemClass.showSummary == 1 -->
-            <!-- organId -->
-            <!--dO.itemClassList?size gt 0> -->
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].gmsy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" wx:else></view>
+                      </view>
+                      <view class="app-check-item">有</view>
+                    </view>
+                  </view>
 
-            <!--dO.showSummary == 1  -->
-            <!-- organOrDeptId -->
+                  <view class='app-check-list'>
+                    <view class="app-check-box">
+                      <view class="app-check">
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].gmsy == null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" wx:else></view>
+                      </view>
+                      <view class="app-check-item">无</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list' >
+                    <view class="app-check-box">
+                      <view class="app-check-item">过敏物质/药物</view>
+                    </view>
+                  </view>
+
+                  <view class='app-check-list' wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].gmwzyw != null}}">
+                    <view class="app-check-box">
+                      <view class="app-check-item">{{data.extrasContsVo.listJsonObject[0].type6[0].gmwzyw}}</view>
+                    </view>
+                  </view>
+
+                </view>
+              </view>
+            </view>
+
+            <view class='flex-tr'>
+              <view class='report-name'>目前药物</view>
+              <view class='report-value'>
+                <view class='app-check-group  clearfix'>
+                  <view class='app-check-list' >
+                    <view class="app-check-box">
+                      <view class="app-check-item" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].mqyw != null}}">{{data.extrasContsVo.listJsonObject[0].type6[0].mqyw}}</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
 
           </view>
         </view>
       </view>
-    </view>
-    <!-- 既往史 航空机构专有  -->
-    <block>
-      <view class="new-report-app-hd">
-        <view class='title'>既往史</view>
-      </view>
-      <view class="new-report-app-hd">
-        <view class='new-report-app-tbody table'>
-          <view class='flex-tr'>
-            <view class='report-name'>既往疾病</view>
-            <view class='report-value'>
-              <view class='app-check-group  clearfix'>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
 
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class='flex-tr'>
-            <view class='report-name'>家族史</view>
-            <view class='report-value'>
-              <view class='app-check-group  clearfix'>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" />
-                    </view>
-                    <view class="app-check-item">高血压</view>
-
-
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class='flex-tr'>
-            <view class='report-name'>过敏史</view>
-            <view class='report-value'>
-              <view class='app-check-group  clearfix'>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">有</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-                    <view class="app-check">
-                      <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked"></view>
-                    </view>
-                    <view class="app-check-item">无</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-
-                    <view class="app-check-item">过敏物质/药物</view>
-
-
-                  </view>
-                </view>
-                <view class='app-check-list'>
-                  <view class="app-check-box">
-
-                    <view class="app-check-item">不详</view>
-
-
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class='flex-tr'>
-            <view class='report-name'>目前药物</view>
-          </view>
+      <view wx:if="{{data.extrasContsVo.listJsonObject != null && data.extrasContsVo.listJsonObject[0] != null && data.extrasContsVo.listJsonObject[0].type7 != null}}">
+        <view class="new-report-app-hd">
+          <view class='title'>健康危险因素提示</view>
         </view>
-      </view>
-      <view class="new-report-app-hd">
-        <view class='title'>健康危险因素提示</view>
-      </view>
-      <view class="new-report-app-hd">
-        <view class='new-report-app-tbody table'>
-          <view class='flex-tr new-report-total'>
-            1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
+        <view class="new-report-app-hd">
+          <view class='new-report-app-tbody table' wx:for="{{data.extrasContsVo.listJsonObject[0].type7}}" wx:key="item">
+            <view class='flex-tr new-report-total'>
+              {{index+1}}、
+              <block wx:if="{{item.sdname != null}}">{{item.sdname}}</block>：
+              <block wx:if="{{item != null}}">{{item.sdtext}}</block> 
+            </view>
           </view>
-          <view class='flex-tr new-report-total'>
-            1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
-          </view>
-          <view class='flex-tr new-report-total'>
-            1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
-          </view>
-          <view class='flex-tr new-report-total'>
-            1.膳食不合理:膳食不合理导致肥胖、糖尿病、高脂血症、高血压等多种疾病，甚至诱发乳腺癌、结肠癌。中国居民膳食指南建议食物多样，谷类为主,每日摄入新鲜蔬菜≥6两，水果≥4两；奶类300克；肉类50-75克；食盐≤6克；烹调油≤25—30克；饮水≥1200毫升。
-          </view>
-        </view>
+        </view>  
       </view>
     </block>
 

@@ -25,7 +25,7 @@
                 <view style="display: block;" for="idCardType">
                     <view id="idCardType" name="idCardType" class="app-select-rul">
                         <view class="section">
-                            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="请输入证件号" value='{{idCardValue}}' bindinput="changeIdCardValue" />
+                            <input placeholder-class="phcolor" class="app-select-rul" type="text" placeholder="请输入证件号码" value='{{idCardValue}}' bindinput="changeIdCardValue" />
                         </view>
                     </view>
                 </view>
@@ -87,7 +87,7 @@
                 <view style="display: block;" for="idCardType">
                     <view id="idCardType" name="idCardType" class="app-select-rul">
                         <view class="section">
-                            <input placeholder-class="phcolor" class="app-select-rul" type="idcard" placeholder="请输入" value='{{medPersonNo}}'  bindinput="changeMedPersonNoValue" />
+                            <input placeholder-class="phcolor" class="app-select-rul" type="idcard" placeholder="请输入档案ID" value='{{medPersonNo}}'  bindinput="changeMedPersonNoValue" />
                         </view>
                     </view>
                 </view>
@@ -102,7 +102,7 @@
                 <view style="display: block;" for="idCardType">
                     <view id="idCardType" name="idCardType" class="app-select-rul">
                         <view class="section">
-                            <input placeholder-class="phcolor" class="app-select-rul" value='{{datas.username}}' type="text" placeholder="请输入"  bindinput="changeuserNameValue" />
+                            <input placeholder-class="phcolor" class="app-select-rul" value='{{datas.username}}' type="text" placeholder="请输入体检人姓名"  bindinput="changeuserNameValue" />
                         </view>
                     </view>
                 </view>

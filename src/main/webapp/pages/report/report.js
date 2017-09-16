@@ -94,7 +94,7 @@ Page({
     }
     if (this.data.medDate_boo){
       if (this.data.date == '请选择体检日期') {
-        app.showToast('日期不能为空',0);
+        app.showToast('体检日期不能为空',0);
         return false;
       };
     }
@@ -106,7 +106,7 @@ Page({
     }
     if (this.data.userName_boo){
       if (!app.isEmpty(this.data.userName)) {
-        app.showToast('体检名称不能为空',0);
+        app.showToast('体检人姓名不能为空',0);
         return false;2212
       };
     }

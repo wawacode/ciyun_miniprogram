@@ -26,7 +26,8 @@ Page({
     this.setReportListHeight();//设置报告列表高度;
     app.postCallBack('medrpt/detail/' + app.listId, json, function (res) {
         that.setData({
-          data:res.data.datas
+          data:res.data.datas,
+          listJson: res.data.datas.extrasContsVo.listJsonObject
         });
     });
   },
