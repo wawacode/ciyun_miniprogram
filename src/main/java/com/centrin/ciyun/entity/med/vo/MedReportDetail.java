@@ -33,6 +33,7 @@ public class MedReportDetail implements Serializable {
 	
 	private int extrasFlag = 1;
 	private String extrasConts;
+	private HidExtraContsVo extrasContsVo; //目前仅用于小程序
 	
 	// 2016年5月12日 上午8:53:52 开始
 	private Map<String, MedDetail> medDetails;// 每个体检部门信息以及对应部门的体检项目
@@ -217,4 +218,13 @@ public class MedReportDetail implements Serializable {
 	public void setShowSummary(int showSummary) {
 		this.showSummary = showSummary;
 	}
+
+	public HidExtraContsVo getExtrasContsVo() {
+		return extrasContsVo;
+	}
+
+	public void setExtrasContsVo(HidExtraContsVo extrasContsVo) {
+		this.extrasContsVo = extrasContsVo;
+	}
+	
 }
