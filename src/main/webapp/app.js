@@ -37,6 +37,8 @@ App({
     shareTitle: "慈云微报告",
     errorMsg: '',
     appversion:'3.5.8',
+    ceshihost:'https://testminpro.ciyun.cn',
+    host:'https://minirpt.ciyun.cn',
     toastIconList: ["../index/images/警示1.png", "../index/images/提醒次级警示.png"]
   },
   //通用提示语
@@ -62,7 +64,7 @@ App({
         success: function (res) {
           var code = res.code
           wx.request({
-            url: 'https://minirpt.ciyun.cn/user/authorize/getThirdSession',
+            url: that.globalData.host + '/user/authorize/getThirdSession',
             data:{
               code:code
             },
@@ -99,7 +101,7 @@ App({
         if (networkType == 'none') {
           that.showToast(networkType,0);
         } else {
-            var host = 'https://minirpt.ciyun.cn' + '/user/' + type;
+          var host = that.globalData.host + '/user/' + type;
             wx.request({
               url: host, //仅为示例，并非真实的接口地址
               data: data,

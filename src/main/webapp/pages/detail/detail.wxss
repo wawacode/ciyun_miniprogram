@@ -269,11 +269,13 @@ background-color: #fff;
   position: fixed;
 }
 .th:first-child{
-  flex:2;
+  flex:1.65;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .th{
   background-color: #f0f0f0;
-    text-indent: 10px;
+  padding-left: 5px;
     flex: 1;
     height: 52rpx;
     line-height: 52rpx;
@@ -292,7 +294,7 @@ background-color: #fff;
 }
 .report-table-td:first-child{
   border-left: none;
-  flex:2;
+  flex:1.92;
   padding-left: 10px;
 }
 .down{
@@ -330,13 +332,13 @@ background-color: #fff;
   color: #333;
   padding-left: 10px;
   padding-right: 10px;
-  flex: 1;
+  flex: 1.65;
 }
 .itemName{
   flex:1;
 }
 .itemResult{
-  flex:3;
+  flex:3.18;
 }
 .cap-lev1{
      padding: 0 10px;
@@ -356,7 +358,6 @@ background-color: #fff;
     background: #f7f8f9;
     color: #3e454f;
     text-align: left;
-    font-weight: bold;
     border-bottom: 1px solid #eee;
     font-size: 14px;
 
@@ -412,6 +413,7 @@ background-color: #fafff5;
   padding: 0 10px;
   position: relative; 
   border-bottom:1px solid #eee;
+  font-weight:bold;
 }
 .cap-lev3{
   background: white;
