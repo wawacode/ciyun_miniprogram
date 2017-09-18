@@ -87,7 +87,7 @@ Page({
       //   title: "手机号错误",
       //   duration: 3000
       // });
-      app.showToast("手机号错误",1)
+      app.showToast("手机号错误",0)
       return false;
     } else {
       if (that.data.isdisable == false) {
@@ -102,7 +102,7 @@ Page({
   callback: function (res){
     var count = 120;
     var that=this
-    app.showToast("发送成功", 0)
+    app.showToast("发送成功")
       var timer = setInterval(function () {
         count--;
         if (count >= 1) {
