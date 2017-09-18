@@ -325,7 +325,7 @@
           <text class="r-unit">{{item.itemUnit}}</text>
         </view>
         <view class="report-table-td">
-          <text class="r-reference">{{item.itemLow}}-{{item.itemHight}}</text>
+          <text class="r-reference">{{item.itemLow || ''}}-{{item.itemHight || ''}}</text>
         </view>
       </view>
     </view>

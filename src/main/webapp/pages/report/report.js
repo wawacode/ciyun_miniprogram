@@ -107,7 +107,7 @@ Page({
     if (this.data.userName_boo){
       if (!app.isEmpty(this.data.userName)) {
         app.showToast('体检人姓名不能为空',0);
-        return false;2212
+        return false;
       };
     }
     var data={
@@ -115,7 +115,7 @@ Page({
       idCardType:1,
       idCard: this.data.idCardValue,
       sex: (Number(this.data.sexIndex) + 1),
-      mobile: 15910795522||this.data.datas.telephone,
+      mobile: this.data.datas.telephone,
       medDate: this.data.date,
       medPersonNo: this.data.medPersonNo,
       medCorpId: this.data.datas.medCorpId,
