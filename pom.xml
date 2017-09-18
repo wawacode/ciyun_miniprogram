@@ -20,6 +20,7 @@
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zkclient.version>0.1</zkclient.version>
 		<ciyun.medrpt>1.1.1</ciyun.medrpt>
+		<centrin.base.version>3.2</centrin.base.version>
 
 		<rocketmq-client.version>3.5.9</rocketmq-client.version>
 	</properties>
@@ -206,7 +207,12 @@
 			<groupId>ciyun</groupId>
 			<artifactId>ciyun_rpt_encrypt_java</artifactId>
 			<version>${ciyun.medrpt}</version>
-		</dependency> 		
+		</dependency>
+		<dependency>
+			<groupId>ciyun</groupId>
+			<artifactId>centrin_base</artifactId>
+			<version>${centrin.base.version}</version>
+		</dependency>		 		
 	</dependencies>
 
 
