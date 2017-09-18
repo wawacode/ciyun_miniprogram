@@ -37,25 +37,25 @@ Page({
     })
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      // console.log(this.prototype.route)
-    }
-    return {
-      title: '慈云微报告',
-      path: getCurrentPages()[0].route,
-      success: function (res) {
-        console.log('转发成功',res)
-      },
-      fail: function (res) {
-        console.log('转发失败',res)
-      }
-    }
-  },
+  // /**
+  //  * 用户点击右上角分享
+  //  */
+  // onShareAppMessage: function (res) {
+  //   if (res.from === 'button') {
+  //     // 来自页面内转发按钮
+  //     // console.log(this.prototype.route)
+  //   }
+  //   return {
+  //     title: '慈云微报告',
+  //     path: getCurrentPages()[0].route,
+  //     success: function (res) {
+  //       console.log('转发成功',res)
+  //     },
+  //     fail: function (res) {
+  //       console.log('转发失败',res)
+  //     }
+  //   }
+  // },
   /**
    * 用户点击tab切换
    */
