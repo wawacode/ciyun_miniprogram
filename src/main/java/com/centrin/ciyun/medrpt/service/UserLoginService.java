@@ -125,7 +125,7 @@ public class UserLoginService {
 		//step5: 用户绑定小程序的信息保存在session中
 		session.removeAttribute(Constant.USER_SESSION);
 		session.setAttribute(Constant.USER_SESSION, personVo);
-		session.setMaxInactiveInterval(60);
+		session.setMaxInactiveInterval(180);
 		
 		res.setResult(EReturnCode.OK.key.intValue());
 		res.setMessage(EReturnCode.OK.value);
@@ -322,7 +322,7 @@ public class UserLoginService {
 		personVo.setUserName(person.getUserName());
 		//用户绑定小程序的信息保存在session中
 		session.setAttribute(Constant.USER_SESSION, personVo);
-		session.setMaxInactiveInterval(60);
+		session.setMaxInactiveInterval(180);
 	}
 	
 	/**
