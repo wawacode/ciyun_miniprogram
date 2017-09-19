@@ -4,9 +4,7 @@
   overflow: hidden;
 }
 .province-content{
-  height: 100rpx;
-  line-height: 100rpx;
-  padding-left: 30rpx;
+  padding: 35rpx 0rpx 35rpx 30rpx;
 }
 .province-content.active{
   border-left: 4rpx solid #6fba2c;
@@ -28,18 +26,14 @@
   height: 100%;
 }
 .right-scroll-content{
-  
+  padding-left: 40rpx;
 }
 .mechanism-content{
-  padding: 0 0 0 40rpx;
-  height: 100rpx;
-  line-height: 100rpx;
-  overflow:hidden;
+  padding: 35rpx 30rpx 35rpx 0rpx;
+  border-bottom: 1rpx solid #e5e5e5;
 }
 .mechanism-item{
-  border-bottom: 1rpx solid #e5e5e5;
   font-size: 30rpx;
-  height: 100%
 }
 .mechanism-text{
   color: #222222;

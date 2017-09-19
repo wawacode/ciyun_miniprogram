@@ -257,7 +257,7 @@ background-color: #fff;
     padding: 10px 10px 10px 10px;
     text-indent: 20px;
 }
-.new-report-total text{
+.new-report-total .bold{
   font-weight:bold;
 }
 /* 超标项  */

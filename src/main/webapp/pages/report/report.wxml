@@ -118,9 +118,7 @@
   </view> -->
     <view class="btn_box">
         <!-- aboat  -->
-    <view class="app-form app-about">
-        您可以下载慈云健康APP，在【个人中心】和【亲情关爱】模块 中分别对本人和亲友的个人信息进行修改。
-    </view>
-        <button class='btn' size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="queryimport"> 查询并导入 </button>
+    <view class="app-form app-about">您可以下载慈云健康APP，在【个人中心】和【亲情关爱】模块 中分别对本人和亲友的个人信息进行修改。</view>
+        <button class='btn' size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="queryimport" hover-class="other-button-hover"> 查询并导入 </button>
     </view>
 </view>

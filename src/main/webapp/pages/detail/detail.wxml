@@ -38,7 +38,7 @@
     </view>
   </view>
   <view class='infomation-footer'>
-    体检报告以字纸报告为准
+    体检报告以纸质报告为准
   </view>
 </view>
 <!-- 汇总分析  -->
@@ -51,8 +51,8 @@
       <view class="table">
         <view class="new-report-total">
           <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
-            <text wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
-            <view>{{item.advice}}</view>
+            <text class='bold' wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
+            <view><text>{{item.advice}}</text></view>
           </view>
         </view>
         <block wx:if="{{data.adviceList.length>0}}">
@@ -77,7 +77,7 @@
               <!-- 项目组 -->
               <!-- 项目组小结 -->
               <view wx:if="{{item.summary != null}}">
-                <view class="p">{{item.summary}}</view>
+                <view class="p"><text>{{item.summary}}</text></view>
                 <view class="new-report-other p" wx:if="{{item.doctor != null}}">
                   <text>检查医师：{{item.doctor}}</text>
                 </view>
