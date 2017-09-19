@@ -35,8 +35,10 @@ import com.centrin.ciyun.common.util.http.HttpUtils;
 import com.centrin.ciyun.entity.hid.HidCertificates;
 import com.centrin.ciyun.entity.hid.HidMedCorp;
 import com.centrin.ciyun.entity.hid.HidWxKey;
+import com.centrin.ciyun.entity.med.MedExamAdvice;
 import com.centrin.ciyun.entity.med.MedExamRpt;
 import com.centrin.ciyun.entity.med.MedExamRptSynthetic;
+import com.centrin.ciyun.entity.med.MedExamSummary;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
@@ -152,8 +154,39 @@ public class MiniMedExamRptService {
 			reportDetailsResp.setMessage("rptId为空或参数不正确");
 			return reportDetailsResp;
 		}
-		reportDetailsResp.setDatas(iMedExamRptService.viewRowDetail(EMedReportOperator.USER, personId, medrptId, EExamExtrasTempleteType.MINIPROGRAM, sysParamUtil.getMpNum()));
+		MedReportDetail medReportDetail = iMedExamRptService.viewRowDetail(EMedReportOperator.USER, personId, medrptId, EExamExtrasTempleteType.MINIPROGRAM, sysParamUtil.getMpNum());
+		//替换体检报告中小结和建议的换行符
+		replaceLineStr(medReportDetail);
+		reportDetailsResp.setDatas(medReportDetail);
 		return reportDetailsResp;
+	}
+	
+	/**
+	 * 替换体检报告中小结和建议的换行符
+	 * @param medReportDetail 体检报告详情对象
+	 */
+	public void replaceLineStr(MedReportDetail medReportDetail){
+		if(medReportDetail != null){
+			//替换建议
+			if(medReportDetail.getAdviceList() != null && !medReportDetail.getAdviceList().isEmpty()){
+				for(MedExamAdvice advice : medReportDetail.getAdviceList()){
+					if(StringUtils.isNotBlank(advice.getAdvice()) && advice.getAdvice().indexOf("<br/>") > -1){
+						advice.setAdvice(advice.getAdvice().replace("<br/>", "\n"));
+					}
+				}
+			}
+			
+			//替换小结
+			if(medReportDetail.getSummaryList() != null && !medReportDetail.getSummaryList().isEmpty()){
+				for(MedExamSummary summary : medReportDetail.getSummaryList()){
+					if(StringUtils.isNotBlank(summary.getSummary()) && summary.getSummary().indexOf("<br/>") > -1){
+						summary.setSummary(summary.getSummary().replace("<br/>", "\n"));
+					}
+				}
+			}
+			
+		}
+		
 	}
 	
 	/**
