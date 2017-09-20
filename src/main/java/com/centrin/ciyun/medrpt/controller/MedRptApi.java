@@ -78,6 +78,9 @@ public class MedRptApi {
 		}
 		try {
 			reportDetailResp = miniMedExamRptService.viewRptDetail(perPerson.getPersonId(), medrptId);
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("返回数据：{}", JSONObject.toJSONString(reportDetailResp));
+			}
 		} catch(Exception ex) {
 			LOGGER.error("", ex);
 			reportDetailResp = new HttpResponse<MedReportDetail>();

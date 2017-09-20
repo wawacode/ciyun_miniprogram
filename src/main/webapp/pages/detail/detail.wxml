@@ -66,31 +66,33 @@
         </block>
       </view>
     </view>
-    <block wx:if="{{data.summaryList != null}}">
+    <block wx:if="{{data.summaryVoList != null && data.summaryVoList.length > 0}}">
       <view class="new-report-app-hd">
         <view class="title">
           检查所见
         </view>
       </view>
       <view class="new-report-app-hd">
-        <view class="new-report-app-tbody table" wx:for="{{data.summaryList}}" wx:key="summaryList">
+        <view class="new-report-app-tbody table" wx:for="{{data.summaryVoList}}" wx:for-item="summaryVo">
           <!-- 科室 -->
           <view class="flex">
-            <view class="report-name">{{item.organName}}</view>
+            <view class="report-name">{{summaryVo.organName}}</view>
             <view class="report-value">
               <!-- 项目组 -->
               <!-- 项目组小结 -->
-              <view wx:if="{{item.summary != null}}">
-                <view class="p">
-                  <text>{{item.summary}}</text>
+              <block wx:if="{{summaryVo.summaryList != null && summaryVo.summaryList.length > 0}}" >
+                <view wx:for="{{summaryVo.summaryList}}" wx:for-item="summary">
+                  <view class="p" wx:if="{{summary.summary != null}}">
+                    <text>{{summary.summary}}</text>
+                  </view>
+                  <view class="new-report-other p" wx:if="{{summary.doctor != null}}">
+                    <text>检查医师：{{summary.doctor}}</text>
+                  </view>
+                  <view class="new-report-other p" wx:if="{{summary.revDoctor != null}}">
+                    <text>审核医师：{{summary.revDoctor}}</text>
+                  </view>
                 </view>
-                <view class="new-report-other p" wx:if="{{item.doctor != null}}">
-                  <text>检查医师：{{item.doctor}}</text>
-                </view>
-                <view class="new-report-other p" wx:if="{{item.revDoctor != null}}">
-                  <text>审核医师：{{item.revDoctor}}</text>
-                </view>
-              </view>
+              </block>  
             </view>
           </view>
         </view>

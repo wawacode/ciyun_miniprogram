@@ -51,6 +51,8 @@ import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
 import com.centrin.ciyun.medrpt.domain.resp.HttpResponse;
 import com.centrin.ciyun.medrpt.domain.vo.CorpDetailVo;
 import com.centrin.ciyun.medrpt.domain.vo.HidMedCorpVo;
+import com.centrin.ciyun.medrpt.domain.vo.SummaryVo;
+import com.centrin.ciyun.medrpt.domain.vo.SummaryVo.Summary;
 import com.centrin.ciyun.service.interfaces.bus.MedexamRptSyntheticInterface;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService;
@@ -160,6 +162,8 @@ public class MiniMedExamRptService {
 		replaceLineStr(medReportDetail);
 		//转换日期
 		formatDate(medReportDetail);
+		//处理所有的小结内容，并填充到summaryVoList,供“检查所见”展示
+		handleSummaryVoList(medReportDetail);
 		reportDetailsResp.setDatas(medReportDetail);
 		return reportDetailsResp;
 	}
@@ -190,6 +194,83 @@ public class MiniMedExamRptService {
 							summary.setRevTime(summary.getRevTime());
 						}
 					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * 处理所有的小结内容，并填充到summaryVoList中,供“检查所见”展示
+	 * @param medReportDetail
+	 */
+	public void handleSummaryVoList(MedReportDetail medReportDetail){
+		if(medReportDetail != null){
+			List<SummaryVo> summaryVoList = new ArrayList<>();
+			
+			//step1：处理慈云2.5之前的数据
+			if(medReportDetail.getSummaryList() != null && !medReportDetail.getSummaryList().isEmpty()){
+				fillSummaryVoList(medReportDetail.getSummaryList(), summaryVoList);
+			}
+				
+			//step2：处理慈云2.5及之后的数据
+			//填充summaryList
+			if (medReportDetail.getMedDetails() != null && !medReportDetail.getMedDetails().isEmpty()) {
+				Map<String, MedDetail> mapDetails = medReportDetail.getMedDetails();
+				for (Iterator<Map.Entry<String, MedDetail>> iter = mapDetails.entrySet().iterator(); iter.hasNext();) {
+					MedDetail values = iter.next().getValue();
+					if(values.getRptMode() == 2 || values.getRptMode() == 3){ // 2：科室-小项  3：大项-小项
+						if (values != null && values.getSummaryList() != null && !values.getSummaryList().isEmpty()) {
+							fillSummaryVoList(values.getSummaryList(), summaryVoList);
+						}
+					}else if(values.getRptMode() == 1){// 1:科室-大项-小项
+						for (Iterator<Map.Entry<String, MedDetail>> itemClassListIter = values.getItemClassList().entrySet().iterator(); itemClassListIter.hasNext();) {
+							MedDetail medDetail = itemClassListIter.next().getValue();
+							if (medDetail != null && medDetail.getSummaryList() != null && !medDetail.getSummaryList().isEmpty()) {
+								fillSummaryVoList(medDetail.getSummaryList(), summaryVoList);
+							}
+						}
+					}
+					
+				}
+			}
+			
+			medReportDetail.setSummaryVoList(summaryVoList);
+		}
+	}
+	
+	/**
+	 * 填充处理好的小结内容
+	 * @param medExamSummaryList
+	 * @param summaryVoList
+	 */
+	public void fillSummaryVoList(List<MedExamSummary> medExamSummaryList, List<SummaryVo> summaryVoList){
+		if(medExamSummaryList != null && !medExamSummaryList.isEmpty()){
+			for(MedExamSummary medExamSummary : medExamSummaryList){
+				//过滤掉小结内容为“ciyun”
+				if(StringUtils.isNotEmpty(medExamSummary.getSummary()) && medExamSummary.getSummary() != "ciyun"){
+					SummaryVo summaryVo = new SummaryVo();
+					summaryVo.setOrganName(medExamSummary.getOrganName());
+					
+					List<Summary> summaryList = new ArrayList<>();
+					if(medExamSummary.getSummary().indexOf("|") > 0){
+						for(int i = 0 ; i < medExamSummary.getSummary().split("|").length ; i++){
+							Summary summary = new Summary();
+							summary.setSummary(medExamSummary.getSummary().split("|")[i]);
+							summary.setDoctor(medExamSummary.getDoctor().split("|")[i]);
+							summary.setRevDoctor(medExamSummary.getRevDoctor().split("|")[i]);
+							summaryList.add(summary);
+						}
+					}else{
+						Summary summary = new Summary();
+						summary.setSummary(medExamSummary.getSummary());
+						summary.setDoctor(medExamSummary.getDoctor());
+						summary.setRevDoctor(medExamSummary.getRevDoctor());
+						summaryList.add(summary);
+					}
+					
+					summaryVo.setSummaryList(summaryList);
+					summaryVoList.add(summaryVo);
 				}
 			}
 		}

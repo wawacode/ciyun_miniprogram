@@ -12,6 +12,7 @@ import com.centrin.ciyun.entity.med.MedExamAdvice;
 import com.centrin.ciyun.entity.med.MedExamItem;
 import com.centrin.ciyun.entity.med.MedExamRpt;
 import com.centrin.ciyun.entity.med.MedExamSummary;
+import com.centrin.ciyun.medrpt.domain.vo.SummaryVo;
 
 /**
  * 一份体检报告详情
@@ -34,6 +35,8 @@ public class MedReportDetail implements Serializable {
 	private int extrasFlag = 1;
 	private String extrasConts;
 	private HidExtraContsVo extrasContsVo; //目前仅用于小程序
+	private List<SummaryVo> summaryVoList; //目前仅用于小程序,用于体检报告中"检查所见"的小结页面数据输出，把所有summary处理后放在这里面
+	                                       
 	
 	// 2016年5月12日 上午8:53:52 开始
 	private Map<String, MedDetail> medDetails;// 每个体检部门信息以及对应部门的体检项目
@@ -62,6 +65,14 @@ public class MedReportDetail implements Serializable {
 
 	public void setMedDetails(Map<String, MedDetail> medDetails) {
 		this.medDetails = medDetails;
+	}
+	
+	public List<SummaryVo> getSummaryVoList() {
+		return summaryVoList;
+	}
+
+	public void setSummaryVoList(List<SummaryVo> summaryVoList) {
+		this.summaryVoList = summaryVoList;
 	}
 
 	public static class MedDetail implements java.io.Serializable {
