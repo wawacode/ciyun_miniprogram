@@ -55,15 +55,16 @@ background-color: #fff;
     background-color: #fff;
     margin-right: -10px;
     margin-left: -10px;
-    height: 100rpx;
-    line-height: 100rpx;
+    height: 150rpx;
+    display:flex;
+align-items:center;
+justify-content:center;
+
 }
 .form-view .form-group .form-label {
     float: left;
     text-align: left;
     width: 250rpx;
-    height: 100rpx;
-    line-height: 100rpx;
     color: #888888;
 }
 .form-group .form-label, .form-group .form-val {
@@ -73,6 +74,7 @@ background-color: #fff;
     padding-right: 10px;
     padding-left: 15px;
     float: left;
+    width:500rpx;
 }
 .form-view .form-group .form-val view{
     color: #222;
@@ -123,8 +125,7 @@ background-color: #fff;
 .new-report-other {
     color: #000;
     padding: 5px 10px;
-    text-indent: 2em;
-    border-bottom: 1px solid #E0E0E2;
+    text-indent: 20px;
 }
 .new-report-other text {
     color: #666;
@@ -256,6 +257,7 @@ background-color: #fff;
 .new-report-total {
     padding: 10px 10px 10px 10px;
     text-indent: 20px;
+    border-bottom: 1px solid #E0E0E2;
 }
 .new-report-total .bold{
   font-weight:bold;

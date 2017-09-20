@@ -43,6 +43,7 @@
 </view>
 <!-- 汇总分析  -->
 <view class="report-content" hidden="{{1!==navbarIndex}}">
+  <block wx:if="{{data}}">
   <view class="new-report-app">
     <view class="new-report-app-hd">
       <view class="title">汇总分析</view>
@@ -52,11 +53,16 @@
         <view class="new-report-total">
           <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
             <text class='bold' wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
-            <view><text>{{item.advice}}</text></view>
+            <view>
+              <text>{{item.advice}}</text>
+            </view>
           </view>
         </view>
         <block wx:if="{{data.adviceList.length>0}}">
-          <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime!=null}}">
+          <view class="new-report-other" wx:if="{{data.adviceList[0].doctorLast}}">
+            <text>汇总医师：</text>{{data.adviceList[0].doctorLast}}
+          </view>
+          <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime}}">
             <text>主检日期：</text>{{data.adviceList[0].preCreateTime}}
           </view>
         </block>
@@ -77,11 +83,13 @@
               <!-- 项目组 -->
               <!-- 项目组小结 -->
               <view wx:if="{{item.summary != null}}">
-                <view class="p"><text>{{item.summary}}</text></view>
+                <view class="p">
+                  <text>{{item.summary}}</text>
+                </view>
                 <view class="new-report-other p" wx:if="{{item.doctor != null}}">
                   <text>检查医师：{{item.doctor}}</text>
                 </view>
-                <view class="new-report-other p"  wx:if="{{item.revDoctor != null}}">
+                <view class="new-report-other p" wx:if="{{item.revDoctor != null}}">
                   <text>审核医师：{{item.revDoctor}}</text>
                 </view>
               </view>
@@ -117,7 +125,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwtnb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwtnb != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">糖尿病</view>
@@ -127,7 +135,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgxb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgxb != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">冠心病</view>
@@ -137,7 +145,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzf != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzf != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">中风</view>
@@ -147,7 +155,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwgy != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">肝炎</view>
@@ -157,7 +165,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzl != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jwzl != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">肿瘤</view>
@@ -175,7 +183,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxy != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxy != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">高血压</view>
@@ -185,7 +193,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jztnb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jztnb != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">糖尿病</view>
@@ -195,7 +203,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxb != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzgxb != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">冠心病</view>
@@ -205,7 +213,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzf != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzf != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">脑血管疾病</view>
@@ -215,7 +223,7 @@
                   <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check">
-                      	<view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzl != null}}"></view>
+                        <view type="checkbox" name="p" class="checkbox checked" value="" disabled="disabled" checked="checked" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].jzzl != null}}"></view>
                         <view type="checkbox" name="p" class="checkbox disabled" value="" disabled="disabled" checked="checked" wx:else></view>
                       </view>
                       <view class="app-check-item">恶性肿瘤</view>
@@ -251,7 +259,7 @@
                     </view>
                   </view>
 
-                  <view class='app-check-list' >
+                  <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check-item">过敏物质/药物</view>
                     </view>
@@ -271,7 +279,7 @@
               <view class='report-name'>目前药物</view>
               <view class='report-value'>
                 <view class='app-check-group  clearfix'>
-                  <view class='app-check-list' >
+                  <view class='app-check-list'>
                     <view class="app-check-box">
                       <view class="app-check-item" wx:if="{{data.extrasContsVo.listJsonObject[0].type6[0].mqyw != null}}">{{data.extrasContsVo.listJsonObject[0].type6[0].mqyw}}</view>
                     </view>
@@ -293,14 +301,15 @@
             <view class='flex-tr new-report-total'>
               {{index+1}}、
               <block wx:if="{{item.sdname != null}}">{{item.sdname}}</block>：
-              <block wx:if="{{item != null}}">{{item.sdtext}}</block> 
+              <block wx:if="{{item != null}}">{{item.sdtext}}</block>
             </view>
           </view>
-        </view>  
+        </view>
       </view>
     </block>
 
   </view>
+  </block>
 </view>
 <!-- 超标项  -->
 <view class="report-content" hidden="{{2!==navbarIndex}}">
@@ -315,10 +324,10 @@
     <view class="tbody">
       <view class="report-table-tr" wx:for="{{data.exceptionItems}}" wx:key="exceptionItems">
         <view class="report-table-td">{{item.itemName}}</view>
-        <view class="report-table-td" wx:if="{{item.isNormal > 3}}">
+        <view class="report-table-td" wx:if="{{item.isNormal == 3}}">
           <text class="down">{{item.itemResult || ''}}↓</text>
         </view>
-        <view class="report-table-td" wx:if="{{item.isNormal < 4}}">
+        <view class="report-table-td" wx:if="{{item.isNormal == 4}}">
           <text class="up">{{item.itemResult || ''}}↑</text>
         </view>
         <view class="report-table-td">
@@ -334,6 +343,7 @@
 
 <!-- 报告详情  -->
 <view class="report-content" hidden="{{3!==navbarIndex}}" style='{{detailStyle}}'>
+  <block wx:if="{{data}}">
   <view class="report-table">
     <view class="report-table-tr fixed" style='{{detail_th}}'>
       <view class="th">项目名</view>
@@ -461,6 +471,7 @@
 
   <!-- searchIcon  -->
   <view id="report-tab-search" class="report-tab-search" bindtap="openSearchList"></view>
+  </block>
 </view>
 
 
