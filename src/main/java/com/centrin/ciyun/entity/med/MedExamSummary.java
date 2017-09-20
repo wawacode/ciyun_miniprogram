@@ -61,9 +61,10 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setExamTime(Date examTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(examTime != null)
+		if(examTime != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			setPreExamTime(sdf.format(examTime));
+		}
 		this.examTime = examTime;
 	}
 
@@ -148,9 +149,10 @@ public class MedExamSummary implements java.io.Serializable {
 	}
 
 	public void setRevTime(Date revTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(revTime != null)
+		if(revTime != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			setPreRevTime(sdf.format(revTime));
+		}
 		this.revTime = revTime;
 	}
 

@@ -62,9 +62,10 @@ public class MedExamAdvice implements java.io.Serializable {
 	}
 
 	public void setCreateTime(Date createTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(createTime != null)
+		if(createTime != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			setPreCreateTime(sdf.format(createTime));
+		}
 		this.createTime = createTime;
 	}
 

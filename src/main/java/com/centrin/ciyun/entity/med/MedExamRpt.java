@@ -185,9 +185,10 @@ public class MedExamRpt implements java.io.Serializable {
 	}
 
 	public void setMedDate(Date medDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(medDate != null)
+		if(medDate != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			setPreMedDate(sdf.format(medDate));
+		}
 		this.medDate = medDate;
 	}
 

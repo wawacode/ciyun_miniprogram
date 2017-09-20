@@ -40,6 +40,7 @@ import com.centrin.ciyun.entity.med.MedExamRpt;
 import com.centrin.ciyun.entity.med.MedExamRptSynthetic;
 import com.centrin.ciyun.entity.med.MedExamSummary;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
+import com.centrin.ciyun.entity.med.vo.MedReportDetail.MedDetail;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
 import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
@@ -157,8 +158,41 @@ public class MiniMedExamRptService {
 		MedReportDetail medReportDetail = iMedExamRptService.viewRowDetail(EMedReportOperator.USER, personId, medrptId, EExamExtrasTempleteType.MINIPROGRAM, sysParamUtil.getMpNum());
 		//替换体检报告中小结和建议的换行符
 		replaceLineStr(medReportDetail);
+		//转换日期
+		formatDate(medReportDetail);
 		reportDetailsResp.setDatas(medReportDetail);
 		return reportDetailsResp;
+	}
+	
+	private void formatDate(MedReportDetail medReportDetail) {
+		if(medReportDetail != null){
+			//替换建议
+			if(medReportDetail.getAdviceList() != null && !medReportDetail.getAdviceList().isEmpty()){
+				for(MedExamAdvice advice : medReportDetail.getAdviceList()){
+					advice.setCreateTime(advice.getCreateTime());
+				}
+			}
+			//替换第一层小结
+			if(medReportDetail.getSummaryList() != null && !medReportDetail.getSummaryList().isEmpty()){
+				for(MedExamSummary summary : medReportDetail.getSummaryList()){
+					summary.setExamTime(summary.getExamTime());
+					summary.setRevTime(summary.getRevTime());
+				}
+			}
+			//替换内层内容
+			if (medReportDetail.getMedDetails() != null && !medReportDetail.getMedDetails().isEmpty()) {
+				Map<String, MedDetail> mapDetails = medReportDetail.getMedDetails();
+				for (Iterator<Map.Entry<String, MedDetail>> iter = mapDetails.entrySet().iterator();iter.hasNext();) {
+					MedDetail values = iter.next().getValue();
+					if (values != null && values.getSummaryList() != null && !values.getSummaryList().isEmpty()) {
+						for(MedExamSummary summary : values.getSummaryList()){
+							summary.setExamTime(summary.getExamTime());
+							summary.setRevTime(summary.getRevTime());
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	/**
