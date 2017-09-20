@@ -81,7 +81,7 @@
               <!-- 项目组 -->
               <!-- 项目组小结 -->
               <block wx:if="{{summaryVo.summaryList != null && summaryVo.summaryList.length > 0}}" >
-                <view wx:for="{{summaryVo.summaryList}}" wx:for-item="summary">
+                <view wx:for="{{summaryVo.summaryList}}" wx:for-item="summary" class="report-line">
                   <view class="p" wx:if="{{summary.summary != null}}">
                     <text>{{summary.summary}}</text>
                   </view>

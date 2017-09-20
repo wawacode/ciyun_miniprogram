@@ -497,3 +497,7 @@ background-color: #fafff5;
     font-size: 15px;
     color: #222222;
 }
+
+.report-line {
+  border-bottom: 1px solid #E0E0E2;
+}

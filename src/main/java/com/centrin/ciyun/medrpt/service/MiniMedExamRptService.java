@@ -253,19 +253,26 @@ public class MiniMedExamRptService {
 					summaryVo.setOrganName(medExamSummary.getOrganName());
 					
 					List<Summary> summaryList = new ArrayList<>();
-					if(medExamSummary.getSummary().indexOf("|") > 0){
-						for(int i = 0 ; i < medExamSummary.getSummary().split("|").length ; i++){
+					if(medExamSummary.getSummary().indexOf("|") > -1){
+						int summarySize = medExamSummary.getSummary().split("\\|").length;
+						int doctorSize = medExamSummary.getDoctor().split("\\|").length;
+						int revDoctorSize = medExamSummary.getRevDoctor().split("\\|").length;
+						for(int i = 0 ; i < summarySize ; i++){
 							Summary summary = new Summary();
-							summary.setSummary(medExamSummary.getSummary().split("|")[i]);
-							summary.setDoctor(medExamSummary.getDoctor().split("|")[i]);
-							summary.setRevDoctor(medExamSummary.getRevDoctor().split("|")[i]);
+							summary.setSummary(medExamSummary.getSummary().split("\\|")[i]);
+							if(medExamSummary.getDoctor().indexOf("|") > -1 && i < doctorSize){
+								summary.setDoctor(StringUtils.isNotEmpty(medExamSummary.getDoctor().split("\\|")[i])? medExamSummary.getDoctor().split("\\|")[i] : null);
+							}
+							if(medExamSummary.getRevDoctor().indexOf("|") > -1 && i < revDoctorSize){
+								summary.setRevDoctor(StringUtils.isNotEmpty(medExamSummary.getRevDoctor().split("\\|")[i])? medExamSummary.getRevDoctor().split("\\|")[i] : null);
+							}
 							summaryList.add(summary);
 						}
 					}else{
 						Summary summary = new Summary();
 						summary.setSummary(medExamSummary.getSummary());
-						summary.setDoctor(medExamSummary.getDoctor());
-						summary.setRevDoctor(medExamSummary.getRevDoctor());
+						summary.setDoctor(StringUtils.isNotEmpty(medExamSummary.getDoctor()) ? medExamSummary.getDoctor() : null);
+						summary.setRevDoctor(StringUtils.isNotEmpty(medExamSummary.getRevDoctor()) ? medExamSummary.getRevDoctor() : null);
 						summaryList.add(summary);
 					}
 					
