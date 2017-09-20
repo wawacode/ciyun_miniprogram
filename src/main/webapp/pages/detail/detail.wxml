@@ -13,27 +13,25 @@
     <view class="form-group">
       <text class="form-label">体检日期</text>
       <view class="form-val">
-        <view>{{data.medExamRpt.preMedDate || ''}}</view>
+        <view class="text-l">{{data.medExamRpt.preMedDate || ''}}</view>
       </view>
     </view>
     <view class="form-group">
       <text class="form-label">体检机构</text>
       <view class="form-val">
-        <view>
-          {{data.medExamRpt.medCorpName}}
-        </view>
+        <view class="text-l">{{data.medExamRpt.medCorpName}}</view>
       </view>
     </view>
     <view class="form-group">
       <view class="form-label">体检人姓名</view>
       <view class="form-val">
-        <view>{{data.medExamRpt.name}}</view>
+        <view  class="text-l">{{data.medExamRpt.name}}</view>
       </view>
     </view>
     <view class="form-group">
       <view class="form-label">体检名称</view>
       <view class="form-val">
-        <view>{{data.medExamRpt.medExamType}}</view>
+        <view class="text-l">{{data.medExamRpt.medExamType}}</view>
       </view>
     </view>
   </view>

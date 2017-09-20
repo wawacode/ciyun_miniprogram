@@ -5,6 +5,7 @@
 }
 .province-content{
   padding: 35rpx 0rpx 35rpx 30rpx;
+  line-height: 30rpx;
 }
 .province-content.active{
   border-left: 4rpx solid #6fba2c;
@@ -31,6 +32,7 @@
 .mechanism-content{
   padding: 35rpx 30rpx 35rpx 0rpx;
   border-bottom: 1rpx solid #e5e5e5;
+  line-height: 30rpx;
 }
 .mechanism-item{
   font-size: 30rpx;
