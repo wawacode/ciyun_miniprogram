@@ -19,17 +19,12 @@ Page({
   },
 callback:function(res){
     var datass = res.data.datas
+    console.log(res.data.datas.medExamType)
     var that = this
-    if (res.data.datas.length == 0) {
-      that.setData({
-        result: 1
-      }) 
-    } else {
       that.setData({
         result: 0,
         datas: datass
       })
-    }
 },
   //查报告
   mechanism:function(){

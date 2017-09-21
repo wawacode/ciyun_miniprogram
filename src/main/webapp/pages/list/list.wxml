@@ -1,29 +1,16 @@
 <!--pages/list/list.wxml-->
 <view class="container">
-  <view class="list_box" wx:for="{{datas}}" hidden="{{result!==0}}">
+  <view class="list_box" wx:for="{{datas}}">
     <view class="list_centent" data-id="{{item.id}}" bindtap="details"> 
-      <view class="list_right"  data-id="{{item.id}}">
-        <view class="list_title"  data-id="{{item.id}}">体检报告</view>
-        <view class="list_mechanism"  data-id="{{item.id}}">{{item.medCorpName}}</view>
-        <view class="list_times"  data-id="{{item.id}}">
-          <text class="list_times_left"  data-id="{{item.id}}" wx:if="{{item.preMedDate==null}}"></text>
-          <text class="list_times_left"  data-id="{{item.id}}" wx:else>{{item.preMedDate}}</text>
-          <text class="list_times_right"  data-id="{{item.id}}">{{item.name}}</text>
+      <view class="list_right" data-id="{{item.id}}"> 
+        <view class="list_title" data-id="{{item.id}}">
+          <text class="title" data-id="{{item.id}}">体检报告</text>
+          <text class="shi" data-id="{{item.id}}" wx:if='{{item.medExamType=="体检报告示例"}}'>示例</text>
         </view>
-      </view> 
-    </view>
-  </view>
-  <view class="list_box" hidden="{{result!==1}}">
-    <view class="list_centent" data-id="519014" bindtap="details"> 
-      <view class="list_right" data-id="519014"> 
-        <view class="list_title" data-id="519014">
-          <text class="title" data-id="519014">体检报告</text>
-          <text class="shi" data-id="519014">示例</text>
-        </view>
-        <view class="list_mechanism" data-id="519014">航天中心医院</view>
-        <view class="list_times" data-id="519014">
-          <text class="list_times_left" data-id="519014">2017-09-05</text>
-          <text class="list_times_right" data-id="519014">张三</text>
+        <view class="list_mechanism" data-id="{{item.id}}">{{item.medCorpName}}</view>
+        <view class="list_times" data-id="{{item.id}}">
+          <text class="list_times_left" data-id="{{item.id}}">{{item.preMedDate}}</text>
+          <text class="list_times_right" data-id="{{item.id}}">{{item.name}}</text>
         </view>
       </view> 
     </view>
