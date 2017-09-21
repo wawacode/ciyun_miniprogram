@@ -38,6 +38,9 @@
   <view class='infomation-footer'>
     体检报告以纸质报告为准
   </view>
+  <block wx:if="{{!data.medExamRpt.personId}}">
+    <view class='watermark'>示例</view>
+  </block>
 </view>
 <!-- 汇总分析  -->
 <view class="report-content" hidden="{{1!==navbarIndex}}">
@@ -315,6 +318,9 @@
       体检报告以纸质报告为准
     </view>
   </block>
+  <block wx:if="{{!data.medExamRpt.personId}}">
+    <view class='watermark'>示例</view>
+  </block>
 </view>
 <!-- 超标项  -->
 <view class="report-content" hidden="{{2!==navbarIndex}}">
@@ -350,7 +356,9 @@
       </view>
     </block>
   </view>
-
+  <block wx:if="{{!data.medExamRpt.personId}}">
+    <view class='watermark'>示例</view>
+  </block>
 </view>
 
 <!-- 报告详情  -->
@@ -483,10 +491,13 @@
   <block wx:if="{{data}}">
     <view id="report-tab-search" class="report-tab-search" bindtap="openSearchList"></view>
   </block>
-    <block wx:else>
+  <block wx:else>
     <view class='infomation-footer'>
       体检报告以纸质报告为准
     </view>
+  </block>
+  <block wx:if="{{!data.medExamRpt.personId}}">
+    <view class='watermark'>示例</view>
   </block>
 </view>
 

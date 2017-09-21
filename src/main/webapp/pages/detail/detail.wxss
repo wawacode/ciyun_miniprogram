@@ -55,7 +55,7 @@ background-color: #fff;
     background-color: #fff;
     margin-right: -10px;
     margin-left: -10px;
-    height: 150rpx;
+    height: 120rpx;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -498,4 +498,21 @@ background-color: #fafff5;
 
 .report-line {
   border-bottom: 1px solid #E0E0E2;
+}
+.watermark{
+  margin: auto;  
+  position: absolute;  
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index: 10;
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+    align-items:center;/*垂直居中*/
+  justify-content: center;/*水平居中*/
+  font-size: 60rpx;
+  background: rgba(255,70,70, 0.1);
+  opacity: 0.9;
+  color: rgba(255,70,70, 0.3);
+  border-radius: 50%;
+
 }
