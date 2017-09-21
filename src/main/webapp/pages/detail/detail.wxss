@@ -460,17 +460,15 @@ background-color: #fafff5;
     z-index: 999;
     width: 100%;
     background-color: #fff;
+    overflow: auto;
 }
 .report-item-list .close-content{
     width: 100%;
     text-align: right;
-    display: table;
     height: 40px;
     line-height: 40px;
-    padding: 5px 10px;
+    padding: 0px 10px;
     background-color: #f3f5f6;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
 }   
 
 .report-item-list .report-item-close {
