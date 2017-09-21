@@ -46,6 +46,7 @@
 <view class="report-content" hidden="{{1!==navbarIndex}}">
   <block wx:if="{{data}}">
     <view class="new-report-app">
+      <block wx:if="{{data.adviceList.length>0}}">
       <view class="new-report-app-hd">
         <view class="title">汇总分析</view>
       </view>
@@ -69,6 +70,7 @@
           </block>
         </view>
       </view>
+      </block>
       <block wx:if="{{data.summaryVoList != null && data.summaryVoList.length > 0}}">
         <view class="new-report-app-hd">
           <view class="title">
