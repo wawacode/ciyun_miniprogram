@@ -315,11 +315,10 @@
 
     </view>
   </block>
-  <block wx:else>
+
     <view class='infomation-footer'>
       体检报告以纸质报告为准
     </view>
-  </block>
   <block wx:if="{{!data.medExamRpt.personId}}">
     <view class='watermark'>示例</view>
   </block>
@@ -352,11 +351,11 @@
         </view>
       </view>
     </view>
-    <block wx:if="{{!data}}">
+
       <view class='infomation-footer'>
         体检报告以纸质报告为准
       </view>
-    </block>
+
   </view>
   <block wx:if="{{!data.medExamRpt.personId}}">
     <view class='watermark'>示例</view>
@@ -493,11 +492,11 @@
   <block wx:if="{{data}}">
     <view id="report-tab-search" class="report-tab-search" bindtap="openSearchList"></view>
   </block>
-  <block wx:else>
+
     <view class='infomation-footer'>
       体检报告以纸质报告为准
     </view>
-  </block>
+
   <block wx:if="{{!data.medExamRpt.personId}}">
     <view class='watermark'>示例</view>
   </block>
