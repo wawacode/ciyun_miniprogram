@@ -126,7 +126,7 @@ public class MiniMedExamRptService {
 			return reportResp;
 		}
 		List<MedExamRpt> medExamRptList = iMedExamRptService.medPrimReportList(personId);
-		if (null == medExamRptList) {
+		if (null == medExamRptList || medExamRptList.isEmpty()) {
 			MedExamRptSynthetic rptSynthetic = medexamRptSyntheticInterface.findExampleRptLab(MedExamRptSyntheticEnum.TableName.MED_EXAM_RPT);
 			if (rptSynthetic != null) {
 				medExamRptList = iMedExamRptService.queryByRptIds(new Object[]{Long.parseLong(rptSynthetic.getRealrptId())});
