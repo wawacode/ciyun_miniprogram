@@ -11,8 +11,8 @@
             <view class="lab-item-val">
                 <view style="display: block;" for="idCardType">
                     <view id="idCardType" name="idCardType" class="app-select-rul">
-                        <picker bindchange="bindCardTypeChange" value="{{cardTypeIndex}}" range="{{ruleCardType}}">
-                            <view class="picker app-select-rul">{{ruleCardType[cardTypeIndex]}}</view>
+                        <picker bindchange="bindCardTypeChange" value="{{cardTypeIndex}}" range="{{ruleCardCaptions}}">
+                            <view class="picker app-select-rul">{{ruleCardCaptions[cardTypeIndex]}}</view>
                         </picker>
                     </view>
                 </view>

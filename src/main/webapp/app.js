@@ -39,7 +39,7 @@ App({
     appversion:'3.5.8',
     ceshihost:'https://testminpro.ciyun.cn',
     host:'https://minirpt.ciyun.cn',
-    toastIconList: ["../index/images/警示1.png", "../index/images/提醒次级警示.png"]
+    toastIconList: ["../index/images/warning.png", "../index/images/secondary.png"]
   },
   //通用提示语
   showToast: function (title,type) {
@@ -77,11 +77,11 @@ App({
               that.postCallBack(type,data,callback);
             },
             fail:function(res){
-              return res;
+              that.showToast(res.data.message, 0);
             }
           })
         }, fail: function (res) {
-            return res;
+          that.showToast(res.data.message, 0);
         }
       });
   },
@@ -132,6 +132,7 @@ App({
         }
       },
       fail: function (res) {
+        that.showToast(res.data.message, 0);
         console.log(res);
       }
     })
