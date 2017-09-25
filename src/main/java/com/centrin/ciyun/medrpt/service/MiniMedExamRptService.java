@@ -271,6 +271,7 @@ public class MiniMedExamRptService {
 						summaryVo.setOrganName(medExamSummary.getOrganName());
 					}else{
 						summaryVo.setOrganName(departMentName);
+						summaryVo.setClassName(medExamSummary.getOrganName());
 					}
 					
 					List<Summary> summaryList = new ArrayList<>();
