@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SummaryVo {
-	private String organName;//科室名称或大项名称
+	private String organName;//科室名称
+	private String className;//大项名称
 	private List<Summary> summaryList;
 	
 	@Data

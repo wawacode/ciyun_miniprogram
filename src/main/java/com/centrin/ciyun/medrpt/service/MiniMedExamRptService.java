@@ -218,7 +218,7 @@ public class MiniMedExamRptService {
 				replaceLineOfSummary(medReportDetail.getSummaryList());
 				
 				//填充处理好的小结内容
-				fillSummaryVoList(medReportDetail.getSummaryList(), summaryVoList);
+				fillSummaryVoList(medReportDetail.getSummaryList(), summaryVoList, null);
 			}
 				
 			//step2：处理慈云2.5及之后的数据
@@ -233,7 +233,7 @@ public class MiniMedExamRptService {
 							replaceLineOfSummary(values.getSummaryList());
 							
 							//填充处理好的小结内容
-							fillSummaryVoList(values.getSummaryList(), summaryVoList);
+							fillSummaryVoList(values.getSummaryList(), summaryVoList, values.getOrganName());
 						}
 					}else if(values.getRptMode() == 1){// 1:科室-大项-小项
 						for (Iterator<Map.Entry<String, MedDetail>> itemClassListIter = values.getItemClassList().entrySet().iterator(); itemClassListIter.hasNext();) {
@@ -243,7 +243,7 @@ public class MiniMedExamRptService {
 								replaceLineOfSummary(medDetail.getSummaryList());
 								
 								//填充处理好的小结内容
-								fillSummaryVoList(medDetail.getSummaryList(), summaryVoList);
+								fillSummaryVoList(medDetail.getSummaryList(), summaryVoList, values.getOrganName());
 							}
 						}
 					}
@@ -259,14 +259,19 @@ public class MiniMedExamRptService {
 	 * 填充处理好的小结内容
 	 * @param medExamSummaryList
 	 * @param summaryVoList
+	 * @param departMentName 科室名称
 	 */
-	public void fillSummaryVoList(List<MedExamSummary> medExamSummaryList, List<SummaryVo> summaryVoList){
+	public void fillSummaryVoList(List<MedExamSummary> medExamSummaryList, List<SummaryVo> summaryVoList, String departMentName){
 		if(medExamSummaryList != null && !medExamSummaryList.isEmpty()){
 			for(MedExamSummary medExamSummary : medExamSummaryList){
 				//过滤掉小结内容为“ciyun”
 				if(StringUtils.isNotEmpty(medExamSummary.getSummary()) && medExamSummary.getSummary() != "ciyun"){
 					SummaryVo summaryVo = new SummaryVo();
-					summaryVo.setOrganName(medExamSummary.getOrganName());
+					if(StringUtils.isEmpty(departMentName)){
+						summaryVo.setOrganName(medExamSummary.getOrganName());
+					}else{
+						summaryVo.setOrganName(departMentName);
+					}
 					
 					List<Summary> summaryList = new ArrayList<>();
 					if(medExamSummary.getSummary().indexOf("|") > -1){
