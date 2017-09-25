@@ -38,7 +38,7 @@
   <view class='infomation-footer'>
     体检报告以纸质报告为准
   </view>
-  <block wx:if="{{!data.medExamRpt.personId}}">
+  <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
   </block>
 </view>
@@ -319,7 +319,7 @@
     <view class='infomation-footer'>
       体检报告以纸质报告为准
     </view>
-  <block wx:if="{{!data.medExamRpt.personId}}">
+  <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
   </block>
 </view>
@@ -357,7 +357,7 @@
       </view>
 
   </view>
-  <block wx:if="{{!data.medExamRpt.personId}}">
+  <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
   </block>
 </view>
@@ -497,7 +497,7 @@
       体检报告以纸质报告为准
     </view>
 
-  <block wx:if="{{!data.medExamRpt.personId}}">
+  <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
   </block>
 </view>

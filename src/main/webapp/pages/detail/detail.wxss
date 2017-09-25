@@ -285,7 +285,7 @@ background-color: #fff;
     flex: 1;
     height: 52rpx;
     line-height: 52rpx;
-    border-bottom: 1px solid #BEC3C7;
+    border-bottom: 1px solid #e5e5e5;
     font-size: 12px;
     text-align: left;
     color: #888;
