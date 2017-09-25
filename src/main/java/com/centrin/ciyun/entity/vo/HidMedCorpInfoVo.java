@@ -1,5 +1,6 @@
 package com.centrin.ciyun.entity.vo;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -14,7 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HidMedCorpInfoVo  implements java.io.Serializable {
 	private String userName;
-	private Integer sex = 3;
+	private Map<String, String> sex = new LinkedHashMap<>();
+	private Map<String, String> curSex = new LinkedHashMap<>();
 	private String telephone;
 	private String medCorpId;
 	private String ruleIds;

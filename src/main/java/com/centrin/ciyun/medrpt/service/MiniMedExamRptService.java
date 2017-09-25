@@ -41,6 +41,7 @@ import com.centrin.ciyun.entity.med.MedExamRptSynthetic;
 import com.centrin.ciyun.entity.med.MedExamSummary;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail;
 import com.centrin.ciyun.entity.med.vo.MedReportDetail.MedDetail;
+import com.centrin.ciyun.entity.person.PerPerson;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
 import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
@@ -56,9 +57,11 @@ import com.centrin.ciyun.medrpt.domain.vo.SummaryVo.Summary;
 import com.centrin.ciyun.service.interfaces.bus.MedexamRptSyntheticInterface;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidMedCorpService;
 import com.centrin.ciyun.service.interfaces.hid.IDubboHidWxKeyService;
+import com.centrin.ciyun.service.interfaces.person.DubboPerPersonService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
 import com.centrin.ciyun.service.interfaces.system.SystemParamCacheInterface;
 import com.centrin.webbase.ServiceResult;
+import com.centrin.webbase.WebContextWrapper;
 import com.ciyun.dubbo.interfaces.med.IMedExamRptService;
 import com.ciyun.rptgw.encrypt.CyCipher;
 import com.ciyun.rptgw.encrypt.Encryption;
@@ -414,7 +417,10 @@ public class MiniMedExamRptService {
 		if (StringUtils.isNotBlank(medCorp.getRuleIds())) {
 			HidMedCorpInfoVo hidMedCorpRule = new HidMedCorpInfoVo();
 			hidMedCorpRule.setMedCorpId(corpRuleParam.getMedCorpId());
-			hidMedCorpRule.setSex(corpRuleParam.getSex());
+			hidMedCorpRule.getCurSex().put("" + corpRuleParam.getSex(), 1 == corpRuleParam.getSex() ? "男" : (2 == corpRuleParam.getSex() ? "女" : "未知"));
+			hidMedCorpRule.getSex().put("1", "男");
+			hidMedCorpRule.getSex().put("2", "女");
+			hidMedCorpRule.getSex().put("3", "未知");
 			hidMedCorpRule.setTelephone(corpRuleParam.getTelephone());
 			hidMedCorpRule.setUserName(corpRuleParam.getUserName());
 			hidMedCorpRule.setRuleIds(medCorp.getRuleIds());
@@ -485,6 +491,7 @@ public class MiniMedExamRptService {
 			jsonResp.put("message", ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			return jsonResp;
 		}
+		
 		//适配微信找报告构造HidMedCorpRuleInfo对象
 		HidMedCorpRuleInfo ruleInfo = new HidMedCorpRuleInfo();
 		ruleInfo.setIdCard(medFindRptParam.getIdCard());
@@ -493,7 +500,7 @@ public class MiniMedExamRptService {
 		ruleInfo.setMedPersonNo(medFindRptParam.getMedPersonNo());
 		ruleInfo.setMobile(medFindRptParam.getMobile());
 		ruleInfo.setSex(medFindRptParam.getSex());
-		ruleInfo.setUserName(medFindRptParam.getUserName());
+		ruleInfo.setUserName(StringUtils.isNotEmpty(medFindRptParam.getUserName()) ? medFindRptParam.getUserName().trim() : null);
 		ruleInfo.setIsFamily(false);
 		int rptSize = 0; //标示导入几份报告
 		HidMedCorp medCorp = dubboHidMedCorpService.queryhidMedRules(medFindRptParam.getMedCorpId(), 1);
@@ -503,6 +510,7 @@ public class MiniMedExamRptService {
 			jsonResp.put("message", ReturnCode.EReturnCode.PARAM_IS_NULL.value);
 			return jsonResp;
 		}
+		
 		List<String> listRules = Arrays.asList(medCorp.getRuleIds().split("\\|"));
 		//判断当前中心是航天健康管理中心
 		if ("CYH3211204110000".equals(medCorp.getHmoId())) {
@@ -511,6 +519,12 @@ public class MiniMedExamRptService {
 			if(StringUtils.isNotBlank(idNo)){
 				idNo = idNo.trim().toUpperCase();
 				ruleInfo.setIdCard(idNo);
+			}
+			PersonQueryService personQueryService = (PersonQueryService)WebContextWrapper.getBean("personQueryService");
+			PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
+			if(1 != me.getHasVerifyName()){
+				DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
+				dubboPersonQueryService.updateUsernameOnly(medFindRptParam.getPersonId(), me.getUserName());
 			}
 			JSONObject jsonResult = loadHangTianRptLab(ciyunUrlUtil.getHangtianrptUrl(), medCorp.getHmoId(), medCorp.getMedCorpId(), 1, ruleInfo);
 			int result = ReturnCode.EReturnCode.OK.key.intValue();
@@ -529,7 +543,7 @@ public class MiniMedExamRptService {
 					}
 				} else if (100004 == result || 100025 == result) {
 					message = "无新报告";
-				} else if (100026 == result || 100024 == result){
+				} else if (100026 == result || 100024 == result) {
 					message = "未查询到报告";
 				} else {
 					result = jsonResult.getIntValue("result");
@@ -540,6 +554,14 @@ public class MiniMedExamRptService {
 			jsonResp.put("message", message);
 			
 		} else {//其他直接在慈云库中查询，然后修改对应表的记录
+			if(StringUtils.isNotBlank(ruleInfo.getUserName())){
+				PersonQueryService personQueryService = (PersonQueryService)WebContextWrapper.getBean("personQueryService");
+				PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
+				if((1 != me.getHasVerifyName()) || (!ruleInfo.getUserName().equals(me.getUserName()))){
+					DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
+					dubboPersonQueryService.updateUsernameOnly(medFindRptParam.getPersonId(), ruleInfo.getUserName());
+				}
+			}
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
 			if (null == sr || sr.getResult() != 0) {
 				jsonResp.put("result", ReturnCode.EReturnCode.OTHER_FAILED.key.intValue());
