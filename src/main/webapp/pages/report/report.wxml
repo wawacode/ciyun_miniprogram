@@ -39,8 +39,8 @@
             <view class="lab-item-val">
                 <view style="display: block;" for="sex">
                     <view id="sex" name="sex" class="app-select-rul">
-                        <picker bindchange="bindSexChange" value="{{sexIndex}}" range="{{sex}}">
-                            <view class="picker app-select-rul">{{sex[sexIndex]}}</view>
+                        <picker bindchange="bindSexChange" value="{{sexIndex}}" range="{{sexCardCaptions}}">
+                            <view class="picker app-select-rul">{{sexCardCaptions[sexIndex]}}</view>
                         </picker>
                     </view>
                 </view>

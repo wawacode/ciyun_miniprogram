@@ -8,7 +8,7 @@ Page({
   data: {
     //
     cardTypeIndex: 0,
-    sex: ['男','女','未知'],
+    sex:[{"1":'男'},{"2":'女'},{'3':'未知'}],
     sexIndex: 0,
     date: "请选择体检日期",
     importCode: [-1, 0, 1, 2],
@@ -19,29 +19,33 @@ Page({
     mobile_boo:false,
     medDate_boo:false,
     medPersonNo_boo:false,
-    userName_boo:false,
-    datas: {
-      "username": "张三",
-      "sex": 1,
-      "telephone": 13412312311,
-      "medCorpId": "1383",
-      "ruleIds": "idCard|sex|mobile|medDate|medPersonNo|userName",
-      "ruleCardType": "1|2|3|4|5|6|23|26"
-    }
+    userName_boo:false
   },
   /**
    * 证件类型过滤器
    */
   ruleCardTypeFilter: function (obj, type) {
-    if (type == 'post') {
-
+    var ruleCardTypeArr = [];
+    var ruleCardCaptions = [];
+    for (var key in obj) {
+      ruleCardCaptions.push(obj[key])
+      ruleCardTypeArr.push(key);
+    };
+    if (type) {
+      for (var i in this.data.datas.curSex){
+        for (var k = 0; k < ruleCardTypeArr.length -1 ; k++){
+          if (i == ruleCardTypeArr[k]){
+            var sexIndex = k;
+            break;
+          }
+        }
+      }
+      this.setData({
+        "sexCardType": ruleCardTypeArr,
+        'sexCardCaptions': ruleCardCaptions,
+        'sexIndex': sexIndex
+      });
     } else {
-      var ruleCardTypeArr= [];
-      var ruleCardCaptions = [];
-      for(var key in obj){
-        ruleCardCaptions.push(obj[key])
-        ruleCardTypeArr.push(key);
-      };
       this.setData({
         "ruleCardType": ruleCardTypeArr,
         'ruleCardCaptions': ruleCardCaptions
@@ -51,15 +55,13 @@ Page({
   // 赛选 条件渲染
   filterTypeRendering:function(){
     var ruleArr = this.data.datas.ruleIds.split("|");
-    var sexIndex = Number(this.data.datas.sex)-1;
     this.setData({
       idCard_boo: ruleArr.includes('idCard'),
       sex_boo:ruleArr.includes('sex'),
       mobile_boo:ruleArr.includes('mobile'),
       medDate_boo:ruleArr.includes('medDate'),
       medPersonNo_boo:ruleArr.includes('medPersonNo'),
-      userName_boo:ruleArr.includes('userName'),
-      sexIndex: sexIndex
+      userName_boo:ruleArr.includes('userName')
     })
   },
   changeIdCardValue:function(e){
@@ -85,7 +87,7 @@ Page({
         console.log(this.data.idCardValue);
         app.showToast('证件号码不能为空',0);
         return false;
-      } else if (this.data.ruleCardCaptions[this.data.cardTypeIndex] == '身份证'){
+      } else if (this.data.ruleCardType[this.data.cardTypeIndex] == '1'){
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
         if (!reg.test(this.data.idCardValue)){
           app.showToast('身份证号码格式有误', 0);
@@ -116,7 +118,7 @@ Page({
       thirdSession: wx.getStorageSync('thirdSession'),
       idCardType: this.data.ruleCardType[this.data.cardTypeIndex],
       idCard: this.data.idCardValue,
-      sex: (Number(this.data.sexIndex) + 1) + '',
+      sex: this.data.sexCardType[this.data.sexIndex],
       mobile: this.data.datas.telephone,
       medDate: this.data.date,
       medPersonNo: this.data.medPersonNo,
@@ -141,7 +143,8 @@ Page({
      this.setData({
         datas:res.data.datas
      });
-     this.ruleCardTypeFilter(this.data.datas.ruleCardType);
+     this.ruleCardTypeFilter(this.data.datas.ruleCardType,0);
+     this.ruleCardTypeFilter(this.data.datas.sex,1);
      this.filterTypeRendering();
    }else{
      app.showToast(res.data.message,1)

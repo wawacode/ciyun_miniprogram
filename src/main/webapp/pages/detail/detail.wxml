@@ -47,29 +47,29 @@
   <block wx:if="{{data}}">
     <view class="new-report-app">
       <block wx:if="{{data.adviceList.length>0}}">
-      <view class="new-report-app-hd">
-        <view class="title">汇总分析</view>
-      </view>
-      <view class="new-report-app-bd">
-        <view class="table">
-          <view class="new-report-total">
-            <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
-              <text class='bold' wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
-              <view>
-                <text>{{item.advice}}</text>
+        <view class="new-report-app-hd">
+          <view class="title">汇总分析</view>
+        </view>
+        <view class="new-report-app-bd">
+          <view class="table">
+            <view class="new-report-total">
+              <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
+                <text class='bold' wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
+                <view>
+                  <text>{{item.advice}}</text>
+                </view>
               </view>
             </view>
+            <block wx:if="{{data.adviceList.length>0}}">
+              <view class="new-report-other" wx:if="{{data.adviceList[0].doctorLast}}">
+                <text>汇总医师：</text>{{data.adviceList[0].doctorLast}}
+              </view>
+              <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime}}">
+                <text>主检日期：</text>{{data.adviceList[0].preCreateTime}}
+              </view>
+            </block>
           </view>
-          <block wx:if="{{data.adviceList.length>0}}">
-            <view class="new-report-other" wx:if="{{data.adviceList[0].doctorLast}}">
-              <text>汇总医师：</text>{{data.adviceList[0].doctorLast}}
-            </view>
-            <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime}}">
-              <text>主检日期：</text>{{data.adviceList[0].preCreateTime}}
-            </view>
-          </block>
         </view>
-      </view>
       </block>
       <block wx:if="{{data.summaryVoList != null && data.summaryVoList.length > 0}}">
         <view class="new-report-app-hd">
@@ -316,9 +316,9 @@
     </view>
   </block>
 
-    <view class='infomation-footer'>
-      体检报告以纸质报告为准
-    </view>
+  <view class='infomation-footer'>
+    体检报告以纸质报告为准
+  </view>
   <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
   </block>
@@ -343,8 +343,14 @@
         <view class="report-table-td" wx:if="{{item.isNormal == 4}}">
           <text class="up">{{item.itemResult || ''}}↑</text>
         </view>
+        <view class="report-table-td" wx:if="{{item.isNormal == 2}}">
+          <text class="up">{{item.itemResult || ''}}</text>
+        </view>
+        <view class="report-table-td" wx:if="{{item.isNormal == 1}}">
+          <text>{{item.itemResult || ''}}</text>
+        </view>
         <view class="report-table-td">
-          <text class="r-unit">{{item.itemUnit}}</text>
+          <text class="r-unit">{{item.itemUnit || ''}}</text>
         </view>
         <view class="report-table-td">
           <text class="r-reference">{{item.itemLow || ''}}-{{item.itemHight || ''}}</text>
@@ -352,9 +358,9 @@
       </view>
     </view>
 
-      <view class='infomation-footer'>
-        体检报告以纸质报告为准
-      </view>
+    <view class='infomation-footer'>
+      体检报告以纸质报告为准
+    </view>
 
   </view>
   <block wx:if="{{!data.medExamRpt.personId && data}}">
@@ -375,6 +381,31 @@
   </view>
   <!-- 分表 -->
   <view wx:key="idx" wx:for-index="idx" data-idx='{{idx}}' class="detail-table {{index == 0 ?  first : ''}}" wx:for="{{data.medDetails}}" hidden="{{idx != currentClassifyId && currentClassifyId != '0'}}">
+    
+    <block wx:if="{{item.rptMode == 0}}">
+      <view class="detail-title">
+        <view class="cap-lev1">{{item.organName}}
+          <image data-idx='{{idx}}' bindtap="previewImage" src='images/previewImage.png' class="readPicBtn" title="图片预览" wx:if="{{item.mediaList.length>0}}"></image>
+        </view>
+      </view>
+      <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
+        <!-- 项目组级小结开始 -->
+        <block wx:if="{{summaryList.summary != 'ciyun'}}">
+          <view class="report-table-tr">
+            <view class="td w100 lv-2">
+              <view class="lv-2-tit">
+                <em>{{summaryItem.summary}}</em>
+              </view>
+              <view class="lv-2-main">
+
+                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
     <!-- 科室 大小 项目  -->
     <block wx:if="{{item.rptMode == 1}}">
       <view class="detail-title">
@@ -493,9 +524,9 @@
     <view id="report-tab-search" class="report-tab-search" bindtap="openSearchList"></view>
   </block>
 
-    <view class='infomation-footer'>
-      体检报告以纸质报告为准
-    </view>
+  <view class='infomation-footer'>
+    体检报告以纸质报告为准
+  </view>
 
   <block wx:if="{{!data.medExamRpt.personId && data}}">
     <view class='watermark'>示例</view>
