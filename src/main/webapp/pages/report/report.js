@@ -37,18 +37,21 @@ Page({
 
     } else {
       var ruleCardTypeArr= [];
+      var ruleCardCaptions = [];
       for(var key in obj){
-        ruleCardTypeArr.push(obj[key]);
+        ruleCardCaptions.push(obj[key])
+        ruleCardTypeArr.push(key);
       };
       this.setData({
-        "ruleCardType": ruleCardTypeArr
+        "ruleCardType": ruleCardTypeArr,
+        'ruleCardCaptions': ruleCardCaptions
       })
     }
   },
   // 赛选 条件渲染
   filterTypeRendering:function(){
     var ruleArr = this.data.datas.ruleIds.split("|");
-    var sexIndex = this.data.datas.sex-1;
+    var sexIndex = Number(this.data.datas.sex)-1;
     this.setData({
       idCard_boo: ruleArr.includes('idCard'),
       sex_boo:ruleArr.includes('sex'),
@@ -77,13 +80,12 @@ Page({
   },
   //表单校验
   queryimport: function () {
-
     if (this.data.idCard_boo){
       if (!app.isEmpty(this.data.idCardValue)){
         console.log(this.data.idCardValue);
         app.showToast('证件号码不能为空',0);
         return false;
-      } else if (this.data.cardTypeIndex == 0){
+      } else if (this.data.ruleCardCaptions[this.data.cardTypeIndex] == '身份证'){
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
         if (!reg.test(this.data.idCardValue)){
           app.showToast('身份证号码格式有误', 0);
@@ -112,9 +114,9 @@ Page({
     }
     var data={
       thirdSession: wx.getStorageSync('thirdSession'),
-      idCardType:1,
+      idCardType: this.data.ruleCardType[this.data.cardTypeIndex],
       idCard: this.data.idCardValue,
-      sex: (Number(this.data.sexIndex) + 1),
+      sex: (Number(this.data.sexIndex) + 1) + '',
       mobile: this.data.datas.telephone,
       medDate: this.data.date,
       medPersonNo: this.data.medPersonNo,

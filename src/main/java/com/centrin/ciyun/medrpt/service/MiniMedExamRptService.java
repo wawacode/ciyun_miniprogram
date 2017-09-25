@@ -513,18 +513,26 @@ public class MiniMedExamRptService {
 				result = ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue();
 				message = ReturnCode.EReturnCode.SYSTEM_BUSY.value;
 			} else {
-				result = jsonResult.getIntValue("result");
-				message = jsonResult.getString("errMsg");
 				rptSize = jsonResult.getInteger("successCount") == null ? 0 : jsonResult.getIntValue("successCount");
+				result = ReturnCode.EReturnCode.OTHER_FAILED.key.intValue();
+				if (0 == result || 100023 == result) {
+					if (rptSize > 0) {
+						message = "成功导入"+rptSize+"份新报告";
+					} else {
+						message = "无新报告";
+					}
+				} else if (100004 == result || 100025 == result) {
+					message = "无新报告";
+				} else if (100026 == result || 100024 == result){
+					message = "未查询到报告";
+				} else {
+					result = jsonResult.getIntValue("result");
+					message = jsonResult.getString("errMsg");
+				}
 			}
-			jsonResp.put("result", result != 0 ? ReturnCode.EReturnCode.OTHER_FAILED.key.intValue() : result);
+			jsonResp.put("result", result);
 			jsonResp.put("message", message);
 			
-			//android微信访问时要记录数据库里面已经有的报告数
-			/*if ("-10000".equals(result)) {
-				int count = iMedExamRptService.countMedRpt(medFindRptParam.getPersonId());
-				model.addAttribute("count", count);
-			}*/
 		} else {//其他直接在慈云库中查询，然后修改对应表的记录
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
 			if (null == sr || sr.getResult() != 0) {
