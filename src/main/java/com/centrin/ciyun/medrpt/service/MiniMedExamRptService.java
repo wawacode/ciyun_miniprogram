@@ -158,12 +158,15 @@ public class MiniMedExamRptService {
 			return reportDetailsResp;
 		}
 		MedReportDetail medReportDetail = iMedExamRptService.viewRowDetail(EMedReportOperator.USER, personId, medrptId, EExamExtrasTempleteType.MINIPROGRAM, sysParamUtil.getMpNum());
-		//替换体检报告中小结和建议的换行符
+		//替换体检报告中建议的换行符
 		replaceLineStr(medReportDetail);
+		
 		//转换日期
 		formatDate(medReportDetail);
+		
 		//处理所有的小结内容，并填充到summaryVoList,供“检查所见”展示
 		handleSummaryVoList(medReportDetail);
+		
 		reportDetailsResp.setDatas(medReportDetail);
 		return reportDetailsResp;
 	}
@@ -210,6 +213,11 @@ public class MiniMedExamRptService {
 			
 			//step1：处理慈云2.5之前的数据
 			if(medReportDetail.getSummaryList() != null && !medReportDetail.getSummaryList().isEmpty()){
+				
+				//替换慈云版本2.5之前的小结内容中的换行符
+				replaceLineOfSummary(medReportDetail.getSummaryList());
+				
+				//填充处理好的小结内容
 				fillSummaryVoList(medReportDetail.getSummaryList(), summaryVoList);
 			}
 				
@@ -221,12 +229,20 @@ public class MiniMedExamRptService {
 					MedDetail values = iter.next().getValue();
 					if(values.getRptMode() == 2 || values.getRptMode() == 3){ // 2：科室-小项  3：大项-小项
 						if (values != null && values.getSummaryList() != null && !values.getSummaryList().isEmpty()) {
+							//替换小结中的换行符
+							replaceLineOfSummary(values.getSummaryList());
+							
+							//填充处理好的小结内容
 							fillSummaryVoList(values.getSummaryList(), summaryVoList);
 						}
 					}else if(values.getRptMode() == 1){// 1:科室-大项-小项
 						for (Iterator<Map.Entry<String, MedDetail>> itemClassListIter = values.getItemClassList().entrySet().iterator(); itemClassListIter.hasNext();) {
 							MedDetail medDetail = itemClassListIter.next().getValue();
 							if (medDetail != null && medDetail.getSummaryList() != null && !medDetail.getSummaryList().isEmpty()) {
+								//替换小结中的换行符
+								replaceLineOfSummary(medDetail.getSummaryList());
+								
+								//填充处理好的小结内容
 								fillSummaryVoList(medDetail.getSummaryList(), summaryVoList);
 							}
 						}
@@ -284,31 +300,44 @@ public class MiniMedExamRptService {
 	}
 	
 	/**
-	 * 替换体检报告中小结和建议的换行符
+	 * 替换体检报告中建议的换行符
 	 * @param medReportDetail 体检报告详情对象
 	 */
 	public void replaceLineStr(MedReportDetail medReportDetail){
 		if(medReportDetail != null){
 			//替换建议
 			if(medReportDetail.getAdviceList() != null && !medReportDetail.getAdviceList().isEmpty()){
-				for(MedExamAdvice advice : medReportDetail.getAdviceList()){
-					if(StringUtils.isNotBlank(advice.getAdvice()) && advice.getAdvice().indexOf("<br/>") > -1){
-						advice.setAdvice(advice.getAdvice().replace("<br/>", "\n"));
-					}
-				}
+				replaceLineOfAdvice(medReportDetail.getAdviceList());
 			}
-			
-			//替换小结
-			if(medReportDetail.getSummaryList() != null && !medReportDetail.getSummaryList().isEmpty()){
-				for(MedExamSummary summary : medReportDetail.getSummaryList()){
-					if(StringUtils.isNotBlank(summary.getSummary()) && summary.getSummary().indexOf("<br/>") > -1){
-						summary.setSummary(summary.getSummary().replace("<br/>", "\n"));
-					}
-				}
-			}
-			
 		}
-		
+	}
+	
+	/**
+	 * 替换小结中的换行符
+	 * @param summaryList
+	 */
+	public void replaceLineOfSummary(List<MedExamSummary> summaryList){
+		if(summaryList != null && !summaryList.isEmpty()){
+			for(MedExamSummary summary : summaryList){
+				if(StringUtils.isNotBlank(summary.getSummary()) && summary.getSummary().indexOf("<br/>") > -1){
+					summary.setSummary(summary.getSummary().replace("<br/>", "\n"));
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 替换建议中的换行符
+	 * @param adviceList
+	 */
+	public void replaceLineOfAdvice(List<MedExamAdvice> adviceList){
+		if(adviceList != null && !adviceList.isEmpty()){
+			for(MedExamAdvice advice : adviceList){
+				if(StringUtils.isNotBlank(advice.getAdvice()) && advice.getAdvice().indexOf("<br/>") > -1){
+					advice.setAdvice(advice.getAdvice().replace("<br/>", "\n"));
+				}
+			}
+		}
 	}
 	
 	/**
