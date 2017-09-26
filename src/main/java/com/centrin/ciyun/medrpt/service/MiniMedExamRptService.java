@@ -105,6 +105,9 @@ public class MiniMedExamRptService {
 	private PersonQueryService personQueryService;
 	
 	@Autowired
+	private DubboPerPersonService dubboPerPersonService;
+	
+	@Autowired
 	private MedexamRptSyntheticInterface medexamRptSyntheticInterface;
 	
 	/**
@@ -520,7 +523,6 @@ public class MiniMedExamRptService {
 				idNo = idNo.trim().toUpperCase();
 				ruleInfo.setIdCard(idNo);
 			}
-			PersonQueryService personQueryService = (PersonQueryService)WebContextWrapper.getBean("personQueryService");
 			PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
 			if(1 != me.getHasVerifyName()){
 				DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
@@ -555,7 +557,6 @@ public class MiniMedExamRptService {
 			
 		} else {//其他直接在慈云库中查询，然后修改对应表的记录
 			if(StringUtils.isNotBlank(ruleInfo.getUserName())){
-				PersonQueryService personQueryService = (PersonQueryService)WebContextWrapper.getBean("personQueryService");
 				PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
 				if((1 != me.getHasVerifyName()) || (!ruleInfo.getUserName().equals(me.getUserName()))){
 					DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
