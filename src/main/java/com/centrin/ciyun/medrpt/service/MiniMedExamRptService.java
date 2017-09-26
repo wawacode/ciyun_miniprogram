@@ -44,8 +44,8 @@ import com.centrin.ciyun.entity.med.vo.MedReportDetail.MedDetail;
 import com.centrin.ciyun.entity.person.PerPerson;
 import com.centrin.ciyun.entity.vo.HidMedCorpInfoVo;
 import com.centrin.ciyun.entity.vo.HidMedCorpRuleInfo;
-import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
 import com.centrin.ciyun.enumdef.ExamExtrasTempleteType.EExamExtrasTempleteType;
+import com.centrin.ciyun.enumdef.MedExamRptSyntheticEnum;
 import com.centrin.ciyun.enumdef.MedReportOperator.EMedReportOperator;
 import com.centrin.ciyun.medrpt.domain.req.MedCorpRuleParam;
 import com.centrin.ciyun.medrpt.domain.req.MedFindRptParam;
@@ -61,7 +61,6 @@ import com.centrin.ciyun.service.interfaces.person.DubboPerPersonService;
 import com.centrin.ciyun.service.interfaces.person.PersonQueryService;
 import com.centrin.ciyun.service.interfaces.system.SystemParamCacheInterface;
 import com.centrin.webbase.ServiceResult;
-import com.centrin.webbase.WebContextWrapper;
 import com.ciyun.dubbo.interfaces.med.IMedExamRptService;
 import com.ciyun.rptgw.encrypt.CyCipher;
 import com.ciyun.rptgw.encrypt.Encryption;
@@ -525,8 +524,7 @@ public class MiniMedExamRptService {
 			}
 			PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
 			if(1 != me.getHasVerifyName()){
-				DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
-				dubboPersonQueryService.updateUsernameOnly(medFindRptParam.getPersonId(), me.getUserName());
+				dubboPerPersonService.updateUsernameOnly(medFindRptParam.getPersonId(), me.getUserName());
 			}
 			JSONObject jsonResult = loadHangTianRptLab(ciyunUrlUtil.getHangtianrptUrl(), medCorp.getHmoId(), medCorp.getMedCorpId(), 1, ruleInfo);
 			int result = ReturnCode.EReturnCode.OK.key.intValue();
@@ -559,8 +557,7 @@ public class MiniMedExamRptService {
 			if(StringUtils.isNotBlank(ruleInfo.getUserName())){
 				PerPerson  me = personQueryService.getPersonByPersonId(medFindRptParam.getPersonId());
 				if((1 != me.getHasVerifyName()) || (!ruleInfo.getUserName().equals(me.getUserName()))){
-					DubboPerPersonService dubboPersonQueryService = (DubboPerPersonService)WebContextWrapper.getBean("dubboPerPersonService");
-					dubboPersonQueryService.updateUsernameOnly(medFindRptParam.getPersonId(), ruleInfo.getUserName());
+					dubboPerPersonService.updateUsernameOnly(medFindRptParam.getPersonId(), ruleInfo.getUserName());
 				}
 			}
 			ServiceResult sr = iMedExamRptService.queryRpt(ruleInfo, medFindRptParam.getMedCorpId(), medFindRptParam.getPersonId(), listRules);
