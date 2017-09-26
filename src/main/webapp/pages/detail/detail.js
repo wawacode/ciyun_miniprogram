@@ -77,8 +77,16 @@ Page({
   previewImage:function(e){
     var that = this;
     var idx = e.target.dataset.idx;
+    var lev = e.target.dataset.lev;
+    var curmedDetails = that.data.data.medDetails[idx];
+    var urls = [];
+    if (lev){
+      urls=that.data.data.medDetails[idx].itemClassList[lev].mediaList;
+    }else{
+      urls=that.data.data.medDetails[idx].mediaList;
+    }
     wx.previewImage({
-      urls: that.data.data.medDetails[idx].mediaList
+      urls: urls
     })
   }
 })

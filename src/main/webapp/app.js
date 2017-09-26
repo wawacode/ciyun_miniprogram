@@ -64,7 +64,7 @@ App({
         success: function (res) {
           var code = res.code
           wx.request({
-            url: that.globalData.host + '/user/authorize/getThirdSession',
+            url: that.globalData.ceshihost + '/user/authorize/getThirdSession',
             data:{
               code:code
             },
@@ -101,7 +101,7 @@ App({
         if (networkType == 'none') {
           that.showToast(networkType,0);
         } else {
-          var host = that.globalData.host + '/user/' + type;
+          var host = that.globalData.ceshihost + '/user/' + type;
             wx.request({
               url: host, //仅为示例，并非真实的接口地址
               data: data,
