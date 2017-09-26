@@ -54,7 +54,7 @@
           <view class="table">
             <view class="new-report-total">
               <view wx:for="{{data.adviceList}}" wx:key='adviceList'>({{index+1}})、
-                <text class='bold' wx:if="{{item.summary!=null}}"> {{item.summary}}</text>
+                <text class='bold' wx:if="{{item.summary}}"> {{item.summary}}</text>
                 <view>
                   <text>{{item.advice}}</text>
                 </view>
@@ -71,7 +71,7 @@
           </view>
         </view>
       </block>
-      <block wx:if="{{data.summaryVoList != null && data.summaryVoList.length > 0}}">
+      <block wx:if="{{data.summaryVoList && data.summaryVoList.length > 0}}">
         <view class="new-report-app-hd">
           <view class="title">
             检查所见
@@ -85,15 +85,15 @@
               <view class="report-value">
                 <!-- 项目组 -->
                 <!-- 项目组小结 -->
-                <block wx:if="{{summaryVo.summaryList != null && summaryVo.summaryList.length > 0}}">
+                <block wx:if="{{summaryVo.summaryList && summaryVo.summaryList.length > 0}}">
                   <view wx:for="{{summaryVo.summaryList}}" wx:for-item="summary" class="report-line">
-                    <view class="p" wx:if="{{summary.summary != null}}">
+                    <view class="p" wx:if="{{summary.summary}}">
                       <text>{{summary.summary}}</text>
                     </view>
-                    <view class="new-report-other p" wx:if="{{summary.doctor != null}}">
+                    <view class="new-report-other p" wx:if="{{summary.doctor}}">
                       <text>检查医师：{{summary.doctor}}</text>
                     </view>
-                    <view class="new-report-other p" wx:if="{{summary.revDoctor != null}}">
+                    <view class="new-report-other p" wx:if="{{summary.revDoctor}}">
                       <text>审核医师：{{summary.revDoctor}}</text>
                     </view>
                   </view>
@@ -381,7 +381,7 @@
   </view>
   <!-- 分表 -->
   <view wx:key="idx" wx:for-index="idx" data-idx='{{idx}}' class="detail-table {{index == 0 ?  first : ''}}" wx:for="{{data.medDetails}}" hidden="{{idx != currentClassifyId && currentClassifyId != '0'}}">
-    
+
     <block wx:if="{{item.rptMode == 0}}">
       <view class="detail-title">
         <view class="cap-lev1">{{item.organName}}
@@ -398,8 +398,8 @@
               </view>
               <view class="lv-2-main">
 
-                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>
@@ -414,7 +414,9 @@
         </view>
 
         <view class="cap-lev2" wx:for="{{item.itemClassList}}" wx:for-item="itemName" wx:key="productName">
-          <view class="cap-lev2-title">{{itemName.organName}}<image data-idx='{{idx}}' bindtap="previewImage" src='images/previewImage.png' class="readPicBtn" title="图片预览" wx:if="{{itemName.mediaList.length>0}}"></image></view>
+          <view class="cap-lev2-title">{{itemName.organName}}
+            <image data-idx='{{idx}}' bindtap="previewImage" src='images/previewImage.png' class="readPicBtn" title="图片预览" wx:if="{{itemName.mediaList.length>0}}"></image>
+          </view>
           <view class='cap-lev3 report-table-tr' wx:for="{{itemName.itemList}}" wx:for-item="lev3Item" wx:key="lev3Item">
 
             <block wx:if="{{lev3Item.itemUnit == ''}}">
@@ -443,6 +445,23 @@
             </block>
 
           </view>
+          <view class="detail-body" wx:if='{{itemName.summaryList.length>0}}' wx:for="{{itemName.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
+        <!-- 项目组级小结开始 -->
+        <block wx:if="{{summaryList.summary != 'ciyun'}}">
+          <view class="report-table-tr">
+            <view class="td w100 lv-2">
+              <view class="lv-2-tit">
+                <em>{{summaryItem.summary}}</em>
+              </view>
+              <view class="lv-2-main">
+
+                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
         </view>
       </view>
       <view class="detail-body" wx:if='{{item.summaryList.length>0}}' wx:for="{{item.summaryList}}" wx:for-item="summaryItem" wx:key="summaryList">
@@ -455,8 +474,8 @@
               </view>
               <view class="lv-2-main">
 
-                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>
@@ -510,7 +529,7 @@
               </view>
               <view class="lv-2-main">
                 <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>

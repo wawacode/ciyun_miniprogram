@@ -9,7 +9,7 @@
         </view>
         <view class="list_mechanism" data-id="{{item.id}}">{{item.medCorpName}}</view>
         <view class="list_times" data-id="{{item.id}}">
-          <text class="list_times_left" data-id="{{item.id}}">{{item.preMedDate}}</text>
+          <text class="list_times_left" data-id="{{item.id}}" wx:if='{{item.preMedDate}}'>{{item.preMedDate}}</text>
           <text class="list_times_right" data-id="{{item.id}}" wx:if='{{item.medExamType=="体检报告"}}'>{{item.name}}</text>
         </view>
       </view> 

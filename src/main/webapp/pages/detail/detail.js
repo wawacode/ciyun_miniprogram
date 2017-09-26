@@ -25,6 +25,7 @@ Page({
     }
     this.setReportListHeight();//设置报告列表高度;
     app.postCallBack('medrpt/detail/' + app.listId, json, function (res) {
+      var datas = res.data.datas;
         that.setData({
           data:res.data.datas
         });
