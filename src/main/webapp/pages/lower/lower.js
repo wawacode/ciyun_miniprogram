@@ -122,7 +122,7 @@ Page({
     app.postCallBack('authorize/updateUserinfo', json, that.callback);
   },
   callback:function(res){
-      wx.reLaunch({
+      wx.redirectTo({
         url: '../list/list'
       })
     

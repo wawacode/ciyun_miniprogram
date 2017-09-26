@@ -145,7 +145,7 @@ Page({
             duration: 3000
           });
         } else{
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../list/list',
           })
         }
