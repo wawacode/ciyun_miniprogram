@@ -399,7 +399,7 @@
               <view class="lv-2-main">
 
                 <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>
@@ -414,7 +414,7 @@
         </view>
 
         <view class="cap-lev2" wx:for="{{item.itemClassList}}" wx:for-item="itemName" wx:key="productName">
-          <view class="cap-lev2-title">{{itemName.organName}}</view>
+          <view class="cap-lev2-title">{{itemName.organName}}<image data-idx='{{idx}}' bindtap="previewImage" src='images/previewImage.png' class="readPicBtn" title="图片预览" wx:if="{{itemName.mediaList.length>0}}"></image></view>
           <view class='cap-lev3 report-table-tr' wx:for="{{itemName.itemList}}" wx:for-item="lev3Item" wx:key="lev3Item">
 
             <block wx:if="{{lev3Item.itemUnit == ''}}">
@@ -456,7 +456,7 @@
               <view class="lv-2-main">
 
                 <view class="lv-2-doctor" wx:if="{{summaryItem.doctor != null}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>
@@ -510,7 +510,7 @@
               </view>
               <view class="lv-2-main">
                 <view class="lv-2-doctor" wx:if="{{summaryItem.doctor}}">检查医师：{{summaryItem.doctor}}</view>
-                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != null}}">审核医师：{{summaryItem.revDoctor}}</view>
+                <view class="lv-2-doctor" wx:if="{{summaryItem.revDoctor != ''}}">审核医师：{{summaryItem.revDoctor}}</view>
               </view>
             </view>
           </view>
