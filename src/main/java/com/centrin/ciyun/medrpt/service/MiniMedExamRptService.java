@@ -534,19 +534,21 @@ public class MiniMedExamRptService {
 				message = ReturnCode.EReturnCode.SYSTEM_BUSY.value;
 			} else {
 				rptSize = jsonResult.getInteger("successCount") == null ? 0 : jsonResult.getIntValue("successCount");
-				result = ReturnCode.EReturnCode.OTHER_FAILED.key.intValue();
+				result = jsonResult.getIntValue("result");
 				if (0 == result || 100023 == result) {
+					result = ReturnCode.EReturnCode.OK.key.intValue();
 					if (rptSize > 0) {
 						message = "成功导入"+rptSize+"份新报告";
 					} else {
 						message = "无新报告";
 					}
 				} else if (100004 == result || 100025 == result) {
+					result = ReturnCode.EReturnCode.OK.key.intValue();
 					message = "无新报告";
 				} else if (100026 == result || 100024 == result) {
+					result = ReturnCode.EReturnCode.OK.key.intValue();
 					message = "未查询到报告";
 				} else {
-					result = jsonResult.getIntValue("result");
 					message = jsonResult.getString("errMsg");
 				}
 			}
