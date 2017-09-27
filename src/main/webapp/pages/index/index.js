@@ -19,19 +19,23 @@ Page({
   },
   
   onLoad: function () {
-    app.loginStatus=false
-    var that = this; 
+    
+  },
+  onShow: function () {
+    app.loginStatus = false
+    var that = this;
+    console.log(1)
     // 在页面加载时获取thirdSession值
     wx.login({
       success: function (res) {
-        var code=res.code
+        var code = res.code
         app.postCallBack('authorize/getThirdSession', { code: code }, that.callback);
       }
     })
     // 获取用户信息
     wx.getUserInfo({
-      lang:"zh_CN",
-      success: function (res){
+      lang: "zh_CN",
+      success: function (res) {
         var userInfo = res.userInfo
         // 敏感数据
         var watermark = res.encryptedData;
@@ -48,7 +52,7 @@ Page({
         app.city = city
         app.province = province
         app.country = country
-        app.loginStatus=true
+        app.loginStatus = true
       }
     })
   },
