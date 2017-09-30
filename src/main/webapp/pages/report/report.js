@@ -19,7 +19,9 @@ Page({
     mobile_boo:false,
     medDate_boo:false,
     medPersonNo_boo:false,
-    userName_boo:false
+    userName_boo:false,
+    isShowMIniToast: false,
+    toastMiniText:""
   },
   /**
    * 证件类型过滤器
@@ -125,17 +127,38 @@ Page({
       medCorpId: this.data.datas.medCorpId,
       userName: this.data.userName
     }
-    app.postCallBack('medrpt/importRpt', data, function(res){
-      if (res.data.datas.rptSize == 0){
-        app.showToast("无新报告");
-      }
-      setTimeout(function(){
+    app.postCallBack('medrpt/importRpt', data, this.callBackTList);
+  },
+  showMiniToast: function (fn) {
+    var _this = this;
+    // toast时间 
+    _this.data.count = parseInt(_this.data.count) ? parseInt(_this.data.count) : 3000;
+    // 显示toast 
+    _this.setData({
+      isShowMiniToast: true,
+    });
+    // 定时器关闭 
+    setTimeout(function () {
+      _this.setData({
+        isShowMiniToast: false
+      });
+      fn();
+    }, _this.data.count);
+  }, 
+  //接口回调初始化渲染模板
+  callBackTList: function (res) {
+    if (res.data.datas.rptSize == 0) {
+      wx.hideLoading();
+      this.setData({
+        count: 2000,
+        toastMiniText: '未查到您的报告!' 
+      });
+      this.showMiniToast(function(){
         wx.reLaunch({
           url: '../list/list'
         })
-      },1000)
-
-    });
+      }); 
+    }
   },
   //接口回调初始化渲染模板
   callBack: function (res) {
@@ -198,6 +221,7 @@ Page({
     this.setData({
       date: e.detail.value
     })
-  }
+  },
+  
 
 })

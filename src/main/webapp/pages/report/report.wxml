@@ -122,3 +122,13 @@
         <button class='btn' size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="queryimport" hover-class="other-button-hover"> 查询并导入 </button>
     </view>
 </view>
+
+<view class="toast_mask" wx:if="{{isShowMiniToast}}"></view> 
+<!--以下为自定义toast显示的内容-->
+<view class="toast_content_box" wx:if="{{isShowMiniToast}}"> 
+ <view class="toast_content"> 
+ <view class="toast_content_text"> 
+  {{toastMiniText}}
+ </view> 
+ </view> 
+</view> 
