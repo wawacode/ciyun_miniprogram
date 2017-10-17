@@ -158,6 +158,10 @@ Page({
           url: '../list/list'
         })
       }); 
+    }else{
+      wx.reLaunch({
+          url: '../list/list'
+      })
     }
   },
   //接口回调初始化渲染模板
