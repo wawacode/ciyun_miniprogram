@@ -168,6 +168,9 @@ public class MedRptApi {
 			queryMedRptResp.setResult(ReturnCode.EReturnCode.SYSTEM_BUSY.key.intValue());
 			queryMedRptResp.setMessage(ReturnCode.EReturnCode.SYSTEM_BUSY.value);
 		}
+		if(LOGGER.isInfoEnabled()){
+			LOGGER.info("MedRptApi >> importRpt >> 返回给前端的结果：  {}", queryMedRptResp);
+		}
 		return queryMedRptResp;
 	}
 	
