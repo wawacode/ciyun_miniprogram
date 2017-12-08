@@ -15,6 +15,11 @@ App({
         that.globalData.deviceWidth = res.windowWidth;
       }
     });
+    if (options.referrerInfo){
+      //that.showToast(options.referrerInfo.appId);
+    }else{
+      that.appId=1;
+    }
     console.log(options);
   },
   getUserInfo: function (cb) {
