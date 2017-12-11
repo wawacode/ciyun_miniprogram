@@ -69,17 +69,17 @@
               </view>
             </block>
             <block wx:else>
-              <view class="new-report-other" wx:if="{{data.adviceList[0].doctorBegin}}">
-                <text>总检医生：</text>{{data.adviceList[0].doctorBegin}}
+              <view class="new-report-other" wx:if="{{data.adviceList[0].doctorBegin}}" style='width:70%;float:left'>
+                <text>总检医生：{{data.adviceList[0].doctorBegin}}</text>
               </view>
-              <view class="new-report-other" wx:if="{{data.adviceList[0].preBeginTime && data.adviceList[0].doctorBegin}}">
-                <text>总检时间：</text>{{data.adviceList[0].preBeginTime}}
+              <view class="new-report-other" wx:if="{{data.adviceList[0].preBeginTime && data.adviceList[0].doctorBegin}}" style='width:30%;float:left;'>
+                <text>{{data.adviceList[0].preBeginTime}}</text>
               </view>
-              <view class="new-report-other" wx:if="{{data.adviceList[0].doctorLast}}">
-                <text>审核医生：</text>{{data.adviceList[0].doctorLast}}
+              <view class="new-report-other" wx:if="{{data.adviceList[0].doctorLast}}" style='width:70%;float:left;'>
+                <text>审核医生：{{data.adviceList[0].doctorLast}}</text>
               </view>
-              <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime && data.adviceList[0].doctorLast}}">
-                <text>审核时间：</text><text>{{data.adviceList[0].preCreateTime}}</text>
+              <view class="new-report-other" wx:if="{{data.adviceList[0].preCreateTime && data.adviceList[0].doctorLast}}"style='width:30%;float:left;'>
+                <text>{{data.adviceList[0].preCreateTime}}</text>
               </view>
             </block>
           </view>

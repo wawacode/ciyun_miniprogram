@@ -139,11 +139,7 @@ Page({
       } else if (res.data.datas.isRegisterAndLogin == 1) {
 
         if (result !=0) {
-          wx.showToast({
-            image: "../index/images/警示1.png",
-            title: res.data.message,
-            duration: 3000
-          });
+          app.showToast(res.data.message, 0)
         } else{
           wx.redirectTo({
             url: '../list/list',

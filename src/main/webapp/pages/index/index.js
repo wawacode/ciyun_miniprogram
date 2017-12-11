@@ -24,7 +24,6 @@ Page({
   onShow: function () {
     app.loginStatus = false
     var that = this;
-    console.log(1)
     // 在页面加载时获取thirdSession值
     wx.login({
       success: function (res) {
@@ -69,7 +68,8 @@ Page({
   // 登录/注册
   register:function(){
     var personStatus = this.data.Return.datas.personStatus;
-    if (personStatus == 0 && !app.appId) {//用户未注册过慈云平台或已注册但是未登录过慈云小程序
+    console.log(app.appId)
+    if (personStatus == 0) {//用户未注册过慈云平台或已注册但是未登录过慈云小程序
         wx.navigateTo({
           url: '../register/register'
         })
